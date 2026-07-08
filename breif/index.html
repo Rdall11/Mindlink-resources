@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investeer Amerika — Situation Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0a1e3f;
+    --blue: #1e4fd6;
+    --blue-mid: #2563eb;
+    --blue-light: #eff6ff;
+    --blue-border: #bfdbfe;
+    --slate: #475569;
+    --slate-light: #64748b;
+    --slate-border: #e2e8f0;
+    --white: #ffffff;
+    --bg: #f8fbff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a1e3f 0%, #1e4fd6 55%, #2563eb 100%);
+    padding: 56px 40px 72px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 380px; height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -140px; left: -80px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.13) 0%, transparent 70%);
+  }
+  .hero-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-label span {
+    width: 24px; height: 1px;
+    background: rgba(255,255,255,0.4);
+    display: inline-block;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.8px;
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: #93c5fd;
+  }
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 300;
+    opacity: 0.82;
+    max-width: 580px;
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-meta-item::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #60a5fa;
+    flex-shrink: 0;
+  }
+
+  /* LIFTED CARD */
+  .lifted-card {
+    max-width: 760px;
+    margin: -36px auto 0;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+  }
+  .lifted-card-inner {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 32px;
+    box-shadow: 0 8px 40px rgba(10,30,63,0.12), 0 2px 8px rgba(10,30,63,0.06);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .stat-item {
+    padding: 16px 20px;
+    border-right: 1px solid var(--slate-border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--slate-light);
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .stat-note {
+    font-size: 11px;
+    color: var(--slate-light);
+    font-weight: 400;
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  .section { margin-bottom: 48px; }
+
+  .section-eyebrow {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--blue-border);
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .section-sub {
+    font-size: 14px;
+    color: var(--slate);
+    margin-bottom: 24px;
+    line-height: 1.65;
+    font-weight: 400;
+  }
+
+  /* CARDS */
+  .card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--slate-border);
+    padding: 24px 28px;
+    margin-bottom: 14px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--blue-light);
+    color: var(--blue);
+  }
+  .tag.amber { background: #fef3c7; color: #92400e; }
+  .tag.green { background: #f0fdf4; color: #166534; }
+  .tag.red { background: #fff1f2; color: #be123c; }
+
+  .card-body {
+    font-size: 13.5px;
+    color: var(--slate);
+    line-height: 1.65;
+  }
+
+  /* INSIGHT BLOCK */
+  .insight {
+    background: linear-gradient(135deg, #0a1e3f 0%, #1e3a8a 100%);
+    border-radius: 16px;
+    padding: 26px 30px;
+    color: white;
+    margin-bottom: 14px;
+  }
+  .insight-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #93c5fd;
+    margin-bottom: 10px;
+  }
+  .insight-text {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.6;
+    opacity: 0.92;
+  }
+
+  /* COMPARISON */
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .comparison-col {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 20px;
+    border: 1px solid var(--slate-border);
+  }
+  .comparison-col.old { border-color: #fecaca; background: #fff5f5; }
+  .comparison-col.new { border-color: var(--blue-border); background: var(--blue-light); }
+  .comparison-col-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .comparison-col.old .comparison-col-label { color: #dc2626; }
+  .comparison-col.new .comparison-col-label { color: var(--blue); }
+  .comparison-col-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* PHASE BLOCK */
+  .phase-block {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--slate-border);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .phase-header {
+    padding: 20px 28px 16px;
+    border-bottom: 1px solid var(--slate-border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .phase-number {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 4px;
+  }
+  .phase-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .phase-duration {
+    font-size: 11px;
+    color: var(--slate-light);
+    font-weight: 500;
+  }
+  .phase-price { text-align: right; flex-shrink: 0; }
+  .phase-price .amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .phase-price .note {
+    font-size: 10px;
+    color: var(--slate-light);
+    margin-top: 2px;
+    font-weight: 500;
+  }
+  .phase-body { padding: 20px 28px; }
+  .phase-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .phase-body li {
+    font-size: 13.5px;
+    color: var(--slate);
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .phase-body li::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* CREDIT BADGE */
+  .credit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #166534;
+    margin-top: 16px;
+  }
+  .credit-badge::before { content: '✓'; font-size: 12px; }
+
+  /* ANCHOR CALLOUT */
+  .anchor-callout {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fcd34d;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 14px;
+  }
+  .anchor-callout .label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #92400e;
+    margin-bottom: 8px;
+  }
+  .anchor-callout .value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .anchor-callout .desc {
+    font-size: 13px;
+    color: #78350f;
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  .cta-block {
+    background: linear-gradient(135deg, #0a1e3f 0%, #1e4fd6 100%);
+    border-radius: 20px;
+    padding: 40px 36px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .cta-block::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+  }
+  .cta-block-inner { position: relative; z-index: 1; }
+  .cta-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 12px;
+  }
+  .cta-title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .cta-body {
+    font-size: 14px;
+    font-weight: 300;
+    opacity: 0.85;
+    line-height: 1.7;
+    max-width: 580px;
+    margin-bottom: 0;
+  }
+  .cta-footer {
+    font-size: 11px;
+    opacity: 0.45;
+    font-weight: 400;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--slate-border);
+    margin: 44px 0;
+  }
+
+  /* DOC FOOTER */
+  .doc-footer {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .doc-footer-brand { font-size: 12px; font-weight: 700; color: var(--navy); }
+  .doc-footer-meta { font-size: 11px; color: var(--slate-light); }
+
+  @media (max-width: 600px) {
+    .hero { padding: 40px 20px 60px; }
+    .lifted-card { padding: 0 16px; }
+    .lifted-card-inner { grid-template-columns: 1fr 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid var(--slate-border); }
+    .stat-item:last-child { border-bottom: none; }
+    .content { padding: 40px 16px 64px; }
+    .comparison-row { grid-template-columns: 1fr; }
+    .phase-header { flex-direction: column; }
+    .phase-price { text-align: left; }
+    .hero h1 { font-size: 26px; }
+    .cta-block { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label"><img src="data:image/png;base64,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R4XNolhS43ZM6j285J9rT0Qrhnbs3srcldzQNLbjXuzev7XasN5+JcKdg79ydz99z5PsMZ4wlaza3e5996+qjWf3mNwTXPudlfw+R/c2pl3jct0CJdux9pZt+RSdx+rF2/kz5H5MWi0farSrkeCZpO34bT7ib7LK7818963dlcle6Zd1kn+mVPn2nZl+aW21lkk++m2SdIK9rhthleSjE1zG7ZldmRrxRto8PsGWDxS1xMy210qydf+147ufgy2tTFZ5dj3VZxLcKyys+ErhZQuLybkzmm324llVoixibl/BWoOolTil147ELVmVHK12hiO36JHteGR7ld4wVtv28efglPwqRm9tR+3Xqu0r+BnEyF2fb4URn25Xtm3L5KYU4GVDSrK3Lr3rZtqtbbGa8R+SsVnesGFeF/ZoTkArwR7VtbIfFkJsdburRmVCLStsHhWxn1dO+peLF0cekyAX7q8qH7seQqxE6X/4idOeqJ1P0RFuzLAr+JGfm63PjCuiJfZxzG+wRmmwdYPMFF9qcWuxvYXqjNTMhL59xyJmBCE7JTXyNsnjughCd07ComIUpQqlIXwHR9QSs5IE7XgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0PMPVOAvd1cIt8YAAAAASUVORK5CYII=" alt="Mindlink Systems" style="height:34px;width:auto;margin-right:12px;flex-shrink:0;"> Mindlink Systems &nbsp;·&nbsp; Situation Brief</div>
+    <h1>Investeer Amerika<br><em>Outreach OS Build</em></h1>
+    <p class="hero-sub">You lost your frontend operator. What you need to rebuild isn't a person. It's infrastructure you should have owned from the start.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">Prepared by Ramzi Dalloul</div>
+      <div class="hero-meta-item">July 2026</div>
+      <div class="hero-meta-item">Confidential</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIFTED STAT CARD -->
+<div class="lifted-card">
+  <div class="lifted-card-inner">
+    <div class="stat-item">
+      <div class="stat-label">Situation</div>
+      <div class="stat-value">Zero</div>
+      <div class="stat-note">existing infrastructure</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">ICP Segments</div>
+      <div class="stat-value">6+</div>
+      <div class="stat-note">to define and sequence</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Previous model</div>
+      <div class="stat-value">€2K</div>
+      <div class="stat-note">per converted lead</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Build horizon</div>
+      <div class="stat-value">3 mo.</div>
+      <div class="stat-note">to first campaigns live</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- SECTION 1: WHAT HAPPENED -->
+  <div class="section">
+    <div class="section-eyebrow">Situation</div>
+    <div class="section-title">What you actually lost</div>
+    <p class="section-sub">The previous arrangement wasn't a frontend system. It was a pay-per-lead affiliate. You paid €2,000 per converted sale and what happened in between was invisible to you. No knowledge base. No targeting logic. No data you owned. When they left, there was nothing to hand off.</p>
+
+    <div class="comparison-row">
+      <div class="comparison-col old">
+        <div class="comparison-col-label">What you had</div>
+        <div class="comparison-col-text">A contractor generating leads via Facebook ads. Performance-based. No visibility into method, targeting, or qualification logic. No assets transferred to you on exit.</div>
+      </div>
+      <div class="comparison-col new">
+        <div class="comparison-col-label">What this build delivers</div>
+        <div class="comparison-col-text">Infrastructure you own. Knowledge base, ICP segmentation, outreach sequences, qualification logic, booking integration, reporting. Built once. Yours permanently.</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-label">The real problem</div>
+      <div class="insight-text">You couldn't see inside your own frontend. When the contractor left, you had no visibility into what was working, who was being targeted, or why leads were converting. That's the problem this build solves, not just the lead volume.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2: THE BUILD -->
+  <div class="section">
+    <div class="section-eyebrow">Proposed engagement</div>
+    <div class="section-title">What gets built</div>
+    <p class="section-sub">Two phases. First we map it precisely. Then we build it. The Discovery fee credits in full toward the build, so you pay for it once.</p>
+
+    <!-- Phase 1 -->
+    <div class="phase-block">
+      <div class="phase-header">
+        <div>
+          <div class="phase-number">Phase 1</div>
+          <div class="phase-name">Strategic Discovery</div>
+          <div class="phase-duration">7 business days · runs remotely, no call required</div>
+        </div>
+        <div class="phase-price">
+          <div class="amount">€3,000</div>
+          <div class="note">Scoped for remote delivery. Full €3,000 credited toward Phase 2.</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Full ICP mapping across all six segments. We determine which ones have real conversion potential and which ones get sequenced later. Not guesswork.</li>
+          <li>Audit of existing sales materials, brochures, deal examples, and call transcripts. This becomes the foundation for the knowledge base.</li>
+          <li>Channel assessment. LinkedIn, cold email, WhatsApp, and paid. Where to start, in what order, and why. Based on your market, not a template.</li>
+          <li>GDPR and AVG compliance review. Your outreach targets Dutch and Belgian investors. The compliance layer gets designed in from the start, not bolted on later.</li>
+          <li>Custom build roadmap. Exact scope, sequence, and timeline for Phase 2. You know precisely what gets built and in what order before committing to anything.</li>
+          <li>Written findings report delivered as a PDF. Walkthrough call scheduled when you're back from holiday.</li>
+        </ul>
+        <div class="credit-badge">Full €3,000 credited toward Phase 2 if you move forward</div>
+      </div>
+    </div>
+
+    <!-- WHY NOT JUST START BUILDING -->
+    <div class="card">
+      <div class="card-title">Why not just start building now <span class="tag amber">Common question</span></div>
+      <div class="card-body">Because your six ICP segments have completely different conversion profiles, channel preferences, and messaging requirements. A DGA who just sold a business responds to different triggers than a lower-ticket course prospect. Building before we know which segments to prioritize means spending three months on the wrong channel with the wrong message. Discovery is not delay. It's the thing that stops you from rebuilding the wrong system again.</div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-block">
+      <div class="phase-header">
+        <div>
+          <div class="phase-number">Phase 2</div>
+          <div class="phase-name">Build and Embed</div>
+          <div class="phase-duration">10 to 12 weeks from Discovery sign-off</div>
+        </div>
+        <div class="phase-price">
+          <div class="amount">€14K–€20K</div>
+          <div class="note">scope locked after Discovery</div>
+        </div>
+      </div>
+      <div class="phase-body">
+        <ul>
+          <li>Company knowledge base. All sales material, deal examples, objection handling, and product explanations structured and usable across every channel and every AI agent.</li>
+          <li>ICP segmentation and messaging. One angle per segment, sequenced by conversion readiness. DGAs, HNWIs, course leads, land contract prospects. Each handled differently.</li>
+          <li>Outreach infrastructure. LinkedIn sequences, cold email on separate domains, inbox warm-up, ZeroBounce-validated lists, GDPR-compliant opt-out logic baked in.</li>
+          <li>Qualification and booking layer. Detects positive replies, qualifies against ICP, answers approved questions, books into your calendar. You take the call. The system brings you qualified people.</li>
+          <li>Reporting dashboard. Weekly pipeline view: prospects contacted, reply rate, positive interactions, calls booked, show-up rate. You see what's working before we scale it.</li>
+          <li>AI agents, scoped from Discovery findings. Intake, qualification, email follow-up. Hard guardrails on returns, tax, and legal. Anything substantive routes to you.</li>
+          <li>Full handover. Every domain, inbox, dashboard, workflow, and data asset registered in Investeer Amerika's name from day one. You own it permanently.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What's not included <span class="tag">Tooling</span></div>
+      <div class="card-body">Tool subscriptions run through your accounts, not ours. Instantly, LinkedIn Sales Navigator, ZeroBounce, and outreach automation tooling. Approximately €400 to €600 per month in tooling costs. Advertising spend is separate. These are your assets from day one, which is how it should be.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3: DISCOVERY VALUE REFRAME -->
+  <div class="section">
+    <div class="section-eyebrow">On the Discovery fee</div>
+    <div class="section-title">What the €3,000 actually buys</div>
+    <p class="section-sub">The Discovery fee doesn't add cost to the engagement. It replaces the cost of building the wrong thing. Here's what that means in practice.</p>
+
+    <div class="insight">
+      <div class="insight-label">The core logic</div>
+      <div class="insight-text">You just lost a frontend because you couldn't see inside it. Discovery is the thing that makes sure that never happens again. Before a single sequence goes live, you'll know exactly what's being built, why, and what it should produce.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What you get from Discovery specifically</div>
+      <div class="card-body">A written document that tells you which ICP segments to prioritize, which channels to lead with, what your compliance exposure looks like, and exactly what Phase 2 will build and cost. If you read that document and decide not to move forward, you still have a build roadmap you can hand to anyone. That's not a sales process. That's a deliverable.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Why Discovery is paid, not free <span class="tag green">Positioning</span></div>
+      <div class="card-body">Free discovery is how you get a sales call dressed up as a consultation. The output is a pitch, not a plan. A paid Discovery produces a document you own regardless of what you do next. It also means the work starts from a position of mutual seriousness. Everyone who's come to me with a half-built system that fell apart started with a free audit from someone who needed the deal more than they needed to get it right.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4: PRICE ANCHOR -->
+  <div class="section">
+    <div class="section-eyebrow">Context</div>
+    <div class="section-title">The €9,000 reference point</div>
+    <p class="section-sub">You've seen a full-build figure before. It's worth being direct about what that number represented.</p>
+
+    <div class="anchor-callout">
+      <div class="label">Previous contractor's total fee</div>
+      <div class="value">€9,000</div>
+      <div class="desc">For knowledge base, cold email infrastructure, LinkedIn automation, AI agents, content production, website work, ads management, weekly reporting, webinar infrastructure, course portal, and a performance floor on the final block. That's not a build fee. That's a contractor absorbing delivery risk to win the deal. And it ended exactly the way that always ends.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What you're actually comparing <span class="tag amber">Worth noting</span></div>
+      <div class="card-body">The question isn't which number is lower. The question is which engagement produces infrastructure that's still running in 12 months with or without the person who built it. Every asset built under this engagement is registered in your name from day one. The methodology is documented. The system is transferable. You're not buying output. You're buying ownership.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 5: STRUCTURE -->
+  <div class="section">
+    <div class="section-eyebrow">Commercial structure</div>
+    <div class="section-title">Why there's no performance kicker</div>
+    <p class="section-sub">You've seen performance-based pricing before. The previous contractor's Phase 4 was contingent on hitting a floor. Here's why Mindlink doesn't work that way on a build.</p>
+
+    <div class="card">
+      <div class="card-body">Performance-based pricing on a build transfers risk in the wrong direction. Before a single campaign runs, we don't know your conversion rate, your offer strength, your closing ability on calls, or which ICP segments actually have liquidity right now. Taking a result stake on variables we don't yet control isn't partnership. It's exposure for both sides.<br><br>The right structure: you pay for a Discovery that tells you exactly what to build. You pay for a build you own outright. Once the system is live and producing real data, a retainer or revenue share conversation becomes rational. Not before. That's the sequence that protects you.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 6: TIMELINE -->
+  <div class="section">
+    <div class="section-eyebrow">Timeline</div>
+    <div class="section-title">From here to live campaigns</div>
+    <p class="section-sub">Discovery starts now, over text, while you're on holiday. The deliverable is a document. The walkthrough call happens when you're back.</p>
+
+    <div class="card">
+      <div class="card-title">Now through week 2</div>
+      <div class="card-body">Discovery intake sent as a questionnaire. 30 to 45 minutes to complete, done entirely over text at your own pace. ICP mapping, materials review, channel assessment, compliance review. Findings report delivered as a PDF within 7 business days.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Month 2 to 3</div>
+      <div class="card-body">Build phase begins after Discovery sign-off and findings walkthrough. Knowledge base first, then infrastructure, then sequences and qualification layer. First campaigns live inside 10 to 12 weeks from kick-off.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Month 4 onward</div>
+      <div class="card-body">System is live, reporting is running, and you have real data. At that point we evaluate what an ongoing arrangement looks like, or you take it fully in-house. Either way, everything is yours.</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-block-inner">
+      <div class="cta-label">Next step</div>
+      <div class="cta-title">Start the Discovery. No call required.</div>
+      <div class="cta-body">The Discovery intake is a questionnaire. It takes 30 to 45 minutes and can be done entirely over text, at your pace, around the kids. I'll take it from there and come back with a written findings report within 7 business days.<br><br>If you move forward with the build, the €3,000 Discovery fee credits in full. You pay for it once. And if you read the findings and decide it's not the right time, you still walk away with a build roadmap you own.</div>
+      <div class="cta-footer">Mindlink Systems &nbsp;·&nbsp; mindlinksystems.ai &nbsp;·&nbsp; Prepared for Investeer Amerika &nbsp;·&nbsp; Confidential</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DOC FOOTER -->
+<div class="doc-footer">
+  <div class="doc-footer-brand">Mindlink Systems</div>
+  <div class="doc-footer-meta">Prepared for Siplo · Investeer Amerika · July 2026 · Confidential</div>
+</div>
+
+</body>
+</html>
