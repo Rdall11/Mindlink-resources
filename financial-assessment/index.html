@@ -1,0 +1,1101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Capability Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F4EF;
+    --paper-dim:#EDEAE1;
+    --ink:#1B2A2F;
+    --ink-soft:#4A5A5E;
+    --line:#D8D2C2;
+    --line-strong:#B9B29D;
+    --emerald:#1F6B52;
+    --emerald-soft:#3E7C6B;
+    --gold:#A9832E;
+    --rust:#8C3B2E;
+    --white:#FFFFFF;
+    --radius:2px;
+    --serif:"Source Serif 4", Georgia, serif;
+    --sans:"Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 24px 80px;
+    min-height:100vh;
+  }
+  .masthead{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    padding:28px 0 18px;
+    border-bottom:1px solid var(--line-strong);
+    margin-bottom:36px;
+  }
+  .masthead-mark{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .masthead-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:19px;
+  }
+
+  /* ---------- progress ledger tabs ---------- */
+  .ledger-tabs{
+    display:flex;
+    gap:2px;
+    margin-bottom:36px;
+  }
+  .ledger-tab{
+    flex:1;
+    height:5px;
+    background:var(--line);
+    position:relative;
+  }
+  .ledger-tab.is-done{background:var(--emerald);}
+  .ledger-tab.is-current{background:var(--gold);}
+  .ledger-caption{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    margin:-28px 0 30px;
+  }
+
+  /* ---------- steps ---------- */
+  .step{display:none;}
+  .step.is-active{display:block; animation:rise 420ms ease both;}
+  @media (prefers-reduced-motion:reduce){
+    .step.is-active{animation:none;}
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* ---------- intro ---------- */
+  .intro-eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--emerald);
+    margin-bottom:14px;
+  }
+  h1.intro-title{
+    font-family:var(--serif);
+    font-size:40px;
+    line-height:1.12;
+    font-weight:600;
+    margin:0 0 20px;
+    letter-spacing:-0.01em;
+  }
+  .intro-lede{
+    font-size:16px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    max-width:56ch;
+    margin:0 0 32px;
+  }
+  .intro-facts{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line-strong);
+    border:1px solid var(--line-strong);
+    margin-bottom:36px;
+  }
+  .intro-fact{
+    background:var(--paper);
+    padding:18px 16px;
+  }
+  .intro-fact-num{
+    font-family:var(--mono);
+    font-size:22px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .intro-fact-label{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:var(--sans);
+    font-size:14.5px;
+    font-weight:600;
+    padding:13px 26px;
+    border-radius:var(--radius);
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    cursor:pointer;
+    transition:transform 150ms ease, background 150ms ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn:active{transform:translateY(0);}
+  .btn:disabled{
+    opacity:0.35;
+    cursor:not-allowed;
+    transform:none;
+  }
+  .btn:focus-visible{outline:2px solid var(--emerald); outline-offset:2px;}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1px solid var(--line-strong);
+  }
+  .btn-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:40px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+
+  /* ---------- section header ---------- */
+  .section-eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h2.section-title{
+    font-family:var(--serif);
+    font-size:26px;
+    font-weight:600;
+    margin:0 0 30px;
+  }
+
+  /* ---------- question cards ---------- */
+  .qcard{
+    border-top:1px solid var(--line);
+    padding:24px 0;
+  }
+  .qcard:last-of-type{border-bottom:1px solid var(--line);}
+  .qtext{
+    font-size:16px;
+    line-height:1.55;
+    margin:0 0 16px;
+    max-width:58ch;
+  }
+  .stamps{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .stamp{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:9px 14px;
+    border:1.5px dashed var(--line-strong);
+    border-radius:20px;
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:transform 160ms ease, background 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+  .stamp:hover{border-color:var(--ink-soft);}
+  .stamp:focus-visible{outline:2px solid var(--emerald); outline-offset:2px;}
+  .stamp[data-level="1"].is-selected{background:var(--rust); border-color:var(--rust); border-style:solid; color:var(--white); transform:rotate(-3deg);}
+  .stamp[data-level="2"].is-selected{background:var(--gold); border-color:var(--gold); border-style:solid; color:var(--white); transform:rotate(-2deg);}
+  .stamp[data-level="3"].is-selected{background:var(--emerald-soft); border-color:var(--emerald-soft); border-style:solid; color:var(--white); transform:rotate(-1deg);}
+  .stamp[data-level="4"].is-selected{background:var(--emerald); border-color:var(--emerald); border-style:solid; color:var(--white); transform:rotate(1deg);}
+  @media (prefers-reduced-motion:reduce){
+    .stamp.is-selected{transform:none;}
+  }
+  .cycle-row{
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px dashed var(--line);
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .cycle-label{
+    font-size:13px;
+    color:var(--ink-soft);
+    flex:1 1 300px;
+  }
+  .cycle-input-wrap{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .cycle-input{
+    width:78px;
+    font-family:var(--mono);
+    font-size:14px;
+    padding:8px 10px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    background:var(--white);
+    color:var(--ink);
+  }
+  .cycle-input:focus{outline:2px solid var(--emerald); outline-offset:1px;}
+  .cycle-unit{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-soft);
+    white-space:nowrap;
+  }
+
+  /* ---------- lead capture ---------- */
+  .field{margin-bottom:20px;}
+  .field label{
+    display:block;
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:7px;
+  }
+  .field input, .field select{
+    width:100%;
+    font-family:var(--sans);
+    font-size:15.5px;
+    padding:12px 14px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    background:var(--white);
+    color:var(--ink);
+  }
+  .field input:focus, .field select:focus{outline:2px solid var(--emerald); outline-offset:1px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:520px){ .field-row{grid-template-columns:1fr;} .intro-facts{grid-template-columns:1fr;} }
+  @media (max-width:480px){
+    .barline{
+      grid-template-columns:1fr 46px;
+      grid-template-areas:"label label" "track num";
+      row-gap:7px;
+    }
+    .barline-label{grid-area:label;}
+    .barline-track{grid-area:track;}
+    .barline-num{grid-area:num;}
+  }
+
+  /* ---------- report ---------- */
+  .report-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:24px;
+    padding-bottom:28px;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:32px;
+  }
+  .report-eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  h2.report-title{
+    font-family:var(--serif);
+    font-size:28px;
+    font-weight:600;
+    margin:0 0 6px;
+  }
+  .report-meta{
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .stamp-grade{
+    flex-shrink:0;
+    width:104px;
+    height:104px;
+    border-radius:50%;
+    border:3px double currentColor;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transform:rotate(-8deg);
+    font-family:var(--mono);
+  }
+  .stamp-grade .n{font-size:26px; font-weight:700; line-height:1;}
+  .stamp-grade .l{font-size:8.5px; letter-spacing:0.06em; text-transform:uppercase; margin-top:4px; text-align:center; padding:0 8px;}
+
+  .report-section-title{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:36px 0 16px;
+  }
+
+  .barline{
+    display:grid;
+    grid-template-columns:200px 1fr 46px;
+    align-items:center;
+    gap:14px;
+    padding:9px 0;
+  }
+  .barline-label{font-size:13.5px;}
+  .barline-track{
+    height:8px;
+    background:var(--paper-dim);
+    border:1px solid var(--line);
+  }
+  .barline-fill{height:100%;}
+  .barline-num{
+    font-family:var(--mono);
+    font-size:12.5px;
+    text-align:right;
+    color:var(--ink-soft);
+  }
+
+  .cycle-report-row{
+    border-top:1px solid var(--line);
+    padding:14px 0;
+  }
+  .cycle-report-row:last-of-type{border-bottom:1px solid var(--line);}
+  .cycle-report-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+  }
+  .cycle-report-section{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .cycle-report-value{
+    font-family:var(--mono);
+    font-size:15px;
+    font-weight:600;
+    color:var(--emerald);
+    white-space:nowrap;
+  }
+  .cycle-report-prompt{
+    font-size:13.5px;
+    margin-top:4px;
+    max-width:56ch;
+  }
+  .cycle-report-note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:4px;
+    font-style:italic;
+    max-width:56ch;
+  }
+
+  .finding{
+    border:1px solid var(--line-strong);
+    border-left:4px solid var(--rust);
+    background:var(--white);
+    padding:16px 18px;
+    margin-bottom:12px;
+  }
+  .finding.level-2{border-left-color:var(--gold);}
+  .finding-top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:8px;
+  }
+  .finding-section{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .finding-level{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--rust);
+    font-weight:600;
+  }
+  .finding.level-2 .finding-level{color:var(--gold);}
+  .finding-q{font-size:14.5px; margin:0 0 6px; font-weight:600;}
+  .finding-why{font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.5;}
+
+  .no-flags{
+    padding:24px;
+    border:1px dashed var(--line-strong);
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+
+  .cta-block{
+    margin-top:44px;
+    padding:26px 24px;
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .cta-block h3{
+    font-family:var(--serif);
+    font-size:19px;
+    margin:0 0 8px;
+  }
+  .cta-block p{
+    font-size:13.5px;
+    color:#C9CFCB;
+    margin:0 0 16px;
+    line-height:1.55;
+  }
+  .cta-placeholder{
+    font-family:var(--mono);
+    font-size:11px;
+    color:#8FA69B;
+  }
+
+  .report-actions{
+    display:flex;
+    gap:10px;
+    margin-top:32px;
+  }
+
+  /* ---------- print ---------- */
+  @media print{
+    .no-print{display:none !important;}
+    .shell{max-width:none; padding:0 20px;}
+    .step{display:none !important;}
+    #step-report{display:block !important;}
+    body{background:#fff;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <div class="masthead">
+    <div class="masthead-mark">FCA · 01</div>
+    <div class="masthead-title">Financial Capability Assessment</div>
+  </div>
+
+  <div class="ledger-tabs no-print" id="ledgerTabs"></div>
+  <div class="ledger-caption no-print" id="ledgerCaption"></div>
+
+  <!-- INTRO -->
+  <div class="step" id="step-intro">
+    <div class="intro-eyebrow">Diagnostic · 10&ndash;15 minutes</div>
+    <h1 class="intro-title">How well is your business actually managing its money?</h1>
+    <p class="intro-lede">Answer 29 plain-language questions about how your business handles budgeting, cash, collections, payroll, and controls. At the end you'll get a scored capability report showing exactly where the gaps are.</p>
+    <div class="intro-facts">
+      <div class="intro-fact"><div class="intro-fact-num">9</div><div class="intro-fact-label">capability areas</div></div>
+      <div class="intro-fact"><div class="intro-fact-num">29</div><div class="intro-fact-label">diagnostic questions</div></div>
+      <div class="intro-fact"><div class="intro-fact-num">1</div><div class="intro-fact-label">report, at the end</div></div>
+    </div>
+    <button class="btn" id="btnStart">Begin assessment</button>
+  </div>
+
+  <!-- SECTIONS injected here -->
+  <div id="sectionsRoot"></div>
+
+  <!-- LEAD CAPTURE -->
+  <div class="step" id="step-lead">
+    <div class="section-eyebrow">Last step</div>
+    <h2 class="section-title">Where should we send your report?</h2>
+    <p style="color:var(--ink-soft); font-size:14.5px; margin:-14px 0 28px; max-width:52ch;">Your answers are used only to generate the report below.</p>
+    <div class="field">
+      <label for="leadName">Full name</label>
+      <input type="text" id="leadName" autocomplete="name">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="leadCompany">Business name</label>
+        <input type="text" id="leadCompany" autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="leadEmail">Email</label>
+        <input type="email" id="leadEmail" autocomplete="email">
+      </div>
+    </div>
+    <div class="field">
+      <label for="leadRevenue">Approximate annual revenue (optional)</label>
+      <select id="leadRevenue">
+        <option value="">Prefer not to say</option>
+        <option>Under $1M</option>
+        <option>$1M&ndash;$5M</option>
+        <option>$5M&ndash;$20M</option>
+        <option>$20M&ndash;$50M</option>
+        <option>Over $50M</option>
+      </select>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="leadBack">Back</button>
+      <button class="btn" id="leadSubmit" disabled>Generate my report</button>
+    </div>
+  </div>
+
+  <!-- REPORT -->
+  <div class="step" id="step-report">
+    <div id="reportRoot"></div>
+    <div class="report-actions no-print">
+      <button class="btn" id="btnPrint">Print / Save as PDF</button>
+      <button class="btn btn-ghost" id="btnRestart">Start over</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+
+  var SECTIONS = [
+    {
+      title: "Budgeting, Forecasting & Cost Control",
+      questions: [
+        { text:"Do you have a written annual budget, and do you regularly compare actual results against it to catch problems early?",
+          why:"Without a budget to check against, cost overruns and revenue misses aren't caught until cash is already tight.",
+          cycle:{ prompt:"About how many days does it typically take to put together your annual budget?", unit:"days" } },
+        { text:"Do you know your true cost per product, service, or job, not just your overall margin, and use that to see which parts of the business actually make money?",
+          why:"Blended margins hide unprofitable products, clients, or jobs that quietly drag down the business." },
+        { text:"Have you identified the handful of cost drivers that matter most to your profitability, and do you actively manage them?",
+          why:"Managing costs by gut feel instead of by driver means the highest-leverage savings get missed." },
+        { text:"Do you track which customers, products, or services are actually the most profitable, and use that to guide where you focus?",
+          why:"Growth without profitability visibility often means growing the wrong part of the business." }
+      ]
+    },
+    {
+      title: "Getting Paid — Invoicing, Credit & Collections",
+      questions: [
+        { text:"Do you have a consistent process for deciding which customers get credit terms, and how much?",
+          why:"Ad hoc credit decisions are how bad debt quietly builds up." },
+        { text:"Are invoices sent out promptly and accurately, without manual back-and-forth to fix errors?",
+          why:"Slow or error-prone invoicing directly delays when cash actually arrives." },
+        { text:"Do you have a reliable, up-to-date view of exactly who owes you money and how much, at any given moment?",
+          why:"You can't manage collections on numbers that are a month stale.",
+          cycle:{ prompt:"What's your average Days Sales Outstanding (DSO), the average days it takes to collect after invoicing?", unit:"days", note:"As a general rule of thumb, DSO running well beyond your stated payment terms is usually worth a closer look." } },
+        { text:"Do you have a defined process for following up on late payments before they become bad debt?",
+          why:"The first 30 days after a due date is when collection is easiest, and most businesses let it slide." },
+        { text:"When a customer disputes a charge or short-pays an invoice, do you have a clear process to resolve it, or does it linger unresolved?",
+          why:"Unresolved disputes tie up cash and quietly erode margin on every job they touch." }
+      ]
+    },
+    {
+      title: "Books, Records & Financial Reporting",
+      questions: [
+        { text:"Do you have documented accounting policies and clear spending approval limits, or does it depend on who happens to be around?",
+          why:"Undocumented limits are how unauthorized spending slips through." },
+        { text:"Are your books closed and reconciled on a regular monthly cadence, or do they fall behind?",
+          why:"Books that fall behind mean every decision is being made on stale or guessed numbers.",
+          cycle:{ prompt:"How many business days after month-end does it typically take to close your books?", unit:"business days", note:"Many small businesses aim to close within 5\u201310 business days; consistently longer usually means decisions are being made on stale numbers." } },
+        { text:"Do you accurately track your equipment, vehicles, and other major assets, including depreciation, or does that live in memory instead of records?",
+          why:"Untracked assets are hard to insure, finance against, or account for at sale." },
+        { text:"Do you produce timely financial statements (P&L, balance sheet, cash flow) that you or your leadership actually review on a regular basis?",
+          why:"Statements nobody reviews aren't a management tool, they're paperwork." }
+      ]
+    },
+    {
+      title: "Capital Spending & Asset Investment",
+      questions: [
+        { text:"When deciding on a major purchase or investment, do you run the numbers on expected return before committing?",
+          why:"Without a return estimate up front, there's nothing to hold the decision against later.",
+          cycle:{ prompt:"About how many days does it take to approve a major purchase or capital project once it's proposed?", unit:"days" } },
+        { text:"Once you've made a major purchase or investment, do you track its actual cost and results against what you expected?",
+          why:"Without follow-up tracking, the business never learns whether big bets actually paid off." }
+      ]
+    },
+    {
+      title: "Payroll & Compensation",
+      questions: [
+        { text:"Is employee time tracked accurately and consistently, including overtime?",
+          why:"Inaccurate time tracking creates both payroll errors and wage-and-hour compliance risk." },
+        { text:"Is payroll processed accurately and on time, with a clear process for handling errors or corrections?",
+          why:"Payroll mistakes are one of the fastest ways to damage trust with a team.",
+          cycle:{ prompt:"How many business days does it take to process payroll from start to finish?", unit:"business days" } },
+        { text:"Are payroll taxes calculated, paid, and filed correctly and on time, with minimal risk of penalties?",
+          why:"Payroll tax penalties are avoidable, and they compound quickly when missed." }
+      ]
+    },
+    {
+      title: "Paying Bills & Expenses",
+      questions: [
+        { text:"Do you have a consistent process for approving and paying vendor invoices, with checks against being overbilled or double-billed?",
+          why:"Without a check step, overbilling and duplicate payments go unnoticed until the bank balance tells you.",
+          cycle:{ prompt:"On average, how many days pass between receiving a vendor invoice and paying it?", unit:"days", note:"Worth comparing against the payment terms your vendors actually offer. Paying much earlier than required ties up cash; paying much later risks the relationship." } },
+        { text:"Do you have a clear policy for employee expenses and reimbursements, with defined limits and approval steps?",
+          why:"Undefined expense policies are where costs quietly creep." }
+      ]
+    },
+    {
+      title: "Cash Management & Banking",
+      questions: [
+        { text:"Do you have clear rules for who can move money, approve payments, and access accounts?",
+          why:"Unclear access is both an operational risk and a fraud risk." },
+        { text:"Do you forecast your cash position going forward, not just check today's balance, so you can see a cash crunch coming before it hits?",
+          why:"This is usually the single highest-value question in the whole assessment. Most financial distress in small businesses isn't a profitability problem, it's a cash-timing problem nobody saw coming.",
+          cycle:{ prompt:"About how often do you refresh your cash flow forecast, in days? (e.g. 7 = weekly, 30 = monthly)", unit:"days between refreshes" } },
+        { text:"Do you actively manage your loans, credit lines, and any surplus cash, rather than leaving them on autopilot?",
+          why:"Idle cash and unreviewed debt terms both quietly cost money every month they're left alone." },
+        { text:"If a payment fraud or banking dispute happened tomorrow, do you have a process to catch it and respond, or would it depend on luck?",
+          why:"Small businesses are frequent fraud targets precisely because this process is usually missing." }
+      ]
+    },
+    {
+      title: "Internal Controls & Fraud Prevention",
+      questions: [
+        { text:"Are financial responsibilities split up so no single person has unchecked control over both money in and money out?",
+          why:"Concentrated control is the single biggest enabler of both fraud and honest mistakes going unnoticed." },
+        { text:"Do you periodically check that your financial controls are actually being followed, not just written down somewhere?",
+          why:"A policy that's never checked tends to quietly stop being followed.",
+          cycle:{ prompt:"If a control violation or error were spotted, about how many days would it take to get reported to whoever owns that process?", unit:"days" } },
+        { text:"Does anyone outside day-to-day operations, an owner, advisor, or board, get a regular report on financial controls and risk?",
+          why:"Without outside eyes on the numbers, problems compound before anyone catches them." }
+      ]
+    },
+    {
+      title: "Tax Planning & Compliance",
+      questions: [
+        { text:"Do you have a proactive tax strategy, or is tax handled reactively at filing time each year?",
+          why:"Reactive tax handling almost always costs more than a plan made in advance." },
+        { text:"Are your tax filings accurate, on time, and reviewed for errors before submission?",
+          why:"Filing errors and late penalties are avoidable costs that compound over years." }
+      ]
+    }
+  ];
+
+  var LEVELS = [
+    {v:1, label:"Absent"},
+    {v:2, label:"Informal"},
+    {v:3, label:"Defined"},
+    {v:4, label:"Managed"}
+  ];
+
+  // flatten with global ids and section index
+  var QUESTIONS = [];
+  SECTIONS.forEach(function(sec, si){
+    sec.questions.forEach(function(q, qi){
+      QUESTIONS.push({ id: si+"-"+qi, sectionIndex: si, sectionTitle: sec.title, text: q.text, why: q.why, cycle: q.cycle || null });
+    });
+  });
+
+  var answers = {};
+  var cycleAnswers = {};
+  var lead = { name:"", company:"", email:"", revenue:"" };
+  var STEP_IDS = ["intro"];
+  SECTIONS.forEach(function(s, i){ STEP_IDS.push("section-"+i); });
+  STEP_IDS.push("lead");
+  STEP_IDS.push("report");
+  var currentStepIndex = 0;
+
+  var sectionsRoot = document.getElementById("sectionsRoot");
+  var ledgerTabs = document.getElementById("ledgerTabs");
+  var ledgerCaption = document.getElementById("ledgerCaption");
+
+  // build section step DOM
+  SECTIONS.forEach(function(sec, si){
+    var div = document.createElement("div");
+    div.className = "step";
+    div.id = "step-section-"+si;
+
+    var eyebrow = document.createElement("div");
+    eyebrow.className = "section-eyebrow";
+    eyebrow.textContent = "Section " + pad(si+1) + " of " + pad(SECTIONS.length);
+    div.appendChild(eyebrow);
+
+    var h2 = document.createElement("h2");
+    h2.className = "section-title";
+    h2.textContent = sec.title;
+    div.appendChild(h2);
+
+    sec.questions.forEach(function(q, qi){
+      var qid = si+"-"+qi;
+      var card = document.createElement("div");
+      card.className = "qcard";
+
+      var qt = document.createElement("p");
+      qt.className = "qtext";
+      qt.textContent = q.text;
+      card.appendChild(qt);
+
+      var stampRow = document.createElement("div");
+      stampRow.className = "stamps";
+      LEVELS.forEach(function(lv){
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "stamp";
+        btn.setAttribute("data-level", lv.v);
+        btn.setAttribute("data-qid", qid);
+        btn.textContent = lv.label;
+        btn.addEventListener("click", function(){
+          answers[qid] = lv.v;
+          var siblings = stampRow.querySelectorAll(".stamp");
+          siblings.forEach(function(s){ s.classList.remove("is-selected"); });
+          btn.classList.add("is-selected");
+          updateSectionNextState(si);
+        });
+        stampRow.appendChild(btn);
+      });
+      card.appendChild(stampRow);
+
+      if(q.cycle){
+        var cycleRow = document.createElement("div");
+        cycleRow.className = "cycle-row";
+        var cycleLabel = document.createElement("label");
+        cycleLabel.className = "cycle-label";
+        cycleLabel.setAttribute("for", "cycle-"+qid);
+        cycleLabel.textContent = q.cycle.prompt + " (optional)";
+        var cycleInputWrap = document.createElement("div");
+        cycleInputWrap.className = "cycle-input-wrap";
+        var cycleInput = document.createElement("input");
+        cycleInput.type = "number";
+        cycleInput.min = "0";
+        cycleInput.step = "0.5";
+        cycleInput.id = "cycle-"+qid;
+        cycleInput.className = "cycle-input";
+        cycleInput.placeholder = "e.g. 10";
+        cycleInput.addEventListener("input", function(){
+          var v = parseFloat(cycleInput.value);
+          if(cycleInput.value === "" || isNaN(v)){
+            delete cycleAnswers[qid];
+          } else {
+            cycleAnswers[qid] = v;
+          }
+        });
+        var cycleUnit = document.createElement("span");
+        cycleUnit.className = "cycle-unit";
+        cycleUnit.textContent = q.cycle.unit;
+        cycleInputWrap.appendChild(cycleInput);
+        cycleInputWrap.appendChild(cycleUnit);
+        cycleRow.appendChild(cycleLabel);
+        cycleRow.appendChild(cycleInputWrap);
+        card.appendChild(cycleRow);
+      }
+
+      div.appendChild(card);
+    });
+
+    var btnRow = document.createElement("div");
+    btnRow.className = "btn-row";
+    var backBtn = document.createElement("button");
+    backBtn.className = "btn btn-ghost";
+    backBtn.textContent = "Back";
+    backBtn.addEventListener("click", function(){ goToStep(currentStepIndex-1); });
+    var nextBtn = document.createElement("button");
+    nextBtn.className = "btn";
+    nextBtn.id = "next-section-"+si;
+    nextBtn.textContent = si === SECTIONS.length-1 ? "Continue to details" : "Next section";
+    nextBtn.disabled = true;
+    nextBtn.addEventListener("click", function(){ goToStep(currentStepIndex+1); });
+    btnRow.appendChild(backBtn);
+    btnRow.appendChild(nextBtn);
+    div.appendChild(btnRow);
+
+    sectionsRoot.appendChild(div);
+  });
+
+  function pad(n){ return n < 10 ? "0"+n : ""+n; }
+
+  function updateSectionNextState(si){
+    var sec = SECTIONS[si];
+    var allAnswered = sec.questions.every(function(q, qi){
+      return answers[si+"-"+qi] !== undefined;
+    });
+    var btn = document.getElementById("next-section-"+si);
+    if(btn) btn.disabled = !allAnswered;
+  }
+
+  // ledger tabs (one per section, matches real sequential order)
+  SECTIONS.forEach(function(sec, si){
+    var tab = document.createElement("div");
+    tab.className = "ledger-tab";
+    tab.id = "tab-"+si;
+    ledgerTabs.appendChild(tab);
+  });
+
+  function renderLedger(){
+    var stepId = STEP_IDS[currentStepIndex];
+    var activeSectionIndex = -1;
+    if(stepId.indexOf("section-") === 0){
+      activeSectionIndex = parseInt(stepId.split("-")[1], 10);
+    }
+    SECTIONS.forEach(function(sec, si){
+      var tab = document.getElementById("tab-"+si);
+      tab.classList.remove("is-done","is-current");
+      if(activeSectionIndex > -1 && si < activeSectionIndex) tab.classList.add("is-done");
+      if(si === activeSectionIndex) tab.classList.add("is-current");
+      if(stepId === "lead" || stepId === "report") tab.classList.add("is-done");
+    });
+    if(activeSectionIndex > -1){
+      ledgerCaption.textContent = "Section " + pad(activeSectionIndex+1) + " / " + pad(SECTIONS.length) + " — " + SECTIONS[activeSectionIndex].title;
+    } else if(stepId === "lead"){
+      ledgerCaption.textContent = "Almost done — your details";
+    } else if(stepId === "report"){
+      ledgerCaption.textContent = "Your Financial Capability Report";
+    } else {
+      ledgerCaption.textContent = "";
+    }
+  }
+
+  function goToStep(index){
+    if(index < 0 || index >= STEP_IDS.length) return;
+    var currentEl = document.getElementById("step-"+STEP_IDS[currentStepIndex]);
+    if(currentEl) currentEl.classList.remove("is-active");
+    currentStepIndex = index;
+    var nextEl = document.getElementById("step-"+STEP_IDS[currentStepIndex]);
+    if(nextEl) nextEl.classList.add("is-active");
+    renderLedger();
+    window.scrollTo({top:0, behavior:"smooth"});
+    if(STEP_IDS[currentStepIndex] === "report"){
+      buildReport();
+    }
+  }
+
+  document.getElementById("btnStart").addEventListener("click", function(){ goToStep(1); });
+  document.getElementById("leadBack").addEventListener("click", function(){ goToStep(currentStepIndex-1); });
+
+  var leadName = document.getElementById("leadName");
+  var leadCompany = document.getElementById("leadCompany");
+  var leadEmail = document.getElementById("leadEmail");
+  var leadRevenue = document.getElementById("leadRevenue");
+  var leadSubmit = document.getElementById("leadSubmit");
+
+  function validateLead(){
+    var ok = leadName.value.trim().length > 1 &&
+             leadCompany.value.trim().length > 1 &&
+             /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(leadEmail.value.trim());
+    leadSubmit.disabled = !ok;
+  }
+  [leadName, leadCompany, leadEmail].forEach(function(el){
+    el.addEventListener("input", validateLead);
+  });
+
+  leadSubmit.addEventListener("click", function(){
+    lead.name = leadName.value.trim();
+    lead.company = leadCompany.value.trim();
+    lead.email = leadEmail.value.trim();
+    lead.revenue = leadRevenue.value;
+    goToStep(currentStepIndex+1);
+  });
+
+  document.getElementById("btnPrint").addEventListener("click", function(){ window.print(); });
+  document.getElementById("btnRestart").addEventListener("click", function(){
+    answers = {};
+    cycleAnswers = {};
+    document.querySelectorAll(".stamp.is-selected").forEach(function(s){ s.classList.remove("is-selected"); });
+    document.querySelectorAll(".cycle-input").forEach(function(i){ i.value = ""; });
+    SECTIONS.forEach(function(sec, si){ updateSectionNextState(si); });
+    leadName.value = ""; leadCompany.value = ""; leadEmail.value = ""; leadRevenue.value = "";
+    leadSubmit.disabled = true;
+    goToStep(0);
+  });
+
+  function levelLabel(v){
+    var found = LEVELS.filter(function(l){ return l.v === v; })[0];
+    return found ? found.label : "";
+  }
+
+  function tierForScore(avg){
+    if(avg < 2.0) return {label:"Foundational gaps", color:"var(--rust)"};
+    if(avg < 2.75) return {label:"Developing", color:"var(--gold)"};
+    if(avg < 3.5) return {label:"Consistent", color:"var(--emerald-soft)"};
+    return {label:"Managed & optimized", color:"var(--emerald)"};
+  }
+
+  function buildReport(){
+    var root = document.getElementById("reportRoot");
+    root.innerHTML = "";
+
+    var allScores = QUESTIONS.map(function(q){ return answers[q.id] || 0; });
+    var overallAvg = allScores.reduce(function(a,b){ return a+b; }, 0) / allScores.length;
+    var tier = tierForScore(overallAvg);
+
+    // head
+    var head = document.createElement("div");
+    head.className = "report-head";
+
+    var left = document.createElement("div");
+    var eyebrow = document.createElement("div");
+    eyebrow.className = "report-eyebrow";
+    eyebrow.textContent = "Financial Capability Report";
+    var title = document.createElement("h2");
+    title.className = "report-title";
+    title.textContent = lead.company || "Your business";
+    var meta = document.createElement("div");
+    meta.className = "report-meta";
+    var d = new Date();
+    meta.textContent = "Prepared for " + (lead.name || "—") + " · " + d.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+    left.appendChild(eyebrow); left.appendChild(title); left.appendChild(meta);
+
+    var stampGrade = document.createElement("div");
+    stampGrade.className = "stamp-grade";
+    stampGrade.style.color = tier.color;
+    var n = document.createElement("div"); n.className="n"; n.textContent = overallAvg.toFixed(1)+"/4";
+    var l = document.createElement("div"); l.className="l"; l.textContent = tier.label;
+    stampGrade.appendChild(n); stampGrade.appendChild(l);
+
+    head.appendChild(left);
+    head.appendChild(stampGrade);
+    root.appendChild(head);
+
+    // section breakdown
+    var secHead = document.createElement("div");
+    secHead.className = "report-section-title";
+    secHead.textContent = "Capability breakdown";
+    root.appendChild(secHead);
+
+    SECTIONS.forEach(function(sec, si){
+      var qs = QUESTIONS.filter(function(q){ return q.sectionIndex === si; });
+      var scores = qs.map(function(q){ return answers[q.id] || 0; });
+      var avg = scores.reduce(function(a,b){ return a+b; },0) / scores.length;
+      var t = tierForScore(avg);
+
+      var line = document.createElement("div");
+      line.className = "barline";
+      var label = document.createElement("div");
+      label.className = "barline-label";
+      label.textContent = sec.title;
+      var track = document.createElement("div");
+      track.className = "barline-track";
+      var fill = document.createElement("div");
+      fill.className = "barline-fill";
+      fill.style.width = (avg/4*100)+"%";
+      fill.style.background = t.color;
+      track.appendChild(fill);
+      var num = document.createElement("div");
+      num.className = "barline-num";
+      num.textContent = avg.toFixed(1);
+      line.appendChild(label); line.appendChild(track); line.appendChild(num);
+      root.appendChild(line);
+    });
+
+    // reported cycle times
+    var cycleHead = document.createElement("div");
+    cycleHead.className = "report-section-title";
+    cycleHead.textContent = "Reported operating cycle times";
+    root.appendChild(cycleHead);
+
+    var cycleQs = QUESTIONS.filter(function(q){ return q.cycle && cycleAnswers[q.id] !== undefined; });
+
+    if(cycleQs.length === 0){
+      var noCycle = document.createElement("div");
+      noCycle.className = "no-flags";
+      noCycle.textContent = "No operating cycle times were provided. These are optional, but add concrete, real-world numbers alongside the capability scores above.";
+      root.appendChild(noCycle);
+    } else {
+      cycleQs.forEach(function(q){
+        var row = document.createElement("div");
+        row.className = "cycle-report-row";
+        var top = document.createElement("div");
+        top.className = "cycle-report-top";
+        var secLbl = document.createElement("div");
+        secLbl.className = "cycle-report-section";
+        secLbl.textContent = q.sectionTitle;
+        var val = document.createElement("div");
+        val.className = "cycle-report-value";
+        val.textContent = cycleAnswers[q.id] + " " + q.cycle.unit;
+        top.appendChild(secLbl); top.appendChild(val);
+        var promptEl = document.createElement("div");
+        promptEl.className = "cycle-report-prompt";
+        promptEl.textContent = q.cycle.prompt;
+        row.appendChild(top); row.appendChild(promptEl);
+        if(q.cycle.note){
+          var noteEl = document.createElement("div");
+          noteEl.className = "cycle-report-note";
+          noteEl.textContent = q.cycle.note;
+          row.appendChild(noteEl);
+        }
+        root.appendChild(row);
+      });
+    }
+
+    // flagged findings
+    var findHead = document.createElement("div");
+    findHead.className = "report-section-title";
+    findHead.textContent = "Flagged shortfalls";
+    root.appendChild(findHead);
+
+    var flagged = QUESTIONS.filter(function(q){ return (answers[q.id] || 0) <= 2; });
+    flagged.sort(function(a,b){ return (answers[a.id]) - (answers[b.id]); });
+
+    if(flagged.length === 0){
+      var none = document.createElement("div");
+      none.className = "no-flags";
+      none.textContent = "No areas scored below \"Defined.\" This business is operating from documented, consistent financial processes across the board.";
+      root.appendChild(none);
+    } else {
+      flagged.forEach(function(q){
+        var lvl = answers[q.id];
+        var card = document.createElement("div");
+        card.className = "finding level-"+lvl;
+        var top = document.createElement("div");
+        top.className = "finding-top";
+        var sTitle = document.createElement("div");
+        sTitle.className = "finding-section";
+        sTitle.textContent = q.sectionTitle;
+        var sLevel = document.createElement("div");
+        sLevel.className = "finding-level";
+        sLevel.textContent = levelLabel(lvl);
+        top.appendChild(sTitle); top.appendChild(sLevel);
+        var qEl = document.createElement("p");
+        qEl.className = "finding-q";
+        qEl.textContent = q.text;
+        var whyEl = document.createElement("p");
+        whyEl.className = "finding-why";
+        whyEl.textContent = q.why;
+        card.appendChild(top); card.appendChild(qEl); card.appendChild(whyEl);
+        root.appendChild(card);
+      });
+    }
+
+    // CTA placeholder
+    var cta = document.createElement("div");
+    cta.className = "cta-block";
+    var h3 = document.createElement("h3");
+    h3.textContent = "Want help closing these gaps?";
+    var p = document.createElement("p");
+    p.textContent = "This report shows where to focus first. If you'd like a walkthrough of what fixing these looks like in practice, get in touch.";
+    var ph = document.createElement("div");
+    ph.className = "cta-placeholder";
+    ph.textContent = "[ Add contact / booking link here ]";
+    cta.appendChild(h3); cta.appendChild(p); cta.appendChild(ph);
+    root.appendChild(cta);
+  }
+
+  // init
+  document.getElementById("step-intro").classList.add("is-active");
+  renderLedger();
+
+})();
+</script>
+</body>
+</html>
