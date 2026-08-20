@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Skyline — Strategic Build Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f4f6f9;
+    color: #1a1a2e;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a1e3f 0%, #1e4fd6 60%, #2563eb 100%);
+    padding: 64px 56px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 40%;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    max-width: 580px;
+  }
+
+  .hero h1 span {
+    color: #93c5fd;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.70);
+    line-height: 1.65;
+    max-width: 520px;
+    margin-bottom: 36px;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .hero-meta-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.40);
+  }
+
+  .hero-meta-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.90);
+  }
+
+  /* BODY */
+  .body {
+    padding: 56px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 52px;
+  }
+
+  .section-eyebrow {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #2563eb;
+    margin-bottom: 10px;
+  }
+
+  .section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0a1e3f;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .section p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #4a5568;
+    margin-bottom: 14px;
+  }
+
+  .section p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: #e8ecf4;
+    margin: 0 0 52px;
+  }
+
+  /* ROLE CARD */
+  .role-card {
+    background: #f0f4ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+
+  .role-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #2563eb;
+    margin-bottom: 8px;
+  }
+
+  .role-card-headline {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0a1e3f;
+    margin-bottom: 8px;
+  }
+
+  .role-card-desc {
+    font-size: 13.5px;
+    color: #4a5568;
+    line-height: 1.65;
+  }
+
+  /* LANE GRID */
+  .lane-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .lane-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .lane-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1e4fd6, #2563eb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .lane-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .lane-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0a1e3f;
+    margin-bottom: 5px;
+  }
+
+  .lane-desc {
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.6;
+  }
+
+  /* PRICING */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .pricing-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 28px 32px;
+    position: relative;
+    background: #ffffff;
+  }
+
+  .pricing-card.featured {
+    border-color: #2563eb;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%);
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -1px; right: 24px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .pricing-phase {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #2563eb;
+    margin-bottom: 6px;
+  }
+
+  .pricing-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0a1e3f;
+    margin-bottom: 4px;
+  }
+
+  .pricing-amount {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0a1e3f;
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+
+  .pricing-amount span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+  }
+
+  .pricing-credit {
+    font-size: 11px;
+    font-weight: 600;
+    color: #2563eb;
+    background: #dbeafe;
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .pricing-desc {
+    font-size: 13px;
+    color: #4a5568;
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  .pricing-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pricing-items li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.5;
+  }
+
+  .pricing-items li::before {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border-radius: 50%;
+    background: #2563eb;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.5l3 3 6-6' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: cover;
+    margin-top: 1px;
+  }
+
+  .pricing-note {
+    font-size: 11.5px;
+    color: #64748b;
+    font-style: italic;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  /* DELIVERY STANDARD */
+  .delivery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .delivery-card {
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .delivery-card.ship {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+  }
+
+  .delivery-card.measure {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+
+  .delivery-card.refuse {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+  }
+
+  .delivery-card-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .delivery-card.ship .delivery-card-label { color: #1d4ed8; }
+  .delivery-card.measure .delivery-card-label { color: #15803d; }
+  .delivery-card.refuse .delivery-card-label { color: #c2410c; }
+
+  .delivery-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .delivery-items li {
+    font-size: 11.5px;
+    color: #374151;
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .delivery-items li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 7px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+
+  .ship .delivery-items li::before { background: #2563eb; }
+  .measure .delivery-items li::before { background: #16a34a; }
+  .refuse .delivery-items li::before { background: #ea580c; }
+
+  /* NEXT STEPS */
+  .steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e4fd6, #2563eb);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-content {
+    padding-top: 4px;
+  }
+
+  .step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0a1e3f;
+    margin-bottom: 3px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.6;
+  }
+
+  /* VALIDITY */
+  .validity-bar {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .validity-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #94a3b8;
+  }
+
+  .validity-date {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0a1e3f;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: #0a1e3f;
+    padding: 32px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-brand {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.90);
+    letter-spacing: 0.5px;
+  }
+
+  .footer-contact {
+    font-size: 12px;
+    color: rgba(255,255,255,0.50);
+  }
+
+  .footer-contact a {
+    color: #93c5fd;
+    text-decoration: none;
+  }
+
+  .footer-confidential {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.30);
+    margin-top: 4px;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">Strategic Build Overview</div>
+    <h1><span>Skyline</span>.<br>Strategic Build Overview.</h1>
+    <p class="hero-sub">
+      Skyline is building the trusted intelligence and distribution layer for private property capital in the UK and Europe. This document outlines the platform, the problem it solves, and the operational structure behind the build.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Founder</span>
+        <span class="hero-meta-value">Haris James</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Operational Lead</span>
+        <span class="hero-meta-value">Ramzi Dalloul</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Date</span>
+        <span class="hero-meta-value">August 2026</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Market</span>
+        <span class="hero-meta-value">UK and Europe</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- INTRO -->
+    <div style="margin-bottom: 48px; padding-bottom: 40px; border-bottom: 1px solid #e8ecf4;">
+      <p style="font-size: 15px; line-height: 1.8; color: #374151; max-width: 680px;">
+        This document covers three things: what Skyline is and the problem it solves, the operational structure behind the build, and the delivery standard the team is held to. Nothing more than that.
+      </p>
+    </div>
+
+    <!-- SECTION 1: SKYLINE OVERVIEW -->
+    <div class="section">
+      <div class="section-eyebrow">01 / Platform Overview</div>
+      <h2>What Skyline is and why it exists.</h2>
+
+      <div class="role-card">
+        <div class="role-card-title">The Problem</div>
+        <div class="role-card-headline">Private property capital is still moved on trust, relationships, and paper.</div>
+        <div class="role-card-desc">
+          Private property deals arrive as fragmented evidence. Operators rebuild the same facts across spreadsheets, PDFs, inboxes, and investor updates. Provenance disappears, review becomes slow, and capital decisions are made without a reliable audit trail. The result is a market where deal flow is opaque, investor confidence is low, and the matching of the right capital to the right opportunity depends almost entirely on who you know.
+        </div>
+      </div>
+
+      <p>
+        Skyline is building the trusted intelligence and distribution layer that sits between operators and capital. Not another listings portal. Not a black-box underwriter. A controlled environment where deals are structured, reviewed, approved by humans, and distributed only to authorised investors, with every decision traceable and every version locked.
+      </p>
+
+      <div class="lane-grid">
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div class="lane-title">Controlled Deal Intake</div>
+          <div class="lane-desc">Operators create deals with immutable source files. Every fact is extracted, reviewed, and owned before anything moves forward.</div>
+        </div>
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          </div>
+          <div class="lane-title">Human Review Layer</div>
+          <div class="lane-desc">AI extracts and drafts. Humans review, accept, and own every assumption. No financial outcome is calculated or approved by AI.</div>
+        </div>
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <div class="lane-title">Private Investor Access</div>
+          <div class="lane-desc">Approved memos are published only to authorised investors. Exact version locked at approval. Every view and interaction registered.</div>
+        </div>
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7C5 4 4 5 4 7z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="lane-title">Compounding Evidence Graph</div>
+          <div class="lane-desc">Every reviewed fact, mandate, decision, and outcome builds institutional memory. The platform becomes more valuable with every transaction.</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 24px; padding: 20px 24px; background: #0a1e3f; border-radius: 12px;">
+        <p style="font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.7; margin: 0;">
+          <strong style="color: #93c5fd;">Non-negotiable trust boundary:</strong> AI may extract and draft. It may not calculate financial outcomes, approve a deal, or publish to investors. This boundary is enforced at the architecture level, not just in policy. It is what separates Skyline from every black-box alternative in the market.
+        </p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 2: OPERATIONAL STRUCTURE -->
+    <div class="section">
+      <div class="section-eyebrow">02 / Operational Structure</div>
+      <h2>Who is leading the build.</h2>
+
+      <div class="role-card">
+        <div class="role-card-title">Operational Lead</div>
+        <div class="role-card-headline">Ramzi Dalloul — Operational Lead, Skyline</div>
+        <div class="role-card-desc">
+          Ramzi sits between the platform vision and the build execution. The CTO holds technical direction.
+          Ramzi owns strategic sequencing, execution management, and design-partner sourcing.
+          Both lanes are complementary and clearly defined, reducing execution risk across all six build phases.
+        </div>
+      </div>
+
+      <p>
+        The hardest gate on the six-phase roadmap is not the build. It is Phase 4.
+        Getting two to three credible design partners to run real deals through a platform
+        they have never used before is a relationship and trust problem, not a technical one.
+        Haris, Ramzi, and the wider partner network collectively facilitate those conversations through their combined network and positioning across the developer and investor space.
+      </p>
+
+      <div class="lane-grid">
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>
+          </div>
+          <div class="lane-title">Strategic Sequencing</div>
+          <div class="lane-desc">Phase gate management. Ensuring every build decision maps to user behavior and trust architecture.</div>
+        </div>
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          </div>
+          <div class="lane-title">Design-Partner Sourcing</div>
+          <div class="lane-desc">Supporting the identification and introduction of credible operators and investors as potential design partners for the platform.</div>
+        </div>
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87m-4-12a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="lane-title">Stakeholder Management</div>
+          <div class="lane-desc">Running the rhythm between team, advisors, and design partners. Clear accountability at every phase.</div>
+        </div>
+        <div class="lane-item">
+          <div class="lane-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="lane-title">Trust Architecture Integrity</div>
+          <div class="lane-desc">Protecting the hard boundaries as features scale. AI may not approve or publish. That holds under pressure.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 2: HOW I WORK -->
+    <div class="section">
+      <div class="section-eyebrow">03 / How We Build</div>
+      <h2>Three stages. Each builds on the last.</h2>
+      <p>
+        Three stages. Each builds on the last. Every phase produces a concrete output that informs and improves everything that follows.
+      </p>
+
+      <div class="pricing-grid">
+
+        <!-- Stage 1 -->
+        <div class="pricing-card featured">
+          
+          <div class="pricing-phase">Stage 1</div>
+          <div class="pricing-title">Strategic Discovery</div>
+          
+          
+          <div class="pricing-desc">
+            A focused month-one engagement that produces the strategic foundation for the entire build.
+            Deliverable at end of month one: gap analysis across all six phases, design-partner target list,
+            execution framework, and a fully scoped and priced Stage 2 brief.
+          </div>
+          <ul class="pricing-items">
+            <li>Phase gap analysis across Discovery through Portfolio Signals</li>
+            <li>User trust and adoption diagnostic for developer and investor profiles</li>
+            <li>Design-partner target list with sourcing approach and introductions facilitated</li>
+            <li>Execution framework and accountability structure</li>
+            <li>Stage 2 build brief with full scope and sequenced delivery plan</li>
+          </ul>
+        </div>
+
+        <!-- Stage 2 -->
+        <div class="pricing-card">
+          <div class="pricing-phase">Stage 2</div>
+          <div class="pricing-title">Build Sprint</div>
+          
+          <div class="pricing-desc">
+            A sequenced build engagement delivered against controlled outcomes.
+            Price confirmed at end of Stage 1 once scope is fully defined.
+            
+          </div>
+          <ul class="pricing-items">
+            <li>Delivery against the six-phase roadmap in sequenced gates</li>
+            <li>Design-partner onboarding supported and first golden journey completion</li>
+            <li>Controlled outcomes: must ship, must measure, must refuse framework applied throughout</li>
+            <li>Clean handover documentation at each phase</li>
+          </ul>
+          <p class="pricing-note">Platform build and development costs are scoped, managed, and delivered separately from this engagement fee.</p>
+        </div>
+
+        <!-- Stage 3 -->
+        <div class="pricing-card">
+          <div class="pricing-phase">Stage 3</div>
+          <div class="pricing-title">Ongoing Operational Leadership</div>
+          
+          <div class="pricing-desc">
+            Continued operational leadership as the platform scales beyond the initial build sprint.
+            Focused on design-partner expansion, platform iteration, and sustained execution oversight.
+          </div>
+          <ul class="pricing-items">
+            <li>Phase gate management and execution oversight</li>
+            <li>Design-partner sourcing and facilitation</li>
+            <li>Platform iteration based on real user feedback</li>
+            <li>Ongoing trust architecture integrity review</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 3: DELIVERY STANDARD -->
+    <div class="section">
+      <div class="section-eyebrow">04 / Delivery Standard</div>
+      <h2>What the build is held to.</h2>
+      <p>
+        Every build decision is measured against three questions.
+        This is the standard applied regardless of delivery pressure or timeline.
+      </p>
+
+      <div class="delivery-grid">
+
+        <div class="delivery-card ship">
+          <div class="delivery-card-label">Must Ship</div>
+          <ul class="delivery-items">
+            <li>One complete golden journey end to end</li>
+            <li>Client-owned infrastructure and accounts throughout</li>
+            <li>Phase gates respected, no premature builds</li>
+            <li>Exact-version approval before any investor publication</li>
+            <li>Clean handover documentation at every phase</li>
+          </ul>
+        </div>
+
+        <div class="delivery-card measure">
+          <div class="delivery-card-label">Must Measure</div>
+          <ul class="delivery-items">
+            <li>Time saved versus manual baseline</li>
+            <li>Extraction accuracy on real deal documents</li>
+            <li>Design-partner confidence and renewal signal</li>
+            <li>Phase completion against agreed gates</li>
+            <li>Reviewer confidence at each approval stage</li>
+          </ul>
+        </div>
+
+        <div class="delivery-card refuse">
+          <div class="delivery-card-label">Must Refuse</div>
+          <ul class="delivery-items">
+            <li>AI calculating or approving financial outcomes</li>
+            <li>Any publication without explicit human approval</li>
+            <li>Contractor-owned accounts or platform access</li>
+            <li>Scope creep that erodes the trust architecture</li>
+            <li>Premature feature builds before foundation is proven</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    </div>
+
+  </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">Skyline — Strategic Build Overview</div>
+      <div class="footer-confidential">Confidential — August 2026</div>
+    </div>
+    <div style="text-align:left;">
+      <div class="footer-contact">Ramzi Dalloul — Operational Lead</div>
+      <div class="footer-contact"><a href="mailto:ramzi@mindlinksystems.ai">ramzi@mindlinksystems.ai</a></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
