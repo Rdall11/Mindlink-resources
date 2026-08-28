@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mindlink Systems — Scope & Fees, EGX Investments</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #f8fbff 0%, #eef4fc 100%);
+    color: #0a1e3f;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; }
+  .hero {
+    background: linear-gradient(135deg, #0a1e3f 0%, #1e4fd6 50%, #2563eb 100%);
+    padding: 44px 40px 64px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .orb1 { position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%); }
+  .orb2 { position: absolute; bottom: -120px; left: -120px; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%); }
+  .hero-inner { max-width: 800px; margin: 0 auto; position: relative; }
+  .logo { height: 26px; width: auto; opacity: 0.95; margin-bottom: 28px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 2px; font-weight: 700;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .eyebrow.dark { color: #1e4fd6; }
+  .eyebrow.light { color: #93c5fd; }
+  h1 { font-size: 32px; font-weight: 700; margin: 0 0 12px; letter-spacing: -0.5px; line-height: 1.2; }
+  .hero p { font-size: 15px; color: rgba(255,255,255,0.85); margin: 0 0 4px; line-height: 1.6; max-width: 560px; }
+  .call-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.12); backdrop-filter: blur(10px);
+    padding: 10px 16px; border-radius: 10px; margin-top: 18px;
+    font-size: 13px; font-weight: 600;
+  }
+  .call-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: #fcd34d; }
+  .byline { font-size: 12.5px; color: rgba(255,255,255,0.6); margin: 10px 0 0; }
+
+  main { padding: 0 40px; }
+  section { max-width: 800px; margin: 0 auto; padding: 40px 0; }
+
+  .card {
+    background: white; border-radius: 20px; padding: 36px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 24px -8px rgba(10,30,63,0.08);
+  }
+  .card.highlight {
+    border: 2px solid #1e4fd6;
+    position: relative;
+    overflow: hidden;
+  }
+  .card.highlight .orb3 {
+    position: absolute; top: -40px; right: -40px; width: 200px; height: 200px;
+    border-radius: 50%; background: radial-gradient(circle, rgba(30,79,214,0.06) 0%, transparent 70%);
+  }
+
+  h2 { font-size: 26px; font-weight: 700; margin: 0 0 12px; color: #0a1e3f; letter-spacing: -0.4px; }
+  .lede { font-size: 14.5px; line-height: 1.7; color: #475569; margin: 0 0 20px; }
+
+  ul.scope { list-style: none; padding: 0; margin: 0 0 24px; }
+  ul.scope li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; font-size: 14px; line-height: 1.6; color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  ul.scope li:last-child { border-bottom: none; }
+  ul.scope li strong { color: #0a1e3f; font-weight: 700; }
+  ul.scope li .bullet { flex-shrink: 0; margin-top: 7px; width: 6px; height: 6px; border-radius: 50%; background: #1e4fd6; }
+
+  .output-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+    border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; margin-bottom: 24px;
+  }
+  .output-box .label { font-size: 11px; letter-spacing: 1.2px; color: #1e4fd6; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+  .output-box .text { font-size: 14px; color: #0a1e3f; line-height: 1.5; }
+  .subhead { font-size: 12px; font-weight: 700; color: #1e4fd6; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 8px; }
+  ul.deliverables { list-style: none; padding: 0; margin: 0; }
+  ul.deliverables li { font-size: 14px; color: #0a1e3f; line-height: 1.9; padding-left: 18px; position: relative; }
+  ul.deliverables li::before { content: ''; position: absolute; left: 0; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: #1e4fd6; }
+  .split-cols { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; margin: 20px 0; align-items: start; }
+  .split-cols .output-box { margin: 0; height: 100%; }
+  @media (max-width: 640px) { .split-cols { grid-template-columns: 1fr; } }
+
+  .fee-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+  .fee-block {
+    flex: 1; min-width: 180px; padding: 20px; border-radius: 14px;
+    background: linear-gradient(135deg, #0a1e3f 0%, #1e4fd6 100%); color: white;
+  }
+  .fee-block .label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #93c5fd; margin-bottom: 6px; font-weight: 700; }
+  .fee-block .value { font-size: 30px; font-weight: 700; line-height: 1.1; }
+  .fee-block .sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 6px; }
+
+  .phase-grid { display: flex; flex-direction: column; gap: 16px; }
+  .phase-card { background: white; border-radius: 16px; padding: 26px; border: 1px solid #e2e8f0; }
+  .phase-card .ptitle { font-size: 17px; font-weight: 700; color: #0a1e3f; margin-bottom: 6px; }
+  .phase-card .pmeta { font-size: 12px; color: #1e4fd6; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .phase-card .pbody { font-size: 13.5px; color: #475569; line-height: 1.65; }
+
+  .cta-card {
+    background: linear-gradient(135deg, #0a1e3f 0%, #1e4fd6 100%);
+    border-radius: 20px; padding: 40px; color: white; position: relative; overflow: hidden;
+  }
+  .cta-card .orb4 { position: absolute; top: -80px; right: -80px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%); }
+  .steps { position: relative; display: flex; flex-direction: column; gap: 18px; margin-top: 20px; }
+  .step { display: flex; gap: 14px; align-items: flex-start; }
+  .step .num {
+    flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px;
+    background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fcd34d;
+  }
+  .step .stext { font-size: 14.5px; line-height: 1.6; padding-top: 4px; }
+
+  footer {
+    max-width: 800px; margin: 0 auto; padding: 32px 40px 48px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    font-size: 12px; color: #94a3b8;
+  }
+  footer .flogo { display: flex; align-items: center; gap: 10px; }
+  footer img { height: 22px; width: auto; opacity: 0.6; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="orb1"></div>
+  <div class="orb2"></div>
+  <div class="hero-inner">
+    <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGYAAABUCAYAAABwbULEAAAEIUlEQVR4nO1d0XLtIAhMOvf/f/n0KTO5VhRwFzAn+9ZpEARFXJn2/Hw+x4t6+Mk24EUfb2CK4g1MUfzLNuCG2WF3bqZnCRUCo60+ru+8jovSA0FmYEaOujul/c7qOEnPSIdHDxRnUrncU6pxQCs3k7F+35PRykERHRjEpLXO9gRlJO8Zw42oVIac5CmMN5Px6DkaXWHpjb1jmKvuPnY75uh3CH3osf+AeY9hT0QzFlsfbVUzUllGbv4c/dSDRlh6QwamRDUTBHqAUKnsm4JyBy29oXZMxSBE2UTR82QSc+uHJs+O0VIp3wiYbyyB0axAxv2hOijkqCYwKyRgRp73MAMeUEnY2c2/MgkYffOXxrfoUftzdPh7ScCz8+2nM96O6M2jN18JowX0H7RVmZcEZAVotiNmadajbyUgrdwUUmCQqQB9CdPahgoOIzVPbZPOGBa9vTJJb2pFyVlktRD93AtMRMlrmTTjcY2tTwvR11k3f296Y+Z15DmyjNE9hm2QlqFF2TEapxwJW6F9qQJDkGWDeBl+Mom5NUY7JpJSufSN8MROTNGWCqns7cTsoHonJqJDMkoPFLML5nFsSgI6v+/JaOWsGPo4esesTtpC6a+QsK18+O6RqrJdSECtbbuRsMNyeWcScHsSdpbK7qkDcehGH6Ro1mAlvZlSq7Z3eScS8BEkLPKhrBQJSMZKeoM1Y2gGrJC2okElYVfL5coBie7QgZbXXhJzh+aKCva5/WTdMZamvyo7hw2KT1Y7MUftOE8PkNUf188qf2jKZc85Es03SQ6pwvOZZWZnjLf8Rd+We7CkEJQ+74KT6B0RjE7MmTEVDmUrpIB4fDIb9zgObifmXRYdoKhOTMaleemMYdIaq+ePxTbvPCKb/bpjz3YM4/D0nj/t6rWeddpdGlW4mEnMCBKwp8sCRCcmQ48V5ToxLyAOUIZMOvma2YnZ06VpnKisA4bsHaMBevWm74Yb3C+YUchgqUs0XUiwXDBZ8HBOSH0RLIWEkp2Y0aRoO1bvMavM7skIjCVtSQ5jXRbLBKiXypgGrJCA7TjMy2I0CftH32zHWFenxgjRmAk05a5GfkVf2O4ZvccgGABWtaWxDc1gIOcytc3ylzF2IgG3J2E9T8vWNqaZzG44j/6T8fU7CWGdmBpkkICPIGFZD2WVaA8maCSstxOzcqNfBuC+8V4wdwhClo0QvTuwy18JFCVTMbWhLscaPS2W9aL/vG86xxQI6mJEk5jeGh+hNwoh2YFxxkglZFQnJqqnTKuTsiiYtP+T0lv4GRr5H5dCSUDlNxY9q2OZEFkuo9Kb1uGrKS210tzpn8d5m9ytciVK/6zAXPj2TkwR2Tf/txNTQJW+stmzMcJJmjOnTLVYJTAXohxTJgASslPZCwFvYIriDUxR/AIG+2PXtfV4YgAAAABJRU5ErkJggg==" alt="Mindlink Systems" />
+    <div class="eyebrow light">Mindlink Systems</div>
+    <h1>Scope and Fees, EGX Investments</h1>
+    <p>Prepared for Edward Weng, for review with your team ahead of our next call.</p>
+    <p class="byline">Prepared by Ramzi Dalloul.</p>
+    <div class="call-chip"><span class="dot"></span>Follow-up call: Friday, September 4 · 2:00 PM PT</div>
+  </div>
+</div>
+
+<main>
+
+<section>
+  <div class="card">
+    <div class="eyebrow dark">Where this starts</div>
+    <h2>Fast builds, slow money</h2>
+    <p class="lede">
+      Modular gives EGX a build cycle most developers do not have. The money side has not caught up.
+      Investor sourcing is slow in a conservative market. Underwriting and proposal materials take
+      longer to turn around than the build itself does. Institutional relationships stay referral-only
+      because of compliance. Website engagement lags on the brokerage side, and you are not sure ad
+      spend would fix it. That gap is where deals sit and wait instead of closing.
+    </p>
+    <p class="lede" style="margin-bottom:0;">
+      Before we fix any of that, we need to see exactly where it lives inside how EGX actually operates
+      today. That is what Phase 1 is for.
+    </p>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="card highlight">
+    <div class="orb3"></div>
+    <div class="eyebrow dark">Where we start</div>
+    <h2>Phase 1, Strategic Discovery</h2>
+    <p class="lede">No assumptions. This is the full scope of the audit, matched to what EGX actually needs.</p>
+
+    <div class="split-cols">
+      <div>
+        <div class="subhead">What we review</div>
+        <ul class="scope">
+          <li><span class="bullet"></span>Intake questionnaire, sent day one</li>
+          <li><span class="bullet"></span>Operations and workflow mapping</li>
+          <li><span class="bullet"></span>Tech stack and tools review</li>
+          <li><span class="bullet"></span>Team workflow interviews, up to three</li>
+          <li><span class="bullet"></span>CRM and data infrastructure review</li>
+          <li><span class="bullet"></span>Institutional-readiness gap analysis</li>
+          <li><span class="bullet"></span>Deal pipeline and project tracking review</li>
+          <li><span class="bullet"></span>Revenue leakage quantification</li>
+          <li><span class="bullet"></span>Full department mapping, no limit</li>
+          <li><span class="bullet"></span>PE and LP investor readiness assessment</li>
+          <li><span class="bullet"></span>Competitive and market context layer</li>
+          <li><span class="bullet"></span>Top 3 bottleneck identification</li>
+        </ul>
+      </div>
+
+      <div class="output-box">
+        <div class="label">What you walk away with</div>
+        <ul class="deliverables">
+          <li>Written findings report</li>
+          <li>Prioritized recommendation list</li>
+          <li>Where you can reduce expenses</li>
+          <li>Where you can save time</li>
+          <li>How to convert more investor inquiries</li>
+          <li>Potential ROI on the recommended build</li>
+          <li>Custom, multi-phase build roadmap with milestones</li>
+          <li>60-minute findings presentation call</li>
+          <li>Stakeholder presentation deck</li>
+          <li>Two follow-up calls, to walk your COO and CTO through the findings</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fee-row">
+      <div class="fee-block">
+        <div class="label">Fee</div>
+        <div class="value">$7,500</div>
+        <div class="sub">100% credited toward Phase 2</div>
+      </div>
+      <div class="fee-block">
+        <div class="label">Timeline</div>
+        <div class="value">10 days</div>
+        <div class="sub">Business days, once scope is confirmed</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px; font-size:12.5px; color:#64748b; line-height:1.6;">
+      Everything shared during Phase 1 stays confidential. If you decide not to move into Phase 2,
+      you keep the findings report and roadmap either way.
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="card">
+    <div class="eyebrow dark">The path forward</div>
+    <h2>Phase 1 tells us what to build. Then we price it.</h2>
+    <p class="lede">
+      We will not put a number on Phase 2 until we know exactly what it involves.
+      That is the point of doing Phase 1 first, not a placeholder for later.
+    </p>
+
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="pmeta">Phase 2</div>
+        <div class="ptitle">Build & Embed</div>
+        <div class="pbody">
+          We build and install systems directly into how your company runs, covering everything
+          mapped out and addressed in the Phase 1 audit. Payment is milestone-based: half up front,
+          the remainder split across three additional milestones tied to delivery, so you pay as the
+          build lands. Scope and fee confirmed after Phase 1 findings.
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="pmeta">Phase 3</div>
+        <div class="ptitle">Operate & Compound</div>
+        <div class="pbody">
+          Ongoing retainer, revenue share, or equity share, structured once Phase 2 is live and the systems are running.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="cta-card">
+    <div class="orb4"></div>
+    <div class="eyebrow light">Next steps</div>
+    <h2 style="color:white;">Getting started</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div class="stext">Review this with your team ahead of September 4.</div>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div class="stext">We confirm scope and answer questions on the call.</div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div class="stext">Sign, and Phase 1 mapping starts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="flogo">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGYAAABUCAYAAABwbULEAAAEKUlEQVR4nO1cW5IbMQgcp3KOvdLePtdxvlw1JQuBUDcgW/23taNpBYaHWmQfP7//roN6+JO9gYM+jmOK4jimKP5mb+CGp/L7x2Y8S6jgGM1Q7XNew0XxQJDpmJGh7kZpn5s1nMQz4vDwQJHlmJ4hJANIBnwO1kg8sxxWHjiii//z6hvL+g9vnxtFndUpPY4ejzUVQhAVMTMRouEhvE9b4+G5rvco9b5vCuyIWY0QCdb60D7r5QqPIKZjkFHSg+VdbD6acxipjO0QibOXetAIS29Ix2Q4JAt0B6FS2Tc55Q5aekNFTEUnRO2JwvPJImbouQMNT8RYpZRvBMw2M46xfIHI88MuoIijFsesiIAZed6jDHhAFWE1x6yKgEwJwxrBUdxQEXZU/LcWAUkIE2GtXZlXBGQ5SKtlWpr18KE0P9MayTFoEXD0/llY94ZyDuPwrO5NqzGo/IyQMDyp9d4IIG4+0aKo+MH0HFNNBFw1UGsANp8Hb41A1snfm96YeZ11d+TCKJWxN2SNHnQ67aGcCFthfKmCQpC1B7HOfLKIuTVGERM9tvONk5hTXVk0ziRmB9UnMRETklE8UPQc0x7KMkXAkba0+yTmUMGIjhj0YXGGa1ZoTBn0e0HqynYRAa17202EHbbLO4uA24uwFhGzqghowbYirOWAORvOUZqTdmvKgCe9SfYYAnlRVkoEJGMlvcGGMSwvrJC2okEVYVfb5coOiZ7QgbbXXhFzh+GKCvtz22k2YqwjQ9dVJ3LYoNhkdRJTk0ymNrMZZu3x+hlW/D3DbdEOaostM42F2EOrMd72F31a7mEmhaD4vM2OdP4RwZjE1DZToSjPQnKIxybae6/r4k5i3teiHaTpTUidD31oNq2NmMS8vwfhIOveVpzDVjHUvWkRwyjY3vrTGmu21lk/gqhD8/Cd0ZOYL4y6lZn11mcjeFbw1kZnjy8hCihjTbr4mjmJ2eOyDE5U5oAhO2IsQH+96dFwg/sGMwoZKnWJoQsJMwdMFjyaE5IvQqWQIPJUG/hjiqKjmbRy0ZPhGIQIOGOsHUTYN/RSGXMDKyJg+x7mYTFahH3js/w/f4SjEMXd0u5a1q/whUUPexKTLQJqY0O9NR6+aBGWNomZLQJuL8J6rpZnx5i0Nbuhd0Pqsc20iNlbXFEEvBvoXgsZ0dLjbrl6P2vrRbAuyirJHkzQRFjvJGblQb8MwG3jPWDu4ISsPUJ4d1CXvxIoSaZiakMdji08LZZ50X/eN11jCgT1Y0SLmN4eH8EbhZDswKgxUgsZNYmJkpOsnJSPgin7f1J6C6+hEV3ZmcR0ILJdRqW3iElMaU1YpEffYK6kN8+Qe6uneXisXFBk3fmfSUwF2Sf/M4kpoMpcmXZtjDCSpeaU6RarOOaFKMOUcYCE7FR2IOA4piiOY4riP2VpU3He0ohfAAAAAElFTkSuQmCC" alt="Mindlink Systems" />
+    <div>Mindlink Systems &middot; mindlinksystems.ai</div>
+  </div>
+  <div>Prepared by Ramzi Dalloul</div>
+</footer>
+
+</body>
+</html>
