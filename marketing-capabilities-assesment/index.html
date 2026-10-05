@@ -208,25 +208,99 @@
   .defs-toggle.is-open{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
   .defs-panel{
     margin-top:12px;
-    padding:18px 20px;
+    padding:20px;
     background:var(--paper-dim);
     border:1px solid var(--line-strong);
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:18px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
   }
-  .defs-block-title{
+  .defs-axis{
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:16px;
+    align-items:start;
+    padding:14px 0;
+    border-top:1px solid var(--line);
+  }
+  .defs-axis:first-child{ border-top:0; padding-top:0; }
+  .defs-axis.is-optional .defs-axis-label{ color:var(--ink-soft); font-weight:600; }
+  .defs-axis-label{
     font-family:var(--mono);
-    font-size:11px;
+    font-size:10.5px;
     letter-spacing:0.08em;
     text-transform:uppercase;
     font-weight:700;
-    margin-bottom:9px;
     color:var(--ink);
+    padding-top:3px;
   }
-  .defs-row{ font-size:12.5px; line-height:1.5; margin-bottom:8px; color:var(--ink-soft); }
-  .defs-row b{ color:var(--ink); }
-  @media (max-width:600px){ .defs-panel{ grid-template-columns:1fr; } }
+  .defs-axis-optional{
+    display:block;
+    font-size:9.5px;
+    letter-spacing:0.06em;
+    font-weight:400;
+    color:var(--ink-soft);
+    margin-top:2px;
+    text-transform:none;
+  }
+  .defs-levels{
+    display:grid;
+    grid-template-columns:repeat(var(--n), minmax(0, 1fr));
+    gap:16px;
+  }
+  .defs-chip{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:20px;
+    border:1.5px dashed var(--line-strong);
+    color:var(--ink);
+    background:var(--paper);
+    margin-bottom:7px;
+  }
+  .defs-def{
+    font-size:12px;
+    line-height:1.5;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  @media (max-width:680px){
+    .defs-axis{ grid-template-columns:1fr; gap:10px; }
+    .defs-levels{ grid-template-columns:1fr; gap:10px; }
+    .defs-chip{ margin-bottom:4px; }
+  }
+
+  /* inline per-axis help, at point of use */
+  .rgroup-label{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:600;
+    background:transparent;
+    border:0;
+    padding:0;
+    cursor:help;
+    text-align:left;
+    border-bottom:1px dotted var(--line-strong);
+  }
+  .rgroup-label:hover{ color:var(--ink); border-bottom-color:var(--ink-soft); }
+  .rgroup-label:focus-visible{ outline:2px solid var(--emerald); outline-offset:2px; }
+  .rgroup-label.is-open{ color:var(--ink); border-bottom-style:solid; }
+  .rgroup-help{
+    flex-basis:100%;
+    margin:4px 0 2px;
+    padding:10px 12px;
+    background:var(--paper-dim);
+    border-left:2px solid var(--line-strong);
+  }
+  .rgroup-help-row{ font-size:12px; line-height:1.5; color:var(--ink-soft); margin-bottom:5px; }
+  .rgroup-help-row:last-child{ margin-bottom:0; }
+  .rgroup-help-row b{ color:var(--ink); }
 
   .qcard{
     border-top:1px solid var(--line);
@@ -274,6 +348,9 @@
   .stamp[data-axis="importance"][data-level="2"].is-selected{ background:var(--ink-soft); border-color:var(--ink-soft); border-style:solid; color:var(--white); }
   .stamp[data-axis="importance"][data-level="3"].is-selected{ background:var(--ink); border-color:var(--ink); border-style:solid; color:var(--white); }
 
+  .stamp[data-axis="measured"][data-level="1"].is-selected{ background:var(--rust); border-color:var(--rust); border-style:solid; color:var(--white); }
+  .stamp[data-axis="measured"][data-level="2"].is-selected{ background:var(--emerald); border-color:var(--emerald); border-style:solid; color:var(--white); }
+
   @media (prefers-reduced-motion:reduce){
     .stamp.is-selected{transform:none;}
   }
@@ -290,15 +367,8 @@
   .rgroup[data-axis="importance"]{ border-left-color: var(--ink-soft); }
   .rgroup[data-axis="maturity"]{ border-left-color: var(--gold); }
   .rgroup[data-axis="performance"]{ border-left-color: var(--emerald-soft); }
+  .rgroup[data-axis="measured"]{ border-left-color: var(--line-strong); border-left-style:dashed; }
   .rgroup-head{ width:100px; flex-shrink:0; }
-  .rgroup-label{
-    font-family:var(--mono);
-    font-size:10.5px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    font-weight:600;
-  }
 
   .cycle-row{
     margin-top:16px;
@@ -491,11 +561,11 @@
   .heatmap-wrap{ overflow-x:auto; padding-bottom:4px; }
   .heatmap-grid{
     display:grid;
-    grid-template-columns: 96px repeat(4, 1fr);
+    grid-template-columns: 118px repeat(3, 1fr);
     gap:2px;
     background:var(--line-strong);
     border:1px solid var(--line-strong);
-    min-width:580px;
+    min-width:520px;
   }
   .heat-corner{ background:var(--paper); }
   .heat-colhead, .heat-rowhead{
@@ -546,6 +616,27 @@
   .legend-swatch.heat-low{background:#EAF2EE; border:1px solid var(--emerald-soft);}
   .legend-swatch.heat-mid{background:#F7EFDD; border:1px solid var(--gold);}
   .legend-swatch.heat-high{background:#F5E4E0; border:1px solid var(--rust);}
+
+  .measure-row{
+    border-top:1px solid var(--line);
+    padding:12px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+  }
+  .measure-row:last-of-type{border-bottom:1px solid var(--line);}
+  .measure-q{ font-size:13.5px; max-width:58ch; }
+  .measure-imp{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    font-weight:700;
+    white-space:nowrap;
+    color:var(--ink-soft);
+  }
+  .measure-imp.imp-high{ color:var(--rust); }
 
   .priority-card{
     border:1px solid var(--line-strong);
@@ -830,6 +921,11 @@
     {v:4, label:"Strong", def:"This is a genuine strength. It outperforms what you'd expect and gives you a real edge."}
   ];
 
+  var MEASURED_LEVELS = [
+    {v:1, label:"Not tracked", def:"You don't currently capture a number for this. Performance here is judged by feel, not by measurement."},
+    {v:2, label:"Tracked", def:"You capture an actual metric for this that someone could look up today."}
+  ];
+
   var QUESTIONS = [];
   SECTIONS.forEach(function(sec, si){
     sec.questions.forEach(function(q, qi){
@@ -845,6 +941,7 @@
   var importanceAnswers = {};
   var maturityAnswers = {};
   var performanceAnswers = {};
+  var measuredAnswers = {};
   var cycleAnswers = {};
   var lead = { name:"", company:"", email:"", revenue:"", industry:"" };
   var STEP_IDS = ["intro"];
@@ -859,16 +956,37 @@
 
   function pad(n){ return n < 10 ? "0"+n : ""+n; }
 
-  function buildRatingGroup(qid, axis, levels, answerStore, onChange){
+  function buildRatingGroup(qid, axis, levels, answerStore, onChange, labelText){
     var group = document.createElement("div");
     group.className = "rgroup";
     group.setAttribute("data-axis", axis);
 
+    var help = document.createElement("div");
+    help.className = "rgroup-help";
+    help.hidden = true;
+    levels.forEach(function(lv){
+      var r = document.createElement("div");
+      r.className = "rgroup-help-row";
+      var b = document.createElement("b");
+      b.textContent = lv.label + ": ";
+      r.appendChild(b);
+      r.appendChild(document.createTextNode(lv.def));
+      help.appendChild(r);
+    });
+
     var head = document.createElement("div");
     head.className = "rgroup-head";
-    var label = document.createElement("span");
+    var label = document.createElement("button");
+    label.type = "button";
     label.className = "rgroup-label";
-    label.textContent = axis.charAt(0).toUpperCase()+axis.slice(1);
+    label.textContent = labelText || (axis.charAt(0).toUpperCase()+axis.slice(1));
+    label.setAttribute("aria-expanded", "false");
+    label.title = "Show what these options mean";
+    label.addEventListener("click", function(){
+      help.hidden = !help.hidden;
+      label.classList.toggle("is-open", !help.hidden);
+      label.setAttribute("aria-expanded", help.hidden ? "false" : "true");
+    });
     head.appendChild(label);
     group.appendChild(head);
 
@@ -891,7 +1009,50 @@
       stampRow.appendChild(btn);
     });
     group.appendChild(stampRow);
+    group.appendChild(help);
     return group;
+  }
+
+  var AXIS_DEFS = [
+    {key:"importance", label:"Importance", levels:IMPORTANCE_LEVELS, optional:false},
+    {key:"maturity", label:"Maturity", levels:MATURITY_LEVELS, optional:false},
+    {key:"performance", label:"Performance", levels:PERFORMANCE_LEVELS, optional:false},
+    {key:"measured", label:"Measured?", levels:MEASURED_LEVELS, optional:true}
+  ];
+
+  function buildDefsAxisRow(axis){
+    var row = document.createElement("div");
+    row.className = "defs-axis" + (axis.optional ? " is-optional" : "");
+
+    var lab = document.createElement("div");
+    lab.className = "defs-axis-label";
+    lab.appendChild(document.createTextNode(axis.label));
+    if(axis.optional){
+      var opt = document.createElement("span");
+      opt.className = "defs-axis-optional";
+      opt.textContent = "optional";
+      lab.appendChild(opt);
+    }
+    row.appendChild(lab);
+
+    var levels = document.createElement("div");
+    levels.className = "defs-levels";
+    levels.style.setProperty("--n", axis.levels.length);
+    axis.levels.forEach(function(lv){
+      var cell = document.createElement("div");
+      cell.className = "defs-level";
+      var chip = document.createElement("span");
+      chip.className = "defs-chip";
+      chip.textContent = lv.label;
+      var p = document.createElement("p");
+      p.className = "defs-def";
+      p.textContent = lv.def;
+      cell.appendChild(chip);
+      cell.appendChild(p);
+      levels.appendChild(cell);
+    });
+    row.appendChild(levels);
+    return row;
   }
 
   function buildDefsPanel(){
@@ -905,28 +1066,12 @@
     panel.className = "defs-panel";
     panel.hidden = true;
 
-    [["Importance", IMPORTANCE_LEVELS], ["Maturity", MATURITY_LEVELS], ["Performance", PERFORMANCE_LEVELS]].forEach(function(pair){
-      var block = document.createElement("div");
-      block.className = "defs-block";
-      var h = document.createElement("div");
-      h.className = "defs-block-title";
-      h.textContent = pair[0];
-      block.appendChild(h);
-      pair[1].forEach(function(lv){
-        var row = document.createElement("div");
-        row.className = "defs-row";
-        var b = document.createElement("b");
-        b.textContent = lv.label + ": ";
-        row.appendChild(b);
-        row.appendChild(document.createTextNode(lv.def));
-        block.appendChild(row);
-      });
-      panel.appendChild(block);
-    });
+    AXIS_DEFS.forEach(function(axis){ panel.appendChild(buildDefsAxisRow(axis)); });
 
     toggle.addEventListener("click", function(){
       panel.hidden = !panel.hidden;
       toggle.classList.toggle("is-open", !panel.hidden);
+      toggle.textContent = panel.hidden ? "What do these ratings mean?" : "Hide rating definitions";
     });
 
     wrap.appendChild(toggle);
@@ -964,6 +1109,7 @@
       card.appendChild(buildRatingGroup(qid, "importance", IMPORTANCE_LEVELS, importanceAnswers, function(){ updateSectionNextState(si); }));
       card.appendChild(buildRatingGroup(qid, "maturity", MATURITY_LEVELS, maturityAnswers, function(){ updateSectionNextState(si); }));
       card.appendChild(buildRatingGroup(qid, "performance", PERFORMANCE_LEVELS, performanceAnswers, function(){ updateSectionNextState(si); }));
+      card.appendChild(buildRatingGroup(qid, "measured", MEASURED_LEVELS, measuredAnswers, function(){}, "Measured?"));
 
       if(q.cycle){
         var cycleRow = document.createElement("div");
@@ -1110,10 +1256,13 @@
     importanceAnswers = {};
     maturityAnswers = {};
     performanceAnswers = {};
+    measuredAnswers = {};
     cycleAnswers = {};
     document.querySelectorAll(".stamp.is-selected").forEach(function(s){ s.classList.remove("is-selected"); });
     document.querySelectorAll(".cycle-input").forEach(function(i){ i.value = ""; });
     document.querySelectorAll(".defs-panel").forEach(function(p){ p.hidden = true; });
+    document.querySelectorAll(".rgroup-help").forEach(function(h){ h.hidden = true; });
+    document.querySelectorAll(".rgroup-label").forEach(function(l){ l.classList.remove("is-open"); l.setAttribute("aria-expanded","false"); });
     document.querySelectorAll(".defs-toggle").forEach(function(t){ t.classList.remove("is-open"); });
     SECTIONS.forEach(function(sec, si){ updateSectionNextState(si); });
     leadName.value = ""; leadCompany.value = ""; leadEmail.value = ""; leadRevenue.value = ""; leadIndustry.value = "";
@@ -1211,7 +1360,7 @@
     root.appendChild(heatHead);
     var heatSub = document.createElement("div");
     heatSub.className = "report-section-sub";
-    heatSub.textContent = "Every rated item plotted by importance and performance. Numbers are section.question, e.g. 3.2 = section 3, question 2. Hover a chip for the full question.";
+    heatSub.textContent = "Importance across the columns, performance down the rows. The top-right block is what to fix first: high stakes, weakest results. Numbers are section.question, e.g. 3.2 = section 3, question 2. Hover a chip for the full question.";
     root.appendChild(heatSub);
 
     var heatWrap = document.createElement("div");
@@ -1223,21 +1372,22 @@
     corner.className = "heat-corner";
     grid.appendChild(corner);
 
-    PERFORMANCE_LEVELS.forEach(function(pl){
+    IMPORTANCE_LEVELS.forEach(function(il){
       var colHead = document.createElement("div");
       colHead.className = "heat-colhead";
-      colHead.textContent = pl.label;
+      colHead.textContent = il.label + " importance";
       grid.appendChild(colHead);
     });
 
-    [3,2,1].forEach(function(impLevel){
+    PERFORMANCE_LEVELS.forEach(function(pl){
+      var perfLevel = pl.v;
       var rowHead = document.createElement("div");
       rowHead.className = "heat-rowhead";
-      rowHead.textContent = levelDataFor(IMPORTANCE_LEVELS, impLevel).label;
+      rowHead.textContent = pl.label;
       grid.appendChild(rowHead);
 
-      PERFORMANCE_LEVELS.forEach(function(pl){
-        var perfLevel = pl.v;
+      IMPORTANCE_LEVELS.forEach(function(il){
+        var impLevel = il.v;
         var score = impLevel * (4 - perfLevel);
         var bucket = score >= 6 ? "high" : (score >= 2 ? "mid" : "low");
         var cell = document.createElement("div");
@@ -1337,6 +1487,40 @@
 
         card.appendChild(top); card.appendChild(qEl); card.appendChild(metaRow); card.appendChild(whyEl);
         root.appendChild(card);
+      });
+    }
+
+    var measHead = document.createElement("div");
+    measHead.className = "report-section-title";
+    measHead.textContent = "Measurement gaps";
+    root.appendChild(measHead);
+    var measSub = document.createElement("div");
+    measSub.className = "report-section-sub";
+    measSub.textContent = "Capabilities marked as not currently tracked. Each one needs a measurement system before its performance can be managed rather than guessed at.";
+    root.appendChild(measSub);
+
+    var unmeasured = QUESTIONS.filter(function(q){ return measuredAnswers[q.id] === 1; });
+    unmeasured.sort(function(a,b){ return (importanceAnswers[b.id] || 0) - (importanceAnswers[a.id] || 0); });
+
+    if(unmeasured.length === 0){
+      var noMeas = document.createElement("div");
+      noMeas.className = "no-flags";
+      noMeas.textContent = "Nothing was marked as untracked. This field is optional, so a blank here may mean it simply wasn't filled in rather than that everything is measured.";
+      root.appendChild(noMeas);
+    } else {
+      unmeasured.forEach(function(q){
+        var imp = importanceAnswers[q.id] || 0;
+        var impData = levelDataFor(IMPORTANCE_LEVELS, imp);
+        var row = document.createElement("div");
+        row.className = "measure-row";
+        var qEl = document.createElement("div");
+        qEl.className = "measure-q";
+        qEl.textContent = q.text;
+        var impEl = document.createElement("div");
+        impEl.className = "measure-imp" + (imp === 3 ? " imp-high" : "");
+        impEl.textContent = (impData ? impData.label : "\u2014") + " importance";
+        row.appendChild(qEl); row.appendChild(impEl);
+        root.appendChild(row);
       });
     }
 
