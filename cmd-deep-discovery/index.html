@@ -146,6 +146,104 @@
   ul.opt-list li.no { color: var(--faint); }
   ul.opt-list li.no .tick { color: var(--faint); }
 
+
+  /* pipeline preview */
+  .preview { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--white); }
+  .pv-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 12px 16px; background: linear-gradient(135deg, var(--navy), var(--blue)); color: var(--white); }
+  .pv-title { font-size: 13px; font-weight: 600; }
+  .pv-tag { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; color: var(--navy); background: var(--lightblue); padding: 3px 9px; border-radius: 999px; }
+  .stages { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: 1px solid var(--line); background: var(--soft); }
+  .stage { padding: 10px 12px; border-right: 1px solid var(--line); min-width: 0; }
+  .stage:last-child { border-right: none; }
+  .stage .n { font-size: 18px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .stage .l { font-size: 11px; color: var(--muted); line-height: 1.35; }
+  .pv-body { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.25fr); }
+  .pv-list { border-right: 1px solid var(--line); display: grid; align-content: start; }
+  .pv-item { all: unset; box-sizing: border-box; cursor: pointer; display: grid; gap: 3px; padding: 12px 16px; border-bottom: 1px solid var(--line); border-left: 3px solid transparent; }
+  .pv-item:last-child { border-bottom: none; }
+  .pv-item:hover { background: var(--soft); }
+  .pv-item:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+  .pv-item[aria-selected="true"] { background: #eef5fe; border-left-color: var(--blue); }
+  .pv-item .nm { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .pv-item .mt { font-size: 11.5px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .pill { font-size: 10px; letter-spacing: 0.6px; text-transform: uppercase; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: #e7f0fc; color: var(--blue); white-space: nowrap; }
+  .pill.warn { background: #fdecec; color: #b42318; }
+  .pill.cold { background: #f0f2f6; color: var(--muted); }
+  .pv-detail { padding: 18px 20px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+  .pv-detail h3 { margin: 0; font-size: 15px; font-weight: 700; color: var(--navy); }
+  .kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
+  .kv div { min-width: 0; }
+  .kv .k { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+  .kv .v { font-size: 13px; color: var(--body); line-height: 1.45; }
+  .path-k { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); font-weight: 600; margin-bottom: 6px; }
+  .path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .hop { font-size: 12px; padding: 6px 10px; border-radius: 8px; background: var(--soft); border: 1px solid var(--line); color: var(--body); }
+  .hop.start { background: var(--white); border-color: var(--blue); color: var(--navy); font-weight: 600; }
+  .hop.end { background: linear-gradient(135deg, var(--navy), var(--blue)); color: var(--white); border-color: transparent; }
+  .hop-arrow { color: var(--blue); font-weight: 600; font-size: 13px; }
+  .next-step { font-size: 13px; line-height: 1.55; padding: 12px 14px; border-radius: 10px; background: var(--soft); border: 1px solid var(--line); color: var(--body); }
+  .next-step strong { color: var(--navy); font-weight: 600; }
+  .next-step.warn { background: #fff6f5; border-color: #f6d0cc; }
+
+
+  /* preview tabs */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .tab { all: unset; box-sizing: border-box; cursor: pointer; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--white); display: grid; gap: 1px; min-width: 0; }
+  .tab .t { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .tab .u { font-size: 11px; color: var(--muted); }
+  .tab:hover { background: var(--soft); }
+  .tab[aria-selected="true"] { border-color: var(--blue); background: #eef5fe; box-shadow: inset 0 0 0 1px var(--blue); }
+  .tab:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  /* hub */
+  .hub-body { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .hub-main { padding: 16px; display: grid; gap: 14px; min-width: 0; }
+  .hub-side { border-left: 1px solid var(--line); padding: 16px; background: var(--soft); display: grid; gap: 7px; align-content: start; min-width: 0; }
+  .side-k { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); font-weight: 600; margin-bottom: 2px; }
+  .srcs { display: grid; gap: 6px; }
+  .src-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .src { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; padding: 6px 10px; background: var(--soft); border: 1px solid var(--line); border-radius: 999px; color: var(--body); }
+  .src .dot { width: 7px; height: 7px; border-radius: 50%; background: #12b76a; flex-shrink: 0; }
+  .side-note { font-size: 11.5px; line-height: 1.5; color: var(--muted); margin: 0; }
+  .hstats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .hstat { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-width: 0; }
+  .hstat .n { font-size: 18px; font-weight: 700; color: var(--navy); line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .hstat .l { font-size: 11px; color: var(--muted); line-height: 1.35; }
+  .flow-h { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--navy); }
+  .flow-mark { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg, var(--navy), var(--blue)); color: var(--white); display: grid; place-items: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .brief { border-radius: 12px; padding: 14px 16px; background: #f4f9ff; border: 1px solid #cfe2fb; }
+  .brief ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+  .brief li { display: grid; grid-template-columns: 8px minmax(0, 1fr); gap: 10px; font-size: 12.5px; line-height: 1.5; color: var(--body); }
+  .brief li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-top: 7px; }
+  .brief li strong { color: var(--navy); font-weight: 600; }
+  .search { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 0 12px; background: var(--white); }
+  .search svg { flex-shrink: 0; }
+  .search input { all: unset; flex: 1; min-width: 0; font: 400 13px 'Poppins', sans-serif; padding: 10px 0; color: var(--ink); }
+  .search input::placeholder { color: var(--faint); }
+  .search:focus-within { border-color: var(--blue); box-shadow: 0 0 0 2px #d6e7fb; }
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+  .tbl-wrap table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 540px; }
+  .tbl-wrap th { text-align: left; font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--faint); font-weight: 600; padding: 9px 12px; background: var(--soft); border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .tbl-wrap td { padding: 10px 12px; border-bottom: 1px solid #f0f3f7; color: var(--body); vertical-align: top; }
+  .tbl-wrap tr:last-child td { border-bottom: none; }
+  .tbl-wrap td.p { font-weight: 600; color: var(--navy); }
+  .tbl-wrap td.src-cell { color: var(--muted); font-size: 11.5px; }
+  .empty-row td { color: var(--muted); text-align: center; }
+  .pill.ok { background: #e7f6ee; color: #067647; }
+  .pill.hold { background: #fff4e5; color: #b54708; }
+
+  /* flow in pipeline */
+  .flow { border-radius: 12px; border: 1px solid #cfe2fb; background: #f4f9ff; padding: 14px 16px; }
+  ol.flow-steps { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; counter-reset: f; }
+  ol.flow-steps li { counter-increment: f; display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; font-size: 12.5px; line-height: 1.5; color: var(--body); }
+  ol.flow-steps li::before { content: counter(f); width: 20px; height: 20px; border-radius: 50%; background: var(--white); border: 1px solid #cfe2fb; color: var(--blue); font-size: 10.5px; font-weight: 700; display: grid; place-items: center; }
+  .flow-status { margin-top: 12px; padding-top: 12px; border-top: 1px solid #dbe8fb; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; font-size: 12.5px; line-height: 1.5; color: var(--body); }
+  .flow-status strong { color: var(--navy); font-weight: 600; }
+  .flow-status.warn strong { color: #b42318; }
+  .flow-status.done strong { color: #067647; }
+  .approve { font: 600 12px 'Poppins', sans-serif; padding: 8px 14px; border-radius: 9px; border: 0; color: var(--white); background: linear-gradient(135deg, var(--navy), var(--blue)); cursor: pointer; white-space: nowrap; }
+  .approve:hover { filter: brightness(1.1); }
+
   /* week timeline */
   .week { display: flex; flex-direction: column; gap: 10px; }
   .day { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; border-radius: 12px; background: var(--soft); border: 1px solid var(--line); }
@@ -208,6 +306,15 @@
     .paths { grid-template-columns: minmax(0, 1fr); }
     .field { grid-template-columns: minmax(0, 1fr) 100px; }
     .day { flex-direction: column; gap: 4px; }
+    .pv-body { grid-template-columns: minmax(0, 1fr); }
+    .pv-list { border-right: none; border-bottom: 1px solid var(--line); }
+    .stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .stage:nth-child(3) { border-right: none; }
+    .stage:nth-child(n+4) { border-top: 1px solid var(--line); }
+    .kv { grid-template-columns: minmax(0, 1fr); }
+    .hub-body { grid-template-columns: minmax(0, 1fr); }
+    .hstats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tab { flex: 1 1 140px; }
   }
 </style>
 
@@ -370,6 +477,7 @@
           <li>Every active project, status and owner in one place</li>
           <li>One contact record per person, shared across offices</li>
           <li>Leadership updates that build themselves</li>
+          <li>A morning brief from Flow on what needs you today</li>
         </ul>
       </div>
       <div class="lane">
@@ -380,10 +488,84 @@
           <li>What each office invests in, deal size and geography</li>
           <li>Who decides, and the warmest route to them</li>
           <li>Stage, next step and follow up for every conversation</li>
+          <li>Flow, a proactive agent that spots stalled relationships and drafts the next move</li>
         </ul>
       </div>
     </div>
     <div class="note"><strong>On scope.</strong> We build the system that finds, maps and tracks these relationships. The relationships and the deals stay yours to win. We do not promise introductions or a set number of partners.</div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
+    <div class="eyebrow dark">A preview</div>
+    <h2>What it could look like</h2>
+    <p class="lede">Two sketches with sample data so you can picture both fixes. The hub pulls every tool into one view. The pipeline shows <strong>Flow</strong>, a proactive agent, working your family office relationships in the background. Flow finds, drafts and reminds. Your team approves anything that goes out.</p>
+    <div class="tabs" role="tablist" aria-label="Preview">
+      <button type="button" class="tab" role="tab" id="tab-hub" aria-controls="panel-hub" aria-selected="true"><span class="t">Operating hub</span><span class="u">Fixes problem one</span></button>
+      <button type="button" class="tab" role="tab" id="tab-pipe" aria-controls="panel-pipe" aria-selected="false"><span class="t">Family office pipeline</span><span class="u">Fixes problem two</span></button>
+    </div>
+
+    <div class="preview" id="panel-hub" role="tabpanel" aria-labelledby="tab-hub">
+      <div class="pv-bar"><span class="pv-title">CM&amp;D &middot; Operating hub</span><span class="pv-tag">Sample data</span></div>
+      <div class="hub-body">
+        <div class="hub-main">
+          <div class="brief">
+            <div class="flow-h"><span class="flow-mark" aria-hidden="true">F</span>Flow &middot; Your morning brief</div>
+            <ul>
+              <li><span><strong>3 things need you today.</strong> Everything else is moving on its own.</span></li>
+              <li><span><strong>Mixed-use project, Hawaii.</strong> The permit response is due Thursday and one consultant document is still missing. Owner and file are linked.</span></li>
+              <li><span><strong>Zurich family office.</strong> 47 days since the last contact. A reconnect note is drafted in the pipeline.</span></li>
+              <li><span><strong>Leadership update.</strong> This week's update is drafted from the changes across all three offices. Review it before it goes out Monday.</span></li>
+            </ul>
+          </div>
+          <div class="hstats">
+            <div class="hstat"><div class="n">12</div><div class="l">Active projects</div></div>
+            <div class="hstat"><div class="n">3</div><div class="l">Offices in one view</div></div>
+            <div class="hstat"><div class="n">7</div><div class="l">Tools connected</div></div>
+            <div class="hstat"><div class="n">1,840</div><div class="l">Contacts, one record each</div></div>
+          </div>
+          <div class="srcs">
+            <div class="side-k">Connected tools</div>
+            <div class="src-row"><span class="src"><span class="dot" aria-hidden="true"></span>Email</span><span class="src"><span class="dot" aria-hidden="true"></span>Calendars</span><span class="src"><span class="dot" aria-hidden="true"></span>Shared drives</span><span class="src"><span class="dot" aria-hidden="true"></span>Project software</span><span class="src"><span class="dot" aria-hidden="true"></span>Accounting</span><span class="src"><span class="dot" aria-hidden="true"></span>Spreadsheets</span><span class="src"><span class="dot" aria-hidden="true"></span>Phone contacts</span></div>
+            <p class="side-note">Your tools stay where they are. The hub reads from them, so nobody changes how they work on day one.</p>
+          </div>
+          <label class="search" for="hub-q">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5" stroke="#93a0b4" stroke-width="1.6" fill="none"/><path d="M11 11 L14 14" stroke="#93a0b4" stroke-width="1.6"/></svg>
+            <input id="hub-q" type="search" placeholder="Search projects, offices or status across every tool">
+          </label>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Project</th><th>Office</th><th>Stage</th><th>Updated</th><th>Status</th><th>Pulled from</th></tr></thead>
+              <tbody id="hub-rows">
+                <tr><td class="p">Resort and residences</td><td>Latin America</td><td>Construction</td><td>Today</td><td><span class="pill ok">On track</span></td><td class="src-cell">Project software, Email</td></tr>
+                <tr><td class="p">Mixed-use redevelopment</td><td>Hawaii</td><td>Entitlements</td><td>2 days ago</td><td><span class="pill warn">Permit at risk</span></td><td class="src-cell">Shared drive, Email</td></tr>
+                <tr><td class="p">Medical center expansion</td><td>New York</td><td>Pre-construction</td><td>5 days ago</td><td><span class="pill hold">Waiting on budget</span></td><td class="src-cell">Spreadsheets, Accounting</td></tr>
+                <tr><td class="p">For-rent townhomes</td><td>New York</td><td>Construction</td><td>Yesterday</td><td><span class="pill ok">On track</span></td><td class="src-cell">Project software</td></tr>
+                <tr><td class="p">Luxury condominium</td><td>New York</td><td>Close-out</td><td>Today</td><td><span class="pill ok">On track</span></td><td class="src-cell">Accounting, Shared drive</td></tr>
+                <tr class="empty-row" hidden><td colspan="6">No matches. Try an office name or a status.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview" id="panel-pipe" role="tabpanel" aria-labelledby="tab-pipe" hidden>
+      <div class="pv-bar"><span class="pv-title">CM&amp;D &middot; Family office pipeline</span><span class="pv-tag">Sample data</span></div>
+      <div class="stages">
+        <div class="stage"><div class="n">14</div><div class="l">Identified</div></div>
+        <div class="stage"><div class="n">9</div><div class="l">Decision maker mapped</div></div>
+        <div class="stage"><div class="n">5</div><div class="l">Warm intro requested</div></div>
+        <div class="stage"><div class="n">2</div><div class="l">Meeting booked</div></div>
+        <div class="stage"><div class="n">1</div><div class="l">Partnering</div></div>
+      </div>
+      <div class="pv-body">
+        <div class="pv-list" role="tablist" aria-label="Sample family offices" id="pv-list"></div>
+        <div class="pv-detail" id="pv-detail" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="small-print">Illustrative only. Projects, offices, figures and routes are placeholders, not real organizations, contacts or project status. The real versions are shaped by discovery, and Day 6 turns the first one into a working demo with your data.</p>
   </div>
 </section>
 
@@ -419,6 +601,10 @@
     <div class="faq-item">
       <div class="faq-q">Will you find family offices for us?</div>
       <div class="faq-a">We build the system that identifies, maps and tracks them, including the warm routes through your own network. The relationships and the deals stay with your team.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Does Flow contact family offices on its own?</div>
+      <div class="faq-a">No. Flow does the legwork: it watches the pipeline, finds the warm route, spots when a relationship is going cold and drafts the next message. A person on your team approves anything that goes out. In a relationship business, trust matters more than speed.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">What happens after the 7 days?</div>
@@ -522,6 +708,100 @@
     document.getElementById(id).addEventListener("input", calc);
   });
   calc();
+
+
+  // preview tabs
+  var tabs = [document.getElementById("tab-hub"), document.getElementById("tab-pipe")];
+  tabs.forEach(function (t) {
+    t.addEventListener("click", function () {
+      tabs.forEach(function (x) {
+        var on = x === t;
+        x.setAttribute("aria-selected", on ? "true" : "false");
+        document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+      });
+    });
+  });
+
+  // hub search
+  var q = document.getElementById("hub-q"), rows = document.querySelectorAll("#hub-rows tr:not(.empty-row)"), empty = document.querySelector("#hub-rows .empty-row");
+  q.addEventListener("input", function () {
+    var v = q.value.trim().toLowerCase(), shown = 0;
+    Array.prototype.forEach.call(rows, function (r) {
+      var hit = !v || r.textContent.toLowerCase().indexOf(v) > -1;
+      r.hidden = !hit; if (hit) shown++;
+    });
+    empty.hidden = shown > 0;
+  });
+
+  // pipeline with Flow
+  var offices = [
+    { id: "a", name: "Single family office", city: "New York", pill: "", pillTxt: "Intro requested",
+      focus: "Hospitality and mixed-use", ticket: "$10M to $40M equity", decides: "Chief investment officer", last: "6 days ago",
+      path: ["CM&D", "Lender from a past hospitality project", "Their private banking team", "CIO"],
+      flow: ["Matched this office's hospitality focus to two of your past projects.",
+             "Found that a lender you worked with also banks this family.",
+             "Drafted an intro request to the lender. Steven approved and sent it."],
+      status: "Sent 6 days ago. Flow will nudge you on Friday if there is no reply.", state: "info" },
+    { id: "b", name: "Multi family office", city: "Miami", pill: "", pillTxt: "Meeting booked",
+      focus: "For-rent residential, Sunbelt", ticket: "$5M to $20M equity", decides: "Head of real estate", last: "2 days ago",
+      path: ["CM&D", "Developer partner", "Co-invested with them twice", "Head of real estate"],
+      flow: ["Saw the meeting on your calendar, three days out.",
+             "Pulled the family's recent deals and your two shared co-investments.",
+             "Drafted a one page brief and a deal summary for you to bring."],
+      status: "Brief is ready for your review.", state: "approve", btn: "Review brief", doneTxt: "Reviewed. Flow attached it to the calendar invite." },
+    { id: "c", name: "Single family office", city: "Zurich", pill: "warn", pillTxt: "Follow up overdue",
+      focus: "Luxury resorts, Caribbean and Latin America", ticket: "$25M and up", decides: "Principal", last: "47 days ago",
+      path: ["CM&D", "Hotel operator contact", "Family's asset manager", "Principal"],
+      flow: ["Flagged 47 days with no contact. Your usual gap is 30.",
+             "Spotted a public update: the family announced a new resort fund.",
+             "Drafted a short reconnect note to the operator contact that mentions it."],
+      status: "Draft ready. Needs your approval to send.", state: "warn", btn: "Approve and send", doneTxt: "Approved and sent from your inbox. Flow logged it and will check back in 7 days." },
+    { id: "d", name: "Single family office", city: "Honolulu", pill: "cold", pillTxt: "Identified",
+      focus: "Land and master planned communities", ticket: "$15M to $50M", decides: "Investment committee", last: "Never",
+      path: null,
+      flow: ["Searched every contact in the hub for a link to this family.",
+             "No warm route yet. Found two advisors who work with similar families.",
+             "Suggested asking the Hawaii office who they know before any cold outreach."],
+      status: "Waiting on a call from you: ask the Hawaii team, or hold.", state: "approve", btn: "Ask Hawaii team", doneTxt: "Done. Flow sent the question to the Hawaii office channel and will report back." }
+  ];
+  var list = document.getElementById("pv-list"), detail = document.getElementById("pv-detail");
+  function esc(t) { var d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
+  function show(o) {
+    Array.prototype.forEach.call(list.children, function (b) { b.setAttribute("aria-selected", b.dataset.id === o.id ? "true" : "false"); });
+    var path = o.path
+      ? '<div class="path">' + o.path.map(function (h, i) {
+          var cls = i === 0 ? "hop start" : (i === o.path.length - 1 ? "hop end" : "hop");
+          return (i ? '<span class="hop-arrow" aria-hidden="true">&rarr;</span>' : "") + '<span class="' + cls + '">' + esc(h) + "</span>";
+        }).join("") + "</div>"
+      : '<div class="path"><span class="hop">No warm route yet</span></div>';
+    var stCls = o.done ? "flow-status done" : (o.state === "warn" ? "flow-status warn" : "flow-status");
+    var stTxt = o.done ? o.doneTxt : o.status;
+    var btn = (!o.done && o.btn) ? '<button type="button" class="approve" id="flow-act">' + esc(o.btn) + "</button>" : "";
+    detail.innerHTML =
+      "<h3>" + esc(o.name) + " &middot; " + esc(o.city) + "</h3>" +
+      '<div class="kv">' +
+        '<div><div class="k">Invests in</div><div class="v">' + esc(o.focus) + "</div></div>" +
+        '<div><div class="k">Typical ticket</div><div class="v">' + esc(o.ticket) + "</div></div>" +
+        '<div><div class="k">Who decides</div><div class="v">' + esc(o.decides) + "</div></div>" +
+        '<div><div class="k">Last touch</div><div class="v">' + esc(o.last) + "</div></div>" +
+      "</div>" +
+      '<div><div class="path-k">Warmest route in</div>' + path + "</div>" +
+      '<div class="flow"><div class="flow-h"><span class="flow-mark" aria-hidden="true">F</span>What Flow did</div>' +
+        '<ol class="flow-steps">' + o.flow.map(function (f) { return "<li><span>" + esc(f) + "</span></li>"; }).join("") + "</ol>" +
+        '<div class="' + stCls + '"><span><strong>' + (o.done ? "Done." : "Status.") + "</strong> " + esc(stTxt) + "</span>" + btn + "</div>" +
+      "</div>";
+    var act = document.getElementById("flow-act");
+    if (act) act.addEventListener("click", function () { o.done = true; show(o); });
+  }
+  offices.forEach(function (o) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "pv-item"; b.dataset.id = o.id; b.setAttribute("role", "tab");
+    b.innerHTML = '<span class="nm">' + esc(o.name) + "</span>" +
+      '<span class="mt">' + esc(o.city) + ' <span class="' + (o.pill ? "pill " + o.pill : "pill") + '">' + esc(o.pillTxt) + "</span></span>";
+    b.addEventListener("click", function () { show(o); });
+    list.appendChild(b);
+  });
+  show(offices[2]);
 
   var btn = document.getElementById("copy");
   btn.addEventListener("click", function () {
