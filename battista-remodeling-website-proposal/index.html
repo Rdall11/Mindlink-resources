@@ -326,6 +326,26 @@
   }
 
 
+
+  /* day-one checklist */
+  .ready-group { display: grid; gap: 4px; }
+  .ready-group + .ready-group { margin-top: 26px; }
+  .ready-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .ready-head .k { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); font-weight: 600; }
+  .ready-head .s { font-size: 12px; color: var(--muted); }
+  .ready-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+  .ready-item { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-bottom: 1px solid #f0f3f7; min-width: 0; }
+  .ready-grid .ready-item:nth-last-child(-n+2) { border-bottom: none; padding-bottom: 0; }
+  .ready-item .m { width: 20px; height: 20px; border-radius: 6px; background: #e7f0fc; color: var(--blue); font-size: 11px; font-weight: 700; display: grid; place-items: center; margin-top: 1px; }
+  .ready-item .m.opt { background: var(--soft); border: 1px solid var(--line); color: var(--faint); }
+  .ready-item .t { font-size: 13.5px; font-weight: 600; color: var(--navy); line-height: 1.4; }
+  .ready-item .d { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 3px; }
+  @media (max-width: 600px) {
+    .ready-grid { grid-template-columns: minmax(0, 1fr); }
+    .ready-grid .ready-item:nth-last-child(-n+2) { border-bottom: 1px solid #f0f3f7; padding-bottom: 14px; }
+    .ready-grid .ready-item:last-child { border-bottom: none; padding-bottom: 0; }
+  }
+
   /* line items inside option cards (Battista additions, same tokens) */
   .li-group { display: grid; gap: 0; }
   .li-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 0 0 8px; margin-bottom: 2px; border-bottom: 1px solid var(--line); }
@@ -531,6 +551,36 @@
 
 <section>
   <div class="card">
+    <div class="eyebrow dark">Before we start</div>
+    <h2>What to have ready on day one</h2>
+    <p class="lede">The site goes live within a week when these are in place at the start. <strong>Photos are the item most likely to slow things down</strong>, so it helps to gather them first.</p>
+    <div class="ready-group">
+      <div class="ready-head"><span class="k">Needed to begin</span><span class="s">Have these on day one</span></div>
+      <div class="ready-grid">
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">Signed agreement</div><div class="d">Plus the first payment for your chosen option.</div></div></div>
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">Domain name</div><div class="d">Bought in your name, with access shared so I can connect it. Check the spelling first, since some versions of the name are taken.</div></div></div>
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">Google account</div><div class="d">In your name. You own Analytics, Search Console and Business Profile, and add me as a manager.</div></div></div>
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">Quote request email</div><div class="d">Where enquiries from the website should arrive.</div></div></div>
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">Job photos</div><div class="d">15 to 20 photos of finished remodeling projects.</div></div></div>
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">Logo</div><div class="d">If you do not have one, tell me and we will agree how to handle it.</div></div></div>
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">Business details</div><div class="d">Phone number, service areas, years in business and the types of remodeling you do.</div></div></div>
+        <div class="ready-item"><span class="m" aria-hidden="true">&#10003;</span><div><div class="t">License numbers</div><div class="d">Your NYC DCWP and NJ HIC numbers. Contractor advertising must show them, so they go in the footer.</div></div></div>
+      </div>
+    </div>
+    <div class="ready-group">
+      <div class="ready-head"><span class="k">Helpful, not blocking</span><span class="s">Can follow after launch</span></div>
+      <div class="ready-grid">
+        <div class="ready-item"><span class="m opt" aria-hidden="true">&ndash;</span><div><div class="t">Google Business Profile</div><div class="d">Create it now. Verification can take several days, so it will not delay launch.</div></div></div>
+        <div class="ready-item"><span class="m opt" aria-hidden="true">&ndash;</span><div><div class="t">Client testimonials</div><div class="d">A few lines from past clients, with their permission.</div></div></div>
+        <div class="ready-item"><span class="m opt" aria-hidden="true">&ndash;</span><div><div class="t">Insurance details</div><div class="d">Backs up a &ldquo;Licensed &amp; Insured&rdquo; line on the site.</div></div></div>
+        <div class="ready-item"><span class="m opt" aria-hidden="true">&ndash;</span><div><div class="t">Matching email</div><div class="d">A Google Workspace address on your own domain.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
     <div class="eyebrow dark">Questions</div>
     <h2>Before you decide</h2>
     <div class="faq-item">
@@ -545,10 +595,7 @@
       <div class="faq-q">Who owns the website?</div>
       <div class="faq-a">You do. The domain, email and Google accounts are in your name, and the site is hosted on your account.</div>
     </div>
-    <div class="faq-item">
-      <div class="faq-q">What do you need from me?</div>
-      <div class="faq-a">15 to 20 photos of finished jobs, your logo, the services and areas you cover, and access to your Google Business Profile once it is set up.</div>
-    </div>
+    
   </div>
 </section>
 
