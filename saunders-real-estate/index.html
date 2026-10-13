@@ -327,6 +327,10 @@
   .rec-line { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 14px 0 0; }
 </style>
 <style>
+  .cal-btn { font: 600 14px 'Poppins', sans-serif; padding: 11px 20px; border-radius: 10px; background: var(--white); color: var(--navy); text-decoration: none; box-shadow: 0 6px 18px -8px rgba(0,0,0,0.35); }
+  .cal-btn:hover { background: var(--lightblue); }
+  .cal-btn:focus-visible { outline: 3px solid var(--lightblue); outline-offset: 2px; }
+  .contact button { background: transparent !important; color: var(--white) !important; border: 1px solid rgba(255,255,255,0.4) !important; }
   .funnel { display: grid; gap: 8px; margin-top: 6px; }
   .fstep { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--soft); }
   .fstep .t { font-size: 13.5px; font-weight: 600; color: var(--navy); }
@@ -488,7 +492,7 @@
         <div class="field"><label for="win">Share of real sellers who list with Saunders (%)</label><input id="win" type="number" min="0" max="100" step="5" value="10"></div>
         <div class="field"><label for="size">Average deal size (USD)</label><input id="size" type="number" min="0" step="250000" value="1000000"></div>
         <div class="field"><label for="fee">Commission, as % of deal size</label><input id="fee" type="number" min="0" step="0.25" value="1.5"></div>
-        <div class="field"><label for="teams">Saunders teams using the filter</label><input id="teams" type="number" min="1" step="1" value="5"></div>
+        <div class="field"><label for="teams">Saunders teams using the filter</label><input id="teams" type="number" min="1" step="1" value="3"></div>
       </div>
       <div class="results" aria-live="polite">
         <div class="orb-c"></div>
@@ -583,7 +587,8 @@
         </ul>
       </div>
     </div>
-    <p class="rec-line"><strong>After the audit.</strong> The build is priced from the audit findings, with the $5,500 credited in full.</p>
+    <p class="rec-line"><strong>After the audit.</strong> Builds for a brokerage this size typically run $15,000 to $25,000, fixed after the audit. The $5,500 is credited in full toward the build.</p>
+    <p class="rec-line"><strong>Terms.</strong> Payable in full at signing. Pricing valid for 30 days from October 13, 2026.</p>
   </div>
 </section>
 
@@ -618,6 +623,7 @@
       <h2>A 20-minute call, with Sid on the line</h2>
       <p>I would be glad to walk you through the audit and the numbers behind it, with Sid on the call. If it fits, the audit can start within a week.</p>
       <div class="contact">
+        <a class="cal-btn" href="https://cal.com/mindlinksystems/strategy" target="_blank" rel="noopener">Book a 20-minute call</a>
         <code id="email">ramzi@mindlinksystems.ai</code>
         <button type="button" id="copy">Copy email</button>
       </div>
