@@ -244,6 +244,18 @@
   .approve { font: 600 12px 'Poppins', sans-serif; padding: 8px 14px; border-radius: 9px; border: 0; color: var(--white); background: linear-gradient(135deg, var(--navy), var(--blue)); cursor: pointer; white-space: nowrap; }
   .approve:hover { filter: brightness(1.1); }
 
+
+  /* phases */
+  .phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .phase { border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 20px; display: grid; gap: 8px; align-content: start; min-width: 0; background: var(--white); }
+  .phase.now { border: 2px solid var(--blue); background: #f4f9ff; }
+  .phase .k { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; color: var(--blue); }
+  .phase.later .k { color: var(--faint); }
+  .phase h3 { margin: 0; font-size: 15px; font-weight: 700; color: var(--navy); line-height: 1.35; }
+  .phase .meta { font-size: 13px; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .phase p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .phase .tag-now { justify-self: start; font-size: 10.5px; letter-spacing: 0.8px; text-transform: uppercase; font-weight: 600; color: var(--white); background: var(--blue); padding: 3px 9px; border-radius: 999px; }
+
   /* week timeline */
   .week { display: flex; flex-direction: column; gap: 10px; }
   .day { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; border-radius: 12px; background: var(--soft); border: 1px solid var(--line); }
@@ -293,6 +305,7 @@
     .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .calc { grid-template-columns: minmax(0, 1fr); }
     .options { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+    .phases { grid-template-columns: minmax(0, 1fr); }
     .option.rec { order: -1; }
   }
   @media (max-width: 600px) {
@@ -455,7 +468,7 @@
         <div class="r-total">
           <div class="k">Estimated yearly upside</div>
           <div class="v" id="o-total">$0</div>
-          <div class="s">That is <b id="o-mult">0x</b> the cost of the discovery that maps it.</div>
+          <div class="s">That is <b id="o-mult">0x</b> the cost of the discovery that maps it, and still about <b id="o-mult2">0x</b> the cost of a mid-range $15,000 build.</div>
         </div>
       </div>
     </div>
@@ -565,14 +578,14 @@
         <div class="pv-detail" id="pv-detail" aria-live="polite"></div>
       </div>
     </div>
-    <p class="small-print">Illustrative only. Projects, offices, figures and routes are placeholders, not real organizations, contacts or project status. The real versions are shaped by discovery, and Day 6 turns the first one into a working demo with your data.</p>
+    <p class="small-print">Illustrative only. Projects, offices, figures and routes are placeholders, not real organizations, contacts or project status. The real versions are shaped by discovery, and Day 9 turns the first one into a working demo with your data.</p>
   </div>
 </section>
 
 <section>
   <div class="card">
-    <div class="eyebrow dark">How the 7 days run</div>
-    <h2>From scattered to a clear plan in 7 business days</h2>
+    <div class="eyebrow dark">How the 10 days run</div>
+    <h2>From scattered to a clear plan in 10 business days</h2>
     <p class="lede">This is the full scope, covering both problems. The clock starts once access to the current tools is in place.</p>
     <div class="week">
       <div class="day"><div class="day-tag">Day 1</div><div class="day-body"><h3>Intake and access</h3><p>A short questionnaire and view only access to the key tools.</p></div></div>
@@ -580,8 +593,11 @@
       <div class="day"><div class="day-tag">Day 3</div><div class="day-body"><h3>Team interviews</h3><p>Up to three people walk through their real week.</p></div></div>
       <div class="day"><div class="day-tag">Day 4</div><div class="day-body"><h3>Relationships and pipeline</h3><p>Where contacts live and how family office leads move today.</p></div></div>
       <div class="day"><div class="day-tag">Day 5</div><div class="day-body"><h3>Price the leaks</h3><p>Each gap ranked by cost and by effort to fix.</p></div></div>
-      <div class="day"><div class="day-tag">Day 6</div><div class="day-body"><h3>Roadmap and demo</h3><p>The phased build plan, plus a working demo of the first fix.</p></div></div>
-      <div class="day final"><div class="day-tag">Day 7</div><div class="day-body"><h3>Findings session</h3><p>60 minutes with your team. You keep the report, roadmap and demo.</p></div></div>
+      <div class="day"><div class="day-tag">Day 6</div><div class="day-body"><h3>AI strategy</h3><p>Matched to your team's appetite for change: which tools to keep, which to switch, and a realistic timeline.</p></div></div>
+      <div class="day"><div class="day-tag">Day 7</div><div class="day-body"><h3>Build options</h3><p>Up to three possible builds, each with the cost of a first working version.</p></div></div>
+      <div class="day"><div class="day-tag">Day 8</div><div class="day-body"><h3>SOPs</h3><p>Written step by step guides for the key processes we mapped.</p></div></div>
+      <div class="day"><div class="day-tag">Day 9</div><div class="day-body"><h3>Training and demo</h3><p>AI training materials for the team and for leadership, plus a working demo of the first fix.</p></div></div>
+      <div class="day final"><div class="day-tag">Day 10</div><div class="day-body"><h3>Findings session</h3><p>60 minutes with your team. You keep the report, strategy, build options, SOPs, training materials and demo.</p></div></div>
     </div>
   </div>
 </section>
@@ -593,6 +609,10 @@
     <div class="faq-item">
       <div class="faq-q">Do we have to replace the tools we use now?</div>
       <div class="faq-a">No. Discovery maps what you have first. Most fixes connect existing tools rather than replace them, and anything that should go is named with a reason.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What access do you need, and is our data safe?</div>
+      <div class="faq-a">View only access to the tools we review, nothing more. Your data stays in your own accounts, and we are happy to sign an NDA before Day 1. Anything we build later also sits on your accounts, so you control who sees what.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">How much of the team's time does this take?</div>
@@ -607,12 +627,49 @@
       <div class="faq-a">No. Flow does the legwork: it watches the pipeline, finds the warm route, spots when a relationship is going cold and drafts the next message. A person on your team approves anything that goes out. In a relationship business, trust matters more than speed.</div>
     </div>
     <div class="faq-item">
-      <div class="faq-q">What happens after the 7 days?</div>
-      <div class="faq-a">You have the roadmap and the demo in hand. If you build with us, the full discovery fee is credited toward it. If not, you keep everything and can take it anywhere.</div>
+      <div class="faq-q">What happens after discovery?</div>
+      <div class="faq-a">You have the strategy, the build options, the SOPs, the training materials and the demo in hand. If you build with us, the full discovery fee is credited toward it. If not, you keep everything and can take it anywhere.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What will the build cost, and how long will it take?</div>
+      <div class="faq-a">Usually $8,000 to $22,000 over 6 to 12 weeks, paid in milestones, with the discovery fee credited. Discovery replaces that range with up to three build options, each with the cost of a first working version, so you know the exact number before you commit. See "Where this goes" below.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What does it cost to run once it is built?</div>
+      <div class="faq-a">The tools run on your own accounts, so any subscription costs are paid directly by you, with no markup from us. The roadmap names every tool and its running cost before you decide. Ongoing support after launch is optional.</div>
     </div>
     <div class="faq-item">
       <div class="faq-q">Who does the work?</div>
       <div class="faq-a">I lead every engagement myself. If you move to the build, vetted developers handle the technical work while I own the architecture and priorities. Tools sit on your accounts, so you own everything.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
+    <div class="eyebrow dark">Where this goes</div>
+    <h2>Three phases, one decision today</h2>
+    <p class="lede">Discovery is the only commitment on this page. Each later phase is your call, based on what discovery finds.</p>
+    <div class="phases">
+      <div class="phase now">
+        <span class="tag-now">Today's decision</span>
+        <div class="k">Phase 1</div>
+        <h3>Deep Discovery</h3>
+        <div class="meta">$3,500 or $5,500<br>5 to 10 business days</div>
+        <p>The full picture of where time and deals leak. The recommended option adds the AI strategy, up to three costed build options, SOPs and training materials. Options below.</p>
+      </div>
+      <div class="phase">
+        <div class="k">Phase 2</div>
+        <h3>Build</h3>
+        <div class="meta">Typically $8,000 to $22,000<br>6 to 12 weeks</div>
+        <p>You pick one of the build options from discovery. Paid in milestones as each stage is delivered, with the full discovery fee credited.</p>
+      </div>
+      <div class="phase later">
+        <div class="k">Phase 3 &middot; Optional</div>
+        <h3>Ongoing support</h3>
+        <div class="meta">Scoped after the build</div>
+        <p>Advisory and improvements once the systems are live, so they keep getting used and keep getting better.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -634,11 +691,11 @@
           <li><span class="tick">&#10003;</span>Tool stack review, with the overlap named</li>
           <li><span class="tick">&#10003;</span>Top bottlenecks, ranked by impact</li>
           <li><span class="tick">&#10003;</span>Written findings and a priority list</li>
-          <li class="no"><span class="tick">&ndash;</span>Family office pipeline review</li>
-          <li class="no"><span class="tick">&ndash;</span>Team interviews</li>
+          <li class="no"><span class="tick">&ndash;</span>Family office pipeline review and team interviews</li>
           <li class="no"><span class="tick">&ndash;</span>Leaks priced with your numbers</li>
-          <li class="no"><span class="tick">&ndash;</span>Build roadmap and working demo</li>
-          <li class="no"><span class="tick">&ndash;</span>60 minute findings session</li>
+          <li class="no"><span class="tick">&ndash;</span>AI strategy and up to three build options</li>
+          <li class="no"><span class="tick">&ndash;</span>SOPs and training materials</li>
+          <li class="no"><span class="tick">&ndash;</span>Working demo and findings session</li>
         </ul>
       </div>
       <div class="option rec">
@@ -647,14 +704,18 @@
           <div class="opt-name">Deep Discovery</div>
           <div class="opt-sub">Operations + Pipeline</div>
         </div>
-        <div class="opt-price"><div class="v">$5,500</div><div class="s">7 business days &middot; fixes both problems</div></div>
+        <div class="opt-price"><div class="v">$5,500</div><div class="s">10 business days &middot; fixes both problems</div></div>
         <ul class="opt-list">
           <li><span class="tick">&#10003;</span>Everything in Operations</li>
           <li><span class="tick">&#10003;</span><span><strong>Family office pipeline review.</strong> How leads are found, tracked and followed up now</span></li>
           <li><span class="tick">&#10003;</span><span><strong>Relationship data review.</strong> Where contacts live and how to share them</span></li>
           <li><span class="tick">&#10003;</span><span><strong>Team interviews.</strong> Up to three people, such as development, operations and partnerships</span></li>
           <li><span class="tick">&#10003;</span><span><strong>Leaks priced with your numbers.</strong> The cost of each gap, from your real data</span></li>
-          <li><span class="tick">&#10003;</span><span><strong>Build roadmap and working demo.</strong> A phased plan plus a lean demo of the first fix</span></li>
+          <li><span class="tick">&#10003;</span><span><strong>AI strategy matched to your appetite.</strong> The tool stack, which software to keep or switch, and a timeline your team can absorb</span></li>
+          <li><span class="tick">&#10003;</span><span><strong>Up to three build options.</strong> Each with the cost of a first working version (MVP)</span></li>
+          <li><span class="tick">&#10003;</span><span><strong>SOPs.</strong> Step by step guides for the key processes we map</span></li>
+          <li><span class="tick">&#10003;</span><span><strong>AI training materials.</strong> One set for the team, one for leadership</span></li>
+          <li><span class="tick">&#10003;</span><span><strong>Working demo.</strong> A lean demo of the first fix</span></li>
           <li><span class="tick">&#10003;</span><span><strong>Findings session.</strong> 60 minutes with you and your team</span></li>
         </ul>
       </div>
@@ -703,6 +764,8 @@
     document.getElementById("o-total").textContent = money(total);
     var m = total / AUDIT;
     document.getElementById("o-mult").textContent = (m >= 10 ? Math.round(m) : m.toFixed(1)) + "x";
+    var m2 = total / 15000;
+    document.getElementById("o-mult2").textContent = (m2 >= 10 ? Math.round(m2) : m2.toFixed(1)) + "x";
   }
   ["ppl", "hrs", "rate", "rec", "deals", "dealval"].forEach(function (id) {
     document.getElementById(id).addEventListener("input", calc);
