@@ -81,6 +81,21 @@
   .step.final .step-body h3 { color: var(--white); }
   .step-body p { font-size: 13px; line-height: 1.55; color: var(--muted); margin: 0; }
   .step.final .step-body p { color: rgba(255,255,255,0.85); }
+  .step-body p + p { margin-top: 7px; }
+  .quick { border: 1px solid var(--line); border-left: 3px solid var(--blue); border-radius: 12px; background: var(--white); padding: 20px 22px; }
+  .quick .eyebrow { margin-bottom: 10px; }
+  ul.quick-list { list-style: none; margin: 0; padding: 0; }
+  ul.quick-list li { position: relative; padding-left: 17px; font-size: 13.5px; line-height: 1.55; color: var(--body); margin-bottom: 8px; }
+  ul.quick-list li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+  ul.quick-list li strong { color: var(--navy); font-weight: 600; }
+  .quick .tail { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+  ul.mini { list-style: none; margin: 8px 0 0; padding: 0; }
+  ul.mini li { position: relative; padding-left: 15px; font-size: 13px; line-height: 1.5; color: var(--body); margin-bottom: 6px; }
+  ul.mini li::before { content: ""; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+  .step.final ul.mini li { color: rgba(255,255,255,0.9); }
+  .step.final ul.mini li::before { background: var(--lightblue); }
+  .step-body .close { margin-top: 8px; font-size: 13px; line-height: 1.55; color: var(--navy); font-weight: 500; }
+  .step.final .step-body .close { color: #ffffff; }
 
   .note { margin-top: 18px; padding: 14px 17px; border-radius: 12px; background: var(--soft); border: 1px solid var(--line); font-size: 13.5px; line-height: 1.65; color: var(--body); }
   .note strong { color: var(--navy); font-weight: 600; }
@@ -123,8 +138,8 @@
   .cta h2 { color: var(--white); }
   .cta p { font-size: 14.5px; line-height: 1.7; color: rgba(255,255,255,0.88); margin: 0 0 14px; }
   ul.cta-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
-  ul.cta-list li { display: grid; grid-template-columns: 8px minmax(0, 1fr); gap: 11px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.9); }
-  ul.cta-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--lightblue); margin-top: 8px; }
+  ul.cta-list li { position: relative; padding-left: 19px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.9); }
+  ul.cta-list li::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--lightblue); }
 
   footer { max-width: 820px; margin: 0 auto; padding-inline: 40px; padding-block: 34px 44px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--faint); }
   footer .f-brand { display: flex; align-items: center; gap: 10px; }
@@ -166,12 +181,24 @@
     <p>Abby and Simon are right. Claude handles a due diligence document better than a day of analyst time. Here is what changes when it is three thousand of them, and five things the team can do this week without spending anything.</p>
     <div class="hero-meta">
       <div><span class="k">For</span><span>Matthew and the Vienna team</span></div>
-      <div><span class="k">Call</span><span>Thursday 22 October</span></div>
+      <div><span class="k">Session</span><span>Tuesday 27 October, 12:30</span></div>
     </div>
   </div>
 </div>
 
 <main>
+
+<section>
+  <div class="quick">
+    <div class="eyebrow dark">Action items</div>
+    <ul class="quick-list">
+      <li><strong>Matthew</strong> &mdash; move to the Team plan before buying anyone an individual account. Individual accounts cannot share a project.</li>
+      <li><strong>Simon and Carlos</strong> &mdash; rename the Vienna files so the category is in the name, and split any scan longer than a hundred pages.</li>
+      <li><strong>Everyone</strong> &mdash; leave the uploading until we are on the call together. It is a ten minute decision and it is worth making once.</li>
+    </ul>
+    <p class="tail">Detail further down. None of it takes more than twenty minutes.</p>
+  </div>
+</section>
 
 <section>
   <div class="card">
@@ -294,11 +321,65 @@
 
 <section>
   <div class="card">
-    <div class="eyebrow dark">This week</div>
-    <h2>Five things the team can do before the documents land</h2>
+    <div class="eyebrow dark">Before Tuesday</div>
+    <h2>Three things to sort before the session</h2>
     <p class="lede">
-      All of these work in the Claude subscription you already have. None of them need me, Jesse, or
-      anything to be built first.
+      None of these take long. Doing them first means Tuesday is spent on your Vienna documents
+      rather than on setup.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-tag">One</div>
+        <div class="step-body">
+          <h3>Buy the Team plan, not individual accounts</h3>
+          <p>Individual accounts cannot share a project. Each person's stay private to them, so the shared space you described only exists on the Team plan.</p>
+          <ul class="mini">
+            <li>25 dollars per person per month, or 20 on annual</li>
+            <li>Six people is roughly 150 a month</li>
+            <li>It replaces the individual subscriptions rather than adding to them, so nobody pays twice</li>
+          </ul>
+          <p class="close">Set it up on a RAN&sup3; email address and invite everyone on their work addresses.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-tag">Two</div>
+        <div class="step-body">
+          <h3>Prepare the documents, but do not upload them yet</h3>
+          <p>Rename each file so the category is in the name, for example 03_Technical_Structural-Survey_2019. Claude reads filenames, so the category travels with the document and citations come back legible.</p>
+          <ul class="mini">
+            <li>Split any scan longer than a hundred pages. Claude reads the text of long PDFs, but only looks at the images in documents of a hundred pages or fewer</li>
+            <li>Check that spreadsheets will work. In Claude, open <strong>Settings</strong>, then <strong>Capabilities</strong>, and make sure <strong>Code execution and file creation</strong> is switched on. It is on by default, so this is a thirty second check rather than a job. On a Team workspace it is set for the whole organisation, so Matthew is the one who can see it</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-tag">Three</div>
+        <div class="step-body">
+          <h3>Hold off on deciding what goes into the project</h3>
+          <p>This is the choice that decides whether you can defend a figure three months from now, so it is worth ten minutes together rather than a guess. The short version:</p>
+          <ul class="mini">
+            <li>The project holds what stays true all deal: parameters, buying range, report format, and an index of the eight categories</li>
+            <li>The documents for the building actually being worked on go into that conversation</li>
+          </ul>
+          <p class="close">That way you can see exactly what Claude had in front of it when it gave you a number. We will set this up live.</p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>One ask:</strong> Abby on the call if at all possible. She is the one who has already
+      done this on a real building, and the session is far more useful if the rest of the team is
+      building on what she found rather than starting from nothing.
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="card">
+    <div class="eyebrow dark">The session</div>
+    <h2>What we will set up together on Tuesday</h2>
+    <p class="lede">
+      This is the shape of it, so nobody arrives cold. Five steps, in this order, built on your own
+      Vienna documents rather than a demo. All of it runs inside Claude itself. Nothing needs building.
     </p>
 
     <div class="bd-wrap">
@@ -361,35 +442,59 @@
         <div class="step-tag">One</div>
         <div class="step-body">
           <h3>Make one Claude project for the deal</h3>
-          <p>A project is a folder that remembers. Anything you put in it is there in every conversation, for everyone on the team, without being re-explained. Make one for Vienna and have everybody work inside it instead of starting a fresh chat each morning. This is a five minute job and everything below sits inside it.</p>
+          <p>A project is a folder that remembers.</p>
+          <ul class="mini">
+            <li>Whatever goes in it is there in every conversation, for everyone, without being re-explained</li>
+            <li>Make one for Vienna and have the whole team work inside it rather than starting a fresh chat each morning</li>
+          </ul>
+          <p class="close">Five minutes of work. Everything below sits inside it.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-tag">Two</div>
         <div class="step-body">
           <h3>Write the instructions for how it should behave</h3>
-          <p>Every project has an instructions box. Whatever you write there applies to every task, automatically, without anyone remembering. Two sentences earn their place immediately: for every figure, give the document name, the page and the line it came from, and if you cannot find it, say so rather than estimating. Add your per square metre check as a third. Those are your two biggest problems solved in writing, once.</p>
+          <p>Every project has an instructions box. What you write there applies to every task automatically, without anyone having to remember it. Three lines earn their place straight away:</p>
+          <ul class="mini">
+            <li>For every figure, give the document name, the page and the line it came from</li>
+            <li>If you cannot find it, say so rather than estimating</li>
+            <li>Run the per square metre check on every building</li>
+          </ul>
+          <p class="close">Your two biggest problems, solved in writing, once.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-tag">Three</div>
         <div class="step-body">
           <h3>Put the context and the documents in the project</h3>
-          <p>The Vienna parameters, your buying range, and the format your reports are supposed to come out in. Then the documents themselves. This is the part most people skip, and it is why answers come back inconsistent: the model was working from a different brief each time because each person gave it a different one.</p>
+          <p>What it should already know before anyone asks it anything:</p>
+          <ul class="mini">
+            <li>The Vienna parameters and your buying range</li>
+            <li>The format your reports are supposed to come out in</li>
+            <li>The documents themselves</li>
+          </ul>
+          <p class="close">This is the part most people skip, and it is why answers come back inconsistent. Everyone was handing it a different brief.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-tag">Four</div>
         <div class="step-body">
           <h3>Agree the prompt for the task, then reuse it</h3>
-          <p>Only now does anyone write a prompt, and with the first three steps done it is a short one, because the project already knows the background and the rules. Work it out once with the team, keep it somewhere everyone can copy it, and have everyone use that one. Five people using five slightly different wordings is where most of the reconciling work comes from.</p>
+          <p>Only now does anyone write a prompt, and with the first three steps done it is a short one, because the project already knows the background and the rules.</p>
+          <ul class="mini">
+            <li>Work it out once, together</li>
+            <li>Keep it somewhere everyone can copy it from</li>
+            <li>Everyone uses that one</li>
+          </ul>
+          <p class="close">Five people with five slightly different wordings is where most of the reconciling work comes from.</p>
         </div>
       </div>
       <div class="step final">
         <div class="step-tag">Five</div>
         <div class="step-body">
           <h3>Break it on purpose, this week</h3>
-          <p>Take the worst document you have, the fourteen year old scan nobody wants to open, and run it through. Find the failure mode now on a document where you already know the right answer, not in November on one where you do not.</p>
+          <p>Take the worst document you have, the fourteen year old scan nobody wants to open, and run it through.</p>
+          <p class="close">Find the failure now, on a document where you already know the right answer. Not in November, on one where you do not.</p>
         </div>
       </div>
     </div>
@@ -429,12 +534,11 @@
   <div class="cta">
     <div class="orb-c"></div>
     <div class="cta-inner">
-      <div class="eyebrow light">Thursday</div>
-      <h2>What I would like to cover</h2>
-      <p>Short call, and nothing in it needs a decision from you.</p>
+      <div class="eyebrow light">Tuesday 27 October, 12:30</div>
+      <h2>Ninety minutes, on your own documents</h2>
+      <p>We work through the five steps above on a real Vienna building, with Simon driving the parts that land in his model. You finish the call with the project built rather than with notes about building it.</p>
       <ul class="cta-list">
-        <li>What Abby and Simon actually found, in their words rather than second hand. The detail matters more than the headline.</li>
-        <li>Which parts of the first pass are worth standardising for the team, and which are genuinely one-off and should stay manual.</li>
+        <li>Time at the end for the connector question. Claude only ever sees what the person using it can already see, which is worth going through properly before anyone connects Microsoft 365 or Google Drive.</li>
       </ul>
     </div>
   </div>
