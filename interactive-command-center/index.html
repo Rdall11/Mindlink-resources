@@ -1,0 +1,1359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GajRaj Command Center</title>
+<meta name="description" content="Prototype of the GajRaj Command Center by Mindlink Systems. Sample data only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #21277B;
+    --blue: #006AD7;
+    --light: #9AD9EA;
+    --ink: #0f1222;
+    --muted: #5d6478;
+    --line: rgba(33, 39, 123, 0.10);
+    --line-strong: rgba(33, 39, 123, 0.18);
+    --bg: #eef2f8;
+    --glass: rgba(255, 255, 255, 0.62);
+    --glass-strong: rgba(255, 255, 255, 0.8);
+    --glass-soft: rgba(255, 255, 255, 0.42);
+    --glass-line: rgba(255, 255, 255, 0.85);
+    --grad: linear-gradient(135deg, #21277B 0%, #006AD7 100%);
+    --grad-text: linear-gradient(120deg, #21277B, #006AD7 70%);
+    --green: #1f8a4c;
+    --green-bg: rgba(31, 138, 76, 0.12);
+    --amber: #a35f0a;
+    --amber-bg: rgba(214, 137, 30, 0.14);
+    --red: #b42318;
+    --red-bg: rgba(180, 35, 24, 0.10);
+    --shadow: 0 18px 50px rgba(33, 39, 123, 0.12), 0 1px 0 rgba(255,255,255,0.95) inset;
+    --shadow-sm: 0 6px 18px rgba(33, 39, 123, 0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+    --radius: 20px;
+    --radius-sm: 14px;
+    --sidebar: 272px;
+    --blur: blur(24px) saturate(1.5);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: Poppins, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px; line-height: 1.55; color: var(--ink);
+    background: var(--bg);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(900px 520px at 78% -8%, rgba(154, 217, 234, 0.55), transparent 62%),
+      radial-gradient(760px 520px at 100% 60%, rgba(0, 106, 215, 0.16), transparent 60%),
+      radial-gradient(700px 500px at 18% 110%, rgba(33, 39, 123, 0.16), transparent 60%),
+      radial-gradient(500px 400px at 45% 40%, rgba(255, 255, 255, 0.6), transparent 70%),
+      var(--bg);
+  }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; border-radius: 8px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Layout */
+  .app { display: grid; grid-template-columns: var(--sidebar) minmax(0, 1fr); min-height: 100vh; }
+  .sidebar {
+    position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
+    margin: 12px 0 12px 12px; border-radius: 24px; padding: 18px 14px;
+    color: #fff;
+    background: linear-gradient(170deg, rgba(33, 39, 123, 0.96) 0%, rgba(0, 106, 215, 0.92) 120%);
+    box-shadow: 0 24px 60px rgba(33, 39, 123, 0.28), 0 1px 0 rgba(255,255,255,0.25) inset;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    height: calc(100vh - 24px);
+  }
+  .sidebar::before { content: ""; position: absolute; inset: -30% -40% auto auto; width: 90%; height: 70%; background: radial-gradient(closest-side, rgba(154,217,234,0.35), transparent); pointer-events: none; }
+  .brand { display: flex; align-items: center; gap: 11px; padding: 6px 8px 22px; position: relative; }
+  .brand .logo { width: 38px; height: 38px; border-radius: 12px; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); display: grid; place-items: center; font-weight: 700; font-size: 16px; box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+  .brand .name { font-weight: 600; font-size: 14.5px; line-height: 1.2; }
+  .brand .sub { font-size: 11px; opacity: 0.75; letter-spacing: 0.3px; }
+  .nav { display: flex; flex-direction: column; gap: 4px; list-style: none; margin: 0; padding: 0; position: relative; }
+  .nav button {
+    width: 100%; display: flex; align-items: center; gap: 11px; text-align: left; background: transparent; border: 1px solid transparent; color: rgba(255,255,255,0.84);
+    padding: 9px 10px; border-radius: 14px; font-weight: 500; font-size: 12.5px; white-space: nowrap; transition: background 160ms, border-color 160ms, transform 160ms;
+  }
+  .nav button svg { width: 30px; height: 30px; padding: 7px; flex: none; border-radius: 10px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.14); transition: background 160ms; }
+  .nav button:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.14); }
+  .nav button[aria-current="page"] { background: rgba(255,255,255,0.92); color: var(--navy); font-weight: 600; border-color: rgba(255,255,255,0.95); box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
+  .nav button[aria-current="page"] svg { background: var(--grad); color: #fff; border-color: transparent; }
+  .nav .job { margin-left: auto; font-size: 10px; letter-spacing: 0.4px; opacity: 0.7; font-weight: 500; white-space: nowrap; }
+  .nav button[aria-current="page"] .job { opacity: 0.55; }
+  .nav .short { display: none; }
+  .sidebar .mark { margin-top: auto; font-size: 11px; opacity: 0.8; padding: 10px 8px 2px; display: flex; align-items: center; gap: 8px; }
+  .sidebar .mark::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, #fff, var(--light)); }
+
+  .main { min-width: 0; display: flex; flex-direction: column; padding: 12px 12px 12px 0; }
+  .topbar {
+    position: sticky; top: 12px; z-index: 20;
+    margin: 0 0 0 12px; padding: 14px 22px; border-radius: 20px;
+    background: var(--glass); border: 1px solid var(--glass-line); box-shadow: var(--shadow-sm);
+    -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px;
+  }
+  .topbar h1 { margin: 0; font-size: 19px; font-weight: 600; color: var(--navy); letter-spacing: -0.2px; }
+  .topbar .date { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .brief { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+  .brief .item { font-size: 12px; background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.9); border-radius: 999px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 7px; box-shadow: 0 4px 12px rgba(33,39,123,0.06); }
+  .brief .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 0 3px rgba(0,106,215,0.15); }
+  .value-strip { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; padding: 9px 14px; border-radius: 14px; background: linear-gradient(90deg, rgba(33,39,123,0.08), rgba(0,106,215,0.06) 60%, rgba(154,217,234,0.25)); border: 1px solid rgba(255,255,255,0.8); font-size: 12.5px; color: var(--muted); }
+  .value-strip .vs-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--navy); }
+  .value-strip .vs-item b { color: var(--navy); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .value-strip .pill { margin-left: auto; }
+  .content { padding: 22px 24px 28px 24px; flex: 1; }
+  .view { display: none; }
+  .view.active { display: block; animation: view-in 260ms ease-out; }
+  @keyframes view-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .view-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 18px; }
+  .view-head h2 { margin: 0; font-size: 24px; color: var(--navy); font-weight: 600; letter-spacing: -0.3px; }
+  .view-head p { margin: 0; color: var(--muted); flex-basis: 100%; max-width: 820px; }
+  .footer { margin: 12px 0 0 12px; padding: 12px 20px; font-size: 12px; color: var(--muted); border-radius: 16px; background: var(--glass-soft); border: 1px solid rgba(255,255,255,0.8); display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; }
+  .footer .mark { font-weight: 600; color: var(--navy); display: inline-flex; align-items: center; gap: 7px; }
+  .footer .mark::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--grad); }
+
+  /* Components */
+  .pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 11px; font-size: 11.5px; font-weight: 600; line-height: 1.4; white-space: nowrap; border: 1px solid transparent; }
+  .pill-sample { background: rgba(154,217,234,0.6); color: var(--navy); border-color: rgba(154,217,234,0.9); }
+  .pill-green { background: var(--green-bg); color: var(--green); border-color: rgba(31,138,76,0.2); }
+  .pill-amber { background: var(--amber-bg); color: var(--amber); border-color: rgba(214,137,30,0.25); }
+  .pill-blue { background: rgba(0,106,215,0.1); color: var(--blue); border-color: rgba(0,106,215,0.18); }
+  .pill-grey { background: rgba(33,39,123,0.06); color: var(--muted); border-color: rgba(33,39,123,0.1); }
+  .pill-red { background: var(--red-bg); color: var(--red); }
+  .pill-internal { background: rgba(255,255,255,0.5); color: var(--navy); border: 1px dashed rgba(33,39,123,0.4); }
+  .pill .live { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px rgba(31,138,76,0.18); }
+  .card {
+    min-width: 0; background: var(--glass); border: 1px solid var(--glass-line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px;
+    -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  }
+  .card h3 { margin: 0 0 10px; font-size: 15px; font-weight: 600; color: var(--navy); }
+  .card .lead { color: var(--muted); margin: 0 0 14px; font-size: 13px; }
+  .btn { border: 1px solid var(--line-strong); background: rgba(255,255,255,0.6); border-radius: 12px; padding: 8px 15px; font-weight: 500; font-size: 13px; display: inline-flex; align-items: center; gap: 7px; color: var(--navy); box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 6px rgba(33,39,123,0.05); transition: background 160ms, transform 160ms, box-shadow 160ms, border-color 160ms; }
+  .btn:hover { background: rgba(255,255,255,0.95); border-color: rgba(0,106,215,0.45); transform: translateY(-1px); }
+  .btn-primary { background: var(--grad); border-color: transparent; color: #fff; box-shadow: 0 8px 20px rgba(0,106,215,0.35), 0 1px 0 rgba(255,255,255,0.35) inset; }
+  .btn-primary:hover { background: var(--grad); color: #fff; box-shadow: 0 12px 26px rgba(0,106,215,0.42), 0 1px 0 rgba(255,255,255,0.35) inset; }
+  .btn-green { background: linear-gradient(135deg, #1f8a4c, #2eb06a); border-color: transparent; color: #fff; box-shadow: 0 8px 20px rgba(31,138,76,0.35); }
+  .btn-green:hover { color: #fff; }
+  .btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+  .btn-sm { padding: 6px 11px; font-size: 12px; border-radius: 10px; }
+  .grid { display: grid; gap: 16px; }
+  .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .split { display: grid; gap: 16px; grid-template-columns: 300px minmax(0, 1fr); align-items: start; }
+  .split-wide { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); font-weight: 600; border-bottom-color: var(--line-strong); }
+  tbody tr { transition: background 140ms; }
+  tbody tr:hover { background: rgba(255,255,255,0.55); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
+  .note { font-size: 12.5px; color: var(--muted); }
+  .kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+  .kpi { background: var(--glass); border: 1px solid var(--glass-line); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); padding: 14px 16px; -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); position: relative; overflow: hidden; }
+  .kpi::after { content: ""; position: absolute; right: -20px; top: -20px; width: 70px; height: 70px; border-radius: 50%; background: radial-gradient(closest-side, rgba(154,217,234,0.28), transparent); }
+  .kpi .k { font-size: 11.5px; color: var(--muted); }
+  .kpi .v { font-size: 28px; font-weight: 600; line-height: 1.1; margin-top: 6px; background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.5px; }
+  .kpi .s { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .list button, .list .row { width: 100%; text-align: left; background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.9); border-radius: 14px; padding: 11px 13px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 8px rgba(33,39,123,0.04); transition: transform 160ms, box-shadow 160ms, border-color 160ms, background 160ms; }
+  .list button:hover { border-color: rgba(0,106,215,0.4); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(33,39,123,0.08); background: rgba(255,255,255,0.85); }
+  .list button[aria-pressed="true"] { border-color: rgba(0,106,215,0.6); background: rgba(255,255,255,0.9); box-shadow: 0 0 0 3px rgba(0,106,215,0.12), 0 8px 18px rgba(33,39,123,0.08); }
+  .list .actions .btn { width: auto; display: inline-flex; box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 6px rgba(33,39,123,0.05); }
+  .list .actions .btn-primary { background: var(--grad); color: #fff; border-color: transparent; box-shadow: 0 8px 20px rgba(0,106,215,0.35); }
+  .list .t { font-weight: 600; font-size: 13px; color: var(--ink); }
+  .list .s { font-size: 12px; color: var(--muted); }
+  .list .grow { flex: 1; min-width: 0; }
+  .toast-stack { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; z-index: 50; pointer-events: none; width: min(92vw, 520px); }
+  .toast { background: rgba(33,39,123,0.92); color: #fff; padding: 12px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.25); box-shadow: 0 16px 40px rgba(33,39,123,0.35); font-size: 13.5px; display: flex; gap: 10px; align-items: center; animation: toast-in 240ms ease-out; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .toast.green { background: rgba(31,138,76,0.92); }
+  .toast.out { animation: toast-out 240ms ease-in forwards; }
+  @keyframes toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes toast-out { to { opacity: 0; transform: translateY(10px); } }
+  .approve-box { border: 1px solid rgba(0,106,215,0.2); border-radius: 12px; padding: 12px 14px; background: rgba(0,106,215,0.06); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .approve-box strong { font-weight: 600; color: var(--navy); }
+  .bar { height: 8px; border-radius: 99px; background: rgba(33,39,123,0.1); overflow: hidden; }
+  .bar span { display: block; height: 100%; background: var(--grad); border-radius: 99px; transition: width 500ms ease; }
+  .photo { aspect-ratio: 4 / 3; border-radius: 12px; display: flex; align-items: flex-end; padding: 8px; font-size: 11px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.4); position: relative; overflow: hidden; box-shadow: 0 8px 20px rgba(33,39,123,0.12); }
+  .photo::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 60%); }
+  .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,0.22), transparent 45%); }
+  .photo span { position: relative; z-index: 1; }
+  .p1 { background: linear-gradient(145deg, #4e6a8f, #9aa9bd 60%, #d6c9b5); }
+  .p2 { background: linear-gradient(160deg, #70839a, #b8c4cf 55%, #e5d9c6); }
+  .p3 { background: linear-gradient(135deg, #38507a, #7d93b0 50%, #c7d6e6); }
+  .highlight { animation: hl 700ms ease-out; }
+  @keyframes hl { 0% { box-shadow: 0 0 0 4px rgba(0,106,215,0.35); } 100% { box-shadow: none; } }
+  .fade-out { animation: collapse 380ms ease-in forwards; overflow: hidden; }
+  @keyframes collapse { 0% { opacity: 1; max-height: 160px; } 60% { opacity: 0; } 100% { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; margin: 0; border-width: 0; } }
+
+  /* Brain */
+  .brain-layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 16px; align-items: start; }
+  .brain-wrap { position: relative; overflow: hidden; }
+  .brain-wrap::before { content: ""; position: absolute; left: 50%; top: 42%; width: 420px; height: 420px; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(154,217,234,0.45), rgba(0,106,215,0.08) 60%, transparent); pointer-events: none; }
+  .brain-scroll { overflow-x: auto; position: relative; }
+  .brain-svg { width: 100%; min-width: 560px; height: auto; display: block; }
+  .brain-svg .edge { stroke: rgba(33,39,123,0.22); stroke-width: 1.6; fill: none; }
+  .brain-svg .edge.pulse { stroke: var(--blue); stroke-width: 3; animation: pulse-line 1.6s ease-in-out 2; }
+  .brain-svg .edge.flash { animation: pulse-line 1.1s ease-in-out 1; }
+  .brain-svg .edge, .brain-svg .node, .brain-svg .dot { transition: opacity 200ms, stroke 200ms, stroke-width 200ms; }
+  .brain-svg.focus .edge:not(.lit) { opacity: 0.18; }
+  .brain-svg.focus .node:not(.lit) { opacity: 0.3; }
+  .brain-svg.focus .dot:not(.lit) { opacity: 0.1; }
+  .brain-svg .edge.lit { stroke: var(--blue); stroke-width: 2.6; }
+  @keyframes pulse-line { 0%, 100% { stroke: rgba(33,39,123,0.22); stroke-width: 1.6; } 50% { stroke: var(--blue); stroke-width: 4; } }
+  .brain-svg .dot { fill: var(--blue); filter: drop-shadow(0 0 3px rgba(0,106,215,0.7)); }
+  .brain-svg .node { cursor: pointer; }
+  .brain-svg .node:focus { outline: none; }
+  .brain-svg .node:focus-visible .shape, .brain-svg .node:hover .shape { stroke: var(--blue); stroke-width: 3; }
+  .brain-svg .node.selected .shape { stroke: var(--blue); stroke-width: 3; }
+  .brain-svg .node .shape { fill: rgba(255,255,255,0.92); stroke: rgba(33,39,123,0.22); stroke-width: 1.6; transition: stroke 150ms; filter: drop-shadow(0 6px 10px rgba(33,39,123,0.12)); }
+  .brain-svg .node.center .shape { fill: url(#heroGrad); stroke: rgba(255,255,255,0.7); stroke-width: 3; filter: url(#glow); }
+  .brain-svg .node.center text { fill: #fff; font-weight: 600; }
+  .brain-svg .node.inner .shape { fill: rgba(238,247,251,0.95); stroke: var(--light); }
+  .brain-svg text { font-family: Poppins, sans-serif; font-size: 12.5px; fill: var(--ink); text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+  .brain-svg .node.inner text { font-weight: 600; fill: var(--navy); }
+  .brain-svg .badge { fill: var(--navy); }
+  .brain-svg .node.inner text.badge-t { fill: #fff; font-size: 9.5px; font-weight: 600; }
+  .brain-svg .ring-label { font-size: 11px; fill: var(--muted); text-anchor: start; letter-spacing: 0.5px; }
+  .detail { position: sticky; top: 96px; }
+  .detail .empty { color: var(--muted); }
+  .detail dl { margin: 0; display: grid; gap: 12px; }
+  .detail dt { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); font-weight: 600; }
+  .detail dd { margin: 3px 0 0; }
+  .detail ul { margin: 2px 0 0; padding-left: 18px; }
+  .sop-form { display: grid; gap: 10px; margin-top: 12px; padding: 12px; border: 1px solid rgba(0,106,215,0.2); border-radius: 12px; background: rgba(0,106,215,0.06); }
+  .sop-form label { font-size: 12.5px; font-weight: 500; }
+  .sop-form .rule { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .sop-form input { width: 72px; padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 8px; background: #fff; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); margin-top: 10px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -2px; margin-right: 5px; }
+  .legend-tip { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
+  .scroll-hint { display: none; margin: 8px 0 0; }
+  .brain-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+  .feed { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .feed li { display: flex; gap: 10px; align-items: flex-start; padding: 9px 12px; border-radius: 12px; background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.9); font-size: 12.5px; animation: feed-in 320ms ease-out; }
+  .feed li b { color: var(--blue); font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .feed li .who { display: block; font-size: 11px; color: var(--muted); }
+  @keyframes feed-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .ask-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+  .ask-answer { background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.9); border-radius: 12px; padding: 12px 14px; font-size: 13px; white-space: pre-wrap; min-height: 92px; }
+  .ask-answer .src { display: block; margin-top: 8px; font-size: 11.5px; color: var(--muted); }
+  .rules { margin: 2px 0 0; padding-left: 18px; }
+  .rules li { margin-bottom: 3px; }
+  .rules li.changed { color: var(--blue); font-weight: 500; }
+  .activity { margin: 2px 0 0; padding: 0; list-style: none; font-size: 12.5px; }
+  .activity li { padding: 5px 0; border-bottom: 1px dashed var(--line-strong); display: flex; gap: 8px; }
+  .activity li:last-child { border: 0; }
+  .activity b { color: var(--blue); font-weight: 600; white-space: nowrap; }
+
+  /* Stepper and update */
+  .stepper { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-bottom: 16px; }
+  .step { border: 0; background: transparent; text-align: left; padding: 0; display: grid; gap: 7px; }
+  .step .track { height: 6px; border-radius: 99px; background: rgba(33,39,123,0.1); }
+  .step.done .track { background: linear-gradient(90deg, #1f8a4c, #2eb06a); }
+  .step.current .track { background: var(--grad); box-shadow: 0 0 0 3px rgba(0,106,215,0.15); }
+  .step .l { font-size: 12px; font-weight: 500; color: var(--muted); line-height: 1.3; }
+  .step.done .l, .step.current .l { color: var(--ink); }
+  .step .l small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
+  .update-preview { border: 1px solid rgba(255,255,255,0.9); border-radius: 16px; overflow: hidden; background: rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(33,39,123,0.08); }
+  .update-preview header { background: var(--grad); color: #fff; padding: 14px 18px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; font-size: 12px; position: relative; overflow: hidden; }
+  .update-preview header::after { content: ""; position: absolute; right: -10%; top: -80%; width: 50%; height: 260%; background: radial-gradient(closest-side, rgba(255,255,255,0.28), transparent); pointer-events: none; }
+  .update-preview header strong { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+  .update-body { padding: 18px; display: grid; gap: 16px; }
+  .update-body h4 { margin: 0; font-size: 19px; color: var(--navy); font-weight: 600; }
+  .photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .label { font-size: 10.5px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--blue); margin: 0 0 4px; }
+  .nums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  div.num { border: 1px solid rgba(255,255,255,0.9); background: rgba(255,255,255,0.55); border-radius: 12px; padding: 10px 12px; box-shadow: 0 2px 8px rgba(33,39,123,0.04); }
+  .num .k { font-size: 11px; color: var(--muted); }
+  .num .v { font-weight: 600; font-size: 16px; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .flag { border-left: 3px solid var(--blue); background: rgba(0,106,215,0.07); padding: 10px 14px; border-radius: 0 10px 10px 0; }
+  .update-footer { padding: 12px 18px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; transition: background 300ms, color 300ms; }
+  .update-footer.sent { background: var(--green-bg); color: var(--green); font-weight: 500; }
+  .step-status { margin: 0 0 14px; color: var(--muted); font-size: 13px; min-height: 20px; }
+  .econ { margin-top: 16px; border: 1px solid rgba(255,255,255,0.9); border-radius: 16px; background: rgba(255,255,255,0.5); box-shadow: 0 10px 30px rgba(33,39,123,0.06); }
+  .econ summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 12px 16px; font-weight: 600; color: var(--navy); }
+  .econ summary::-webkit-details-marker { display: none; }
+  .econ summary .chev { margin-left: auto; width: 9px; height: 9px; border-right: 2px solid var(--blue); border-bottom: 2px solid var(--blue); transform: rotate(45deg); transition: transform 200ms; }
+  .econ[open] summary .chev { transform: rotate(-135deg); }
+  .econ summary .glance { font-weight: 500; color: var(--muted); font-size: 12.5px; }
+  .econ-body { padding: 0 16px 16px; }
+  .econ-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 6px; }
+  .econ-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+  .econ .num .v.big { font-size: 22px; background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .econ .sens { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 12.5px; color: var(--muted); padding: 10px 12px; background: rgba(0,106,215,0.06); border-radius: 10px; }
+  .econ .sens b { color: var(--navy); font-weight: 600; }
+
+  /* Track record */
+  .cell-edit { cursor: text; border-radius: 8px; padding: 3px 8px; margin: -3px -8px; border: 1px solid rgba(0,106,215,0.22); background: rgba(255,255,255,0.5); transition: background 140ms, border-color 140ms; }
+  .cell-edit:hover { background: rgba(255,255,255,0.9); border-color: rgba(0,106,215,0.35); }
+  .cell-edit input { width: 90px; padding: 3px 6px; border: 1px solid var(--blue); border-radius: 6px; text-align: right; background: #fff; }
+  .preview-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .mini { border: 1px solid rgba(255,255,255,0.9); border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.6); box-shadow: 0 8px 20px rgba(33,39,123,0.06); transition: box-shadow 300ms; }
+  .mini .cap { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.9px; color: var(--muted); font-weight: 600; padding: 8px 12px; background: rgba(33,39,123,0.04); border-bottom: 1px solid var(--line); }
+  .mini .hero { background: var(--grad); color: #fff; padding: 16px 14px; }
+  .mini .hero h5 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .mini .hero p { margin: 0; font-size: 11.5px; opacity: 0.9; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 12px 14px; }
+  .stat { text-align: center; }
+  .stat .v { font-size: 18px; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .stat .k { font-size: 10.5px; color: var(--muted); }
+  .port { padding: 10px 14px; display: grid; gap: 6px; font-size: 12px; }
+  .port .r { display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px dashed var(--line-strong); padding: 4px 0; }
+  .port .r span:last-child { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--navy); text-align: right; }
+
+  /* Deals */
+  .funnel { width: 100%; height: auto; display: block; }
+  .funnel text { font-family: Poppins, sans-serif; font-size: 12px; fill: var(--ink); }
+  .funnel .bar-rect { fill: url(#funnelGrad); }
+  .funnel .bg { fill: rgba(33,39,123,0.07); }
+  .deal-detail dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+  .deal-detail dl > div { background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.9); border-radius: 12px; padding: 10px 12px; }
+  .deal-detail dt { font-size: 11px; color: var(--muted); }
+  .deal-detail dd { margin: 2px 0 0; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; font-size: 15px; }
+  .log { margin: 12px 0 0; padding-left: 18px; font-size: 13px; color: var(--ink); }
+  .log li { margin-bottom: 4px; }
+  .warn { border-left: 3px solid var(--amber); background: var(--amber-bg); padding: 12px 14px; border-radius: 0 12px 12px 0; margin-top: 12px; }
+
+  /* CRM */
+  .queue .row { flex-wrap: wrap; }
+  .queue .row .actions { display: flex; gap: 6px; margin-left: auto; }
+  .counter { font-weight: 600; color: var(--navy); }
+
+  /* Chat */
+  .chat { display: flex; flex-direction: column; min-height: 420px; }
+  .chat-head { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 14px; flex-wrap: wrap; }
+  .chat-head .avatar { width: 40px; height: 40px; border-radius: 12px; background: var(--grad); color: #fff; display: grid; place-items: center; font-weight: 700; box-shadow: 0 6px 16px rgba(0,106,215,0.3); }
+  .chat-log { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 85%; padding: 11px 15px; border-radius: 16px; font-size: 13.5px; white-space: pre-wrap; }
+  .msg.user { align-self: flex-end; background: var(--grad); color: #fff; border-bottom-right-radius: 4px; box-shadow: 0 8px 20px rgba(0,106,215,0.25); }
+  .msg.bot { align-self: flex-start; background: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.9); border-bottom-left-radius: 4px; }
+  .msg .src { display: block; margin-top: 8px; font-size: 11.5px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 10px; }
+  .chip { border: 1px solid var(--line-strong); background: rgba(255,255,255,0.55); border-radius: 999px; padding: 7px 13px; font-size: 12.5px; text-align: left; color: var(--navy); transition: background 140ms, border-color 140ms, transform 140ms; }
+  .chip:hover { border-color: rgba(0,106,215,0.5); background: rgba(255,255,255,0.95); transform: translateY(-1px); }
+  .chat-input { display: flex; gap: 8px; }
+  .chat-input input { flex: 1; min-width: 0; padding: 10px 14px; border: 1px solid var(--line-strong); border-radius: 12px; background: rgba(255,255,255,0.7); }
+
+  /* Inbox */
+  .digest { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .digest li { padding: 10px 12px; background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.9); border-radius: 12px; font-size: 13px; display: flex; gap: 10px; }
+  .digest li b { color: var(--blue); font-weight: 600; min-width: 46px; }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .brain-layout { grid-template-columns: 1fr; }
+    .detail { position: static; }
+  }
+  @media (max-width: 900px) {
+    .split, .split-wide { grid-template-columns: minmax(0, 1fr); }
+    .preview-pair { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 760px) {
+    :root { --sidebar: 0px; --radius: 16px; }
+    .app { grid-template-columns: 1fr; }
+    .main { padding: 0; }
+    .sidebar { position: fixed; left: 10px; right: 10px; bottom: 10px; top: auto; height: auto; margin: 0; padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); z-index: 40; border-radius: 20px; background: rgba(33,39,123,0.9); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+    .sidebar::before { display: none; }
+    .brand, .sidebar .mark { display: none; }
+    .scroll-hint { display: block; }
+    .nav { flex-direction: row; overflow-x: auto; gap: 2px; scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav li { flex: 1 0 0; }
+    .nav button { flex-direction: column; gap: 3px; padding: 6px 2px; font-size: 10px; text-align: center; justify-content: center; border-radius: 12px; }
+    .nav button svg { width: 24px; height: 24px; padding: 5px; border-radius: 8px; }
+    .nav .job, .nav .full { display: none; }
+    .nav .short { display: inline; }
+    .content { padding: 16px 16px 96px; }
+    .topbar { margin: 10px 10px 0; padding: 12px 14px; top: 10px; }
+    .topbar h1 { font-size: 16px; }
+    .brief { margin-left: 0; }
+    .value-strip { gap: 4px 12px; }
+    .value-strip .pill { margin-left: 0; }
+    .footer { margin: 0 10px; padding-bottom: 96px; }
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stepper { grid-template-columns: 1fr; gap: 10px; }
+    .step { grid-template-columns: 56px 1fr; align-items: center; }
+    .nums { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .photos { grid-template-columns: 1fr; }
+    .photo { aspect-ratio: 16 / 7; }
+    .cols-2 { grid-template-columns: minmax(0, 1fr); }
+    .brain-grid { grid-template-columns: 1fr; }
+    .econ-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .econ-row { grid-template-columns: 1fr; }
+    .msg { max-width: 95%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    .brain-svg .edge.pulse { stroke: var(--blue); stroke-width: 3; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">G</div>
+      <div><div class="name">GajRaj Command Center</div><div class="sub">Prototype</div></div>
+    </div>
+    <nav aria-label="Sections">
+      <ul class="nav" id="nav">
+        <li><button data-view="brain" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.5"/><circle cx="12" cy="20" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="20" cy="12" r="1.5"/><path d="M12 7v2M12 15v2M7 12h2M15 12h2"/></svg><span class="full">Central Brain</span><span class="short">Brain</span></button></li>
+        <li><button data-view="updates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14h8"/></svg><span class="full">Investor Updates</span><span class="short">Updates</span><span class="job">Job 1</span></button></li>
+        <li><button data-view="record"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15v-4M12 15V8M16 15v-6"/></svg><span class="full">Track Record</span><span class="short">Record</span><span class="job">Job 2</span></button></li>
+        <li><button data-view="deals"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5h18l-6 7v6l-6 2v-8z"/></svg><span class="full">Deal Underwriting</span><span class="short">Deals</span><span class="job">Job 3</span></button></li>
+        <li><button data-view="crm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-5-6.3"/></svg><span class="full">CRM and KPIs</span><span class="short">CRM</span><span class="job">Job 4</span></button></li>
+        <li><button data-view="playbooks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h7"/></svg><span class="full">Wholesale Playbooks</span><span class="short">Playbooks</span><span class="job">Job 5</span></button></li>
+        <li><button data-view="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12l3-7h12l3 7v7H3z"/><path d="M3 12h5l2 3h4l2-3h5"/></svg><span class="full">Inbox</span><span class="short">Inbox</span><span class="job">Running</span></button></li>
+      </ul>
+    </nav>
+    <div class="mark">Built by Mindlink Systems</div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div><h1>Good morning, Ashish</h1><div class="date" id="todayLine"></div></div>
+      <span class="pill pill-sample">Sample data</span>
+      <div class="brief" aria-label="Morning brief">
+        <span class="item"><i class="dot"></i>Union County update draft is ready</span>
+        <span class="item"><i class="dot"></i>2 deals need an ARV check</span>
+        <span class="item"><i class="dot"></i>3 items in the assistant queue</span>
+      </div>
+      <div class="value-strip" aria-label="This month so far">
+        <span class="vs-label">This month so far</span>
+        <span class="vs-item"><b>14 hrs</b> saved for your assistant</span>
+        <span class="vs-item"><b>24 deals</b> screened by the bot, 4 offers</span>
+        <span class="vs-item"><b>3 updates</b> sent, 13 investors, 0 numbers retyped</span>
+        <span class="pill pill-sample">Sample data</span>
+      </div>
+    </header>
+
+    <main class="content" id="content">
+
+      <!-- 1. Central Brain -->
+      <section class="view active" id="view-brain" aria-labelledby="h-brain">
+        <div class="view-head">
+          <h2 id="h-brain">Central Brain</h2>
+          <span class="pill pill-sample">Sample data</span>
+          <p>Every bot reads from the same records, rules and files. Change a rule once and every agent follows it. Click any node to see what it holds.</p>
+        </div>
+        <div class="brain-layout">
+          <div class="card brain-wrap">
+            <div class="brain-scroll">
+            <svg class="brain-svg" id="brainSvg" viewBox="0 0 800 600" role="group" aria-label="Diagram of the GajRaj Brain, its knowledge sources and connected tools">
+              <defs>
+                <linearGradient id="heroGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#21277B"/><stop offset="1" stop-color="#006AD7"/>
+                </linearGradient>
+                <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#006AD7" flood-opacity="0.45"/>
+                </filter>
+              </defs>
+              <g id="edges"></g>
+              <g id="dots"></g>
+              <g id="nodes"></g>
+            </svg>
+            </div>
+            <p class="note scroll-hint">Scroll sideways to see every tool.</p>
+            <p class="legend-tip">Hover a node to see what it connects to. Click it for details. The numbers show how much each node holds.</p>
+            <div class="legend">
+              <span><i style="background:#21277B"></i>Brain</span>
+              <span><i style="background:#9AD9EA"></i>Knowledge the brain holds</span>
+              <span><i style="background:#fff;border:1.5px solid #c9d3e3"></i>Tools and agents that read it</span>
+              <span><i style="background:#006AD7"></i>Data moving</span>
+            </div>
+          </div>
+          <aside class="card detail" id="detail" aria-live="polite">
+            <h3>Pick a node</h3>
+            <p class="empty">Click a node to see what it holds, which agents read from it, and when it last updated.</p>
+          </aside>
+        </div>
+        <div class="brain-grid">
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px"><h3 style="margin:0">Live activity</h3><span class="pill pill-green"><i class="live"></i>Running</span><span class="pill pill-sample">Sample</span></div>
+            <p class="lead">What the agents are doing right now. Each line lights up the path it used.</p>
+            <ul class="feed" id="feed" aria-live="polite"></ul>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px"><h3 style="margin:0">Ask the brain</h3><span class="pill pill-sample">Sample</span></div>
+            <p class="lead">Answers come from the same records the agents use. Try one.</p>
+            <div class="ask-chips" id="askChips"></div>
+            <div class="ask-answer" id="askAnswer">Pick a question. The answer is read from the project record, not typed by a person.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Investor Updates -->
+      <section class="view" id="view-updates" aria-labelledby="h-updates">
+        <div class="view-head">
+          <h2 id="h-updates">Investor Updates</h2>
+          <span class="pill pill-sample">Sample data</span>
+          <p>Job 1. Photos come from the site WhatsApp group, numbers come from the project record, and nothing goes out until a person approves it.</p>
+        </div>
+        <div class="split">
+          <div class="card">
+            <h3>Active projects</h3>
+            <ul class="list" id="projectList"></ul>
+          </div>
+          <div class="card" id="updatePanel"></div>
+        </div>
+      </section>
+
+      <!-- 3. Track Record -->
+      <section class="view" id="view-record" aria-labelledby="h-record">
+        <div class="view-head">
+          <h2 id="h-record">Track Record</h2>
+          <span class="pill pill-sample">Sample data</span>
+          <p>Job 2. One master record feeds the website and the portfolio page. Click any number in the table and change it.</p>
+        </div>
+        <div class="split split-wide">
+          <div class="card">
+            <h3>Master record</h3>
+            <p class="lead">8 completed projects, renovations, ground-up and one hold. Click a number to edit it.</p>
+            <div class="table-wrap">
+              <table id="recordTable">
+                <thead><tr><th>Town</th><th>Type</th><th class="num">Total invested</th><th class="num">Return</th><th class="num">Months held</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Pages rendered from the record</h3>
+            <p class="lead">One record. Every page matches. No more numbers that disagree between pages.</p>
+            <div class="preview-pair">
+              <div class="mini" id="miniHome">
+                <div class="cap">Homepage, 8 projects</div>
+                <div class="hero"><h5>We Build Better.</h5><p>Residential and commercial real estate investment and development in NJ, PA and OH.</p></div>
+                <div class="stats" id="homeStats"></div>
+              </div>
+              <div class="mini" id="miniPort">
+                <div class="cap">Portfolio, past projects</div>
+                <div class="port" id="portList"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Deal Underwriting -->
+      <section class="view" id="view-deals" aria-labelledby="h-deals">
+        <div class="view-head">
+          <h2 id="h-deals">Deal Underwriting</h2>
+          <span class="pill pill-sample">Sample data</span>
+          <p>Job 3. Deals arrive from the website seller form, wholesalers, email and WhatsApp. The bot checks the numbers first, so a cash offer can go out within 24 hours. People only see deals that pass, or deals the bot is unsure about.</p>
+        </div>
+        <div class="kpis" id="kpis"></div>
+        <div class="grid cols-2" style="margin-top:16px">
+          <div class="card">
+            <h3>This month's deals through the funnel</h3>
+            <svg class="funnel" id="funnel" viewBox="0 0 520 190" role="img" aria-label="Funnel: 24 deals in, 11 passed the numbers, 7 reviewed by acquisitions, 4 offers made">
+              <defs><linearGradient id="funnelGrad" x1="0" x2="1"><stop offset="0" stop-color="#21277B"/><stop offset="1" stop-color="#006AD7"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div class="card">
+            <h3>Deals this week</h3>
+            <ul class="list" id="dealList"></ul>
+          </div>
+        </div>
+        <div class="card deal-detail" id="dealDetail" style="margin-top:16px" aria-live="polite">
+          <h3>Pick a deal</h3>
+          <p class="empty note">Click a deal to see the bot's numbers and its decision log. Seller leads come from the website form. Wholesaler deals come from email and WhatsApp.</p>
+        </div>
+      </section>
+
+      <!-- 5. CRM and KPIs -->
+      <section class="view" id="view-crm" aria-labelledby="h-crm">
+        <div class="view-head">
+          <h2 id="h-crm">CRM and KPIs</h2>
+          <span class="pill pill-sample">Sample data</span>
+          <p>Job 4. The brain fills in records from email, WhatsApp and the project files. Your assistant checks, rather than types.</p>
+        </div>
+        <div class="split split-wide">
+          <div class="card">
+            <h3>Investor and partner records</h3>
+            <p class="lead">Auto-filled from Gmail and WhatsApp. Names are placeholders.</p>
+            <div class="table-wrap">
+              <table id="crmTable">
+                <thead><tr><th>Name</th><th>Role</th><th>Projects</th><th>Last contact</th><th>Next action</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <h3>To check</h3>
+            <p class="lead">Things the brain filled in that need a quick yes or no. <span class="counter" id="assistantTime">Assistant time today: 12 minutes.</span></p>
+            <ul class="list queue" id="queue"></ul>
+            <p class="note" id="queueEmpty" hidden>Queue is clear. Nothing else to check today.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Wholesale Playbooks -->
+      <section class="view" id="view-playbooks" aria-labelledby="h-playbooks">
+        <div class="view-head">
+          <h2 id="h-playbooks">Wholesale Playbooks</h2>
+          <span class="pill pill-sample">Sample data</span>
+          <p>Job 5. Your two wholesaling books, about 500 pages, turned into an assistant your team can ask. Every answer cites the page it came from.</p>
+        </div>
+        <div class="card chat">
+          <div class="chat-head">
+            <div class="avatar" aria-hidden="true">P</div>
+            <div><strong>Playbook Assistant</strong><div class="note">Trained on Wholesaling Book 1 and Book 2 (500 pages)</div></div>
+            <span class="pill pill-sample" style="margin-left:auto">Sample data</span>
+          </div>
+          <div class="chat-log" id="chatLog" aria-live="polite">
+            <div class="msg bot">Ask me anything from the playbooks. I will tell you where the answer comes from.</div>
+          </div>
+          <div class="chips" id="chips" aria-label="Suggested questions"></div>
+          <form class="chat-input" id="chatForm">
+            <label class="sr-only" for="chatText">Type a question</label>
+            <input id="chatText" type="text" placeholder="Type a question" autocomplete="off">
+            <button class="btn btn-primary" type="submit">Ask</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 7. Inbox -->
+      <section class="view" id="view-inbox" aria-labelledby="h-inbox">
+        <div class="view-head">
+          <h2 id="h-inbox">Inbox</h2>
+          <span class="pill pill-sample">Sample data</span>
+          <p>Already running. We keep what you built and connect it to the brain.</p>
+        </div>
+        <div class="card" style="max-width:720px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+            <h3 style="margin:0">Inbox agent</h3>
+            <span class="pill pill-green"><i class="live"></i>Running</span>
+          </div>
+          <p class="lead">Built with Claude, run by Grok. Daily digest to your assistant.</p>
+          <div class="label">Today's digest, sample</div>
+          <ul class="digest">
+            <li><b>07:40</b>1 seller lead from the website form and 2 wholesaler deals in Essex County. Forwarded to underwriting.</li>
+            <li><b>08:05</b>Lender asked for the updated draw schedule on the Whippany new build.</li>
+            <li><b>08:30</b>Investor C confirmed receipt of the October update. No questions.</li>
+            <li><b>09:10</b>Township sent the drywall inspection slot: November 12, morning.</li>
+            <li><b>09:45</b>3 newsletters and 6 promotions archived. Nothing needs you.</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+    <footer class="footer">
+      <span>Prototype with sample data. The real version runs on GajRaj's own Drive, bots and records.</span>
+      <span class="mark">Built by Mindlink Systems</span>
+    </footer>
+  </div>
+</div>
+<div class="toast-stack" id="toasts" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (sel, root) => (root || document).querySelector(sel);
+  const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+  const money = n => '$' + Math.round(n).toLocaleString('en-US');
+  const shortMoney = n => n >= 1000000 ? '$' + (n / 1000000).toFixed(2).replace(/0$/, '') + 'M' : money(n);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  /* ---------- Toasts ---------- */
+  function toast(msg, kind) {
+    const el = document.createElement('div');
+    el.className = 'toast' + (kind ? ' ' + kind : '');
+    el.textContent = msg;
+    $('#toasts').appendChild(el);
+    setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 260); }, 3600);
+  }
+
+  /* ---------- Router ---------- */
+  const views = ['brain', 'updates', 'record', 'deals', 'crm', 'playbooks', 'inbox'];
+  function show(view) {
+    if (!views.includes(view)) view = 'brain';
+    $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
+    $$('#nav button').forEach(b => {
+      if (b.dataset.view === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    if (location.hash !== '#' + view) history.replaceState(null, '', '#' + view);
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  }
+  $('#nav').addEventListener('click', e => {
+    const b = e.target.closest('button[data-view]');
+    if (b) show(b.dataset.view);
+  });
+  window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+
+  /* ---------- Project record (from 04-project-record.csv) ---------- */
+  const PROJECT_RECORD_CSV = `section,item,budget_usd,spent_to_date_usd,date,status,note
+project,name,,,,,"Two-family renovation, Union County NJ (SAMPLE)"
+project,report_month,,,2026-10,,
+project,percent_complete,,,,62%,Schedule-based
+project,target_list_date,,,2027-01-25,,
+budget,Demolition and haul-off,9000,9000,,complete,
+budget,Framing and structural,28000,27400,,complete,
+budget,Plumbing rough-in,22000,21500,,complete,
+budget,Electrical rough-in,19000,18600,,complete,
+budget,HVAC,16000,6000,,in progress,
+budget,Windows and doors,14000,14000,,complete,
+budget,Drywall,15000,0,,not started,
+budget,Kitchens (2 units),24000,2500,,deposit paid,
+budget,Bathrooms (3),18000,0,,not started,
+budget,Flooring,10000,0,,not started,
+budget,Exterior and siding,12000,5800,,in progress,
+budget,Permits and fees,4000,4000,,complete,
+budget,Contingency,10000,1200,,in use,Used for CO-1 in October
+budget,TOTAL,201000,110000,,,
+milestone,Acquisition closed,,,2026-06-12,done,
+milestone,Demolition complete,,,2026-07-10,done,
+milestone,Framing inspection passed,,,2026-10-14,done,
+milestone,Plumbing and electrical rough-in complete,,,2026-10-28,done,
+milestone,Drywall start,,,2026-11-10,next,
+milestone,Kitchens and bathrooms installed,,,2026-12-18,upcoming,
+milestone,Final inspection,,,2027-01-15,upcoming,
+milestone,List for sale,,,2027-01-25,upcoming,
+change_order,CO-1: Second-floor egress window required by inspector,,1200,2026-10-14,approved,Paid from contingency. No schedule impact.
+investors,count,,,,,6 investors on this project`;
+
+  function parseCsv(text) {
+    const rows = [];
+    for (const line of text.split('\n')) {
+      if (!line.trim()) continue;
+      const cells = []; let cur = ''; let q = false;
+      for (const ch of line) {
+        if (ch === '"') q = !q;
+        else if (ch === ',' && !q) { cells.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      cells.push(cur);
+      rows.push(cells);
+    }
+    const head = rows.shift();
+    return rows.map(r => Object.fromEntries(head.map((h, i) => [h, r[i] || ''])));
+  }
+  const rec = parseCsv(PROJECT_RECORD_CSV);
+  const recField = (section, item) => rec.find(r => r.section === section && r.item === item) || {};
+  const total = recField('budget', 'TOTAL');
+  const co = rec.find(r => r.section === 'change_order');
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  function niceDate(iso) { const [y, m, d] = iso.split('-').map(Number); return months[m - 1] + ' ' + d; }
+  const unionCounty = {
+    id: 'union',
+    name: 'Two-family renovation, Union County NJ',
+    status: 'Draft ready', pillClass: 'pill-blue',
+    month: 'October 2026',
+    budget: Number(total.budget_usd),
+    spent: Number(total.spent_to_date_usd),
+    pct: parseInt(recField('project', 'percent_complete').status, 10),
+    listDate: niceDate(recField('project', 'target_list_date').date),
+    investors: parseInt(recField('investors', 'count').note, 10),
+    photos: [
+      ['p1', 'IMG_1014. Framing passed inspection, October 14'],
+      ['p2', 'IMG_1022. Unit 1 kitchen, plumbing and electrical roughed in'],
+      ['p3', 'IMG_1027. New siding going up on the street side']
+    ],
+    thisMonth: 'Framing passed inspection on October 14. Plumbing and electrical rough-in for both units were finished on October 28. Siding is going up on the street side, and new windows are in.',
+    nextMonth: 'Drywall starts November 10. Kitchens and bathrooms go in through December, and we remain on track to list in late January.',
+    flag: 'The inspector required an egress window on the second floor. We added it for ' + money(co.spent_to_date_usd) + ', paid from the contingency budget. It does not change the timeline.',
+    flagSource: 'From the project record: change order ' + co.item.split(':')[0] + ', ' + niceDate(co.date) + '. Contingency used this month.',
+    step: 4, sent: false,
+    econ: { acquisition: 310000, soft: 24000, equity: 260000, debt: 275000, sale: 650000, months: 8 }
+  };
+  const projects = [
+    unionCounty,
+    {
+      id: 'whippany', name: 'Ground-up single-family, Whippany NJ', status: 'Sent', pillClass: 'pill-green', month: 'October 2026',
+      budget: 1210000, spent: 1064000, pct: 88, listDate: 'December 5', investors: 4,
+      photos: [['p3', 'IMG_2201. Kitchen cabinets installed'], ['p1', 'IMG_2214. Primary bathroom tiled'], ['p2', 'IMG_2230. Front elevation, siding complete']],
+      thisMonth: 'The kitchen is installed and the primary bathroom is tiled. Siding and the front elevation are complete.',
+      nextMonth: 'Flooring and final paint through November. Final inspection is booked for the first week of December.',
+      flag: null, step: 5, sent: true,
+      econ: { acquisition: 240000, soft: 95000, equity: 620000, debt: 925000, sale: 1890000, months: 16, land: true }
+    },
+    {
+      id: 'maplewood', name: 'Three-family renovation, Maplewood NJ', status: 'Waiting on photos', pillClass: 'pill-amber', month: 'October 2026',
+      budget: 286000, spent: 101400, pct: 35, listDate: 'March 20', investors: 3,
+      photos: [['p2', 'Waiting on site photos'], ['p1', 'Waiting on site photos'], ['p3', 'Waiting on site photos']],
+      thisMonth: 'Roof replaced and the third-floor unit gutted. Electrical rough-in started in the last week of the month.',
+      nextMonth: 'Plumbing rough-in and window delivery in November.',
+      econ: { acquisition: 455000, soft: 30000, equity: 300000, debt: 471000, sale: 900000, months: 11 },
+      flag: null, step: 0, sent: false, waiting: 'The brain asked the site group for October photos on November 1. 0 of 3 received. The draft continues the moment they arrive.'
+    }
+  ];
+  const stepNames = [
+    ['Photos filed', 'from WhatsApp'],
+    ['Numbers pulled', 'from the project record'],
+    ['Story written', 'this month and next'],
+    ['Flags checked', '4 SOP rules'],
+    ['Approve and send', 'a person decides']
+  ];
+  let selectedProject = projects[0];
+  let approving = false;
+
+  function renderProjectList() {
+    $('#projectList').innerHTML = projects.map(p => `
+      <li><button type="button" data-id="${p.id}" aria-pressed="${p === selectedProject}">
+        <span class="grow"><span class="t">${esc(p.name)}</span><br><span class="s">${esc(p.month)} update</span></span>
+        <span class="pill ${p.pillClass}">${esc(p.status)}</span>
+      </button></li>`).join('');
+  }
+  $('#projectList').addEventListener('click', e => {
+    const b = e.target.closest('button[data-id]');
+    if (!b) return;
+    selectedProject = projects.find(p => p.id === b.dataset.id);
+    approving = false;
+    renderProjectList(); renderUpdate();
+  });
+
+  function stepStatus(p) {
+    if (p.sent) return 'Sent on November 3. Logged on each investor record.';
+    if (p.waiting) return p.waiting;
+    const lines = [
+      'Waiting for photos from the site WhatsApp group.',
+      'Photos filed to Drive. Reading the project record next.',
+      'Numbers pulled: budget, spent, percent complete, target list date.',
+      'Story written in the GajRaj voice. Checking flags next.',
+      'Flags checked. 1 flag found: a change order paid from contingency. Ready for your approval.'
+    ];
+    return lines[Math.min(p.step, 4)];
+  }
+
+  function renderUpdate() {
+    const p = selectedProject;
+    const el = $('#updatePanel');
+    const stepper = stepNames.map((s, i) => {
+      const cls = i < p.step || p.sent ? 'done' : (i === p.step ? 'current' : '');
+      return `<button type="button" class="step ${cls}" data-step="${i}" aria-label="Step ${i + 1}: ${s[0]}, ${cls || 'not started'}">
+        <span class="track"></span><span class="l">${s[0]}<small>${s[1]}</small></span></button>`;
+    }).join('');
+    const canRun = !p.sent && !p.waiting && p.step < 4;
+    const canApprove = !p.sent && p.step >= 4;
+    const footer = p.sent
+      ? `<div class="update-footer sent"><span>Sent to ${p.investors} investors. Logged on each record. Next update drafts December 1.</span><span class="pill pill-green">Sent</span></div>`
+      : canApprove
+        ? (approving
+          ? `<div class="update-footer"><div class="approve-box" style="width:100%"><strong>Send this update to ${p.investors} investors?</strong><span class="note">Your assistant is copied. Each investor record gets a log entry.</span><span style="margin-left:auto;display:flex;gap:8px"><button type="button" class="btn btn-sm" id="cancelApprove">Not yet</button><button type="button" class="btn btn-sm btn-green" id="confirmApprove">Yes, send</button></span></div></div>`
+          : `<div class="update-footer"><span>Draft ready. Nothing goes out until you approve it.</span><button type="button" class="btn btn-primary" id="approveBtn">Approve and send</button></div>`)
+        : `<div class="update-footer"><span>${esc(stepStatus(p))}</span>${canRun ? `<button type="button" class="btn btn-primary" id="runBtn">Run this month's update</button>` : ''}</div>`;
+    const showPreview = p.step >= 2 || p.sent;
+    el.innerHTML = `
+      <div style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0">${esc(p.name)}</h3><span class="pill ${p.pillClass}">${esc(p.status)}</span>
+      </div>
+      <div class="stepper" role="list">${stepper}</div>
+      <p class="step-status">${esc(stepStatus(p))}</p>
+      <div class="update-preview">
+        <header><strong>GajRaj Acquisitions</strong><span>Investor update. ${esc(p.month)}</span></header>
+        <div class="update-body" ${showPreview ? '' : 'style="opacity:0.45"'}>
+          <h4>${esc(p.name)} <span class="pill pill-sample" style="vertical-align:middle">Sample</span></h4>
+          <div class="photos">${p.photos.map(ph => `<div class="photo ${ph[0]}"><span>${esc(ph[1])}</span></div>`).join('')}</div>
+          <div><div class="label">This month</div><p style="margin:0">${showPreview ? esc(p.thisMonth) : 'Written once the photos and numbers are in.'}</p></div>
+          <div><div class="label">Next month</div><p style="margin:0">${showPreview ? esc(p.nextMonth) : ''}</p></div>
+          <div><div class="label">The numbers</div>
+            <div class="nums">
+              <div class="num"><div class="k">Total budget</div><div class="v">${money(p.budget)}</div></div>
+              <div class="num"><div class="k">Spent to date</div><div class="v">${money(p.spent)}</div></div>
+              <div class="num"><div class="k">Complete</div><div class="v">${p.pct}%</div><div class="bar"><span style="width:${p.pct}%"></span></div></div>
+              <div class="num"><div class="k">Target list date</div><div class="v">${esc(p.listDate)}</div></div>
+            </div></div>
+          ${p.flag && (p.step >= 4 || p.sent) ? `<div class="flag"><div class="label">Worth knowing</div><p style="margin:0">${esc(p.flag)}</p><p class="note" style="margin:6px 0 0">${esc(p.flagSource)}</p></div>` : (p.flag ? '' : (showPreview ? '<p class="note">No flags this month. The four SOP rules all passed.</p>' : ''))}
+        </div>
+        ${footer}
+      </div>
+      ${econPanel(p)}`;
+    const run = $('#runBtn', el);
+    if (run) run.addEventListener('click', () => runSteps(p));
+    const ap = $('#approveBtn', el);
+    if (ap) ap.addEventListener('click', () => { approving = true; renderUpdate(); $('#confirmApprove') && $('#confirmApprove').focus(); });
+    const ca = $('#cancelApprove', el);
+    if (ca) ca.addEventListener('click', () => { approving = false; renderUpdate(); });
+    const cf = $('#confirmApprove', el);
+    if (cf) cf.addEventListener('click', () => {
+      p.sent = true; p.status = 'Sent'; p.pillClass = 'pill-green'; approving = false;
+      renderProjectList(); renderUpdate();
+      toast('Sent to ' + p.investors + ' investors. Logged on each record.', 'green');
+    });
+  }
+  function econCalc(p, saleAdj) {
+    const e = p.econ;
+    const sale = e.sale * (1 + (saleAdj || 0));
+    const cost = e.acquisition + p.budget + e.soft;
+    const selling = sale * 0.06;
+    const profit = sale - cost - selling;
+    const roe = profit / e.equity;
+    const annual = roe * (12 / e.months);
+    return { sale, cost, selling, profit, roe, annual };
+  }
+  function econPanel(p) {
+    const e = p.econ; if (!e) return '';
+    const base = econCalc(p, 0), down = econCalc(p, -0.05), up = econCalc(p, 0.05);
+    const pct = x => Math.round(x * 100) + '%';
+    return `<details class="econ">
+      <summary><span>Project economics</span><span class="pill pill-internal">Internal</span><span class="pill pill-sample">Sample data</span><span class="glance">Projected return on equity ${pct(base.roe)}, ${e.months} months</span><span class="chev" aria-hidden="true"></span></summary>
+      <div class="econ-body">
+        <p class="note" style="margin:0 0 6px">Only you and acquisitions see this. None of it goes into the investor update. Numbers come from the same project record.</p>
+        <div class="econ-grid">
+          <div class="num"><div class="k">${e.land ? 'Land' : 'Acquisition'}</div><div class="v">${money(e.acquisition)}</div></div>
+          <div class="num"><div class="k">${e.land ? 'Build budget' : 'Renovation budget'}</div><div class="v">${money(p.budget)}</div></div>
+          <div class="num"><div class="k">Soft costs and carry</div><div class="v">${money(e.soft)}</div></div>
+          <div class="num"><div class="k">Total project cost</div><div class="v">${money(base.cost)}</div></div>
+        </div>
+        <div class="econ-grid">
+          <div class="num"><div class="k">Investor equity</div><div class="v">${money(e.equity)}</div></div>
+          <div class="num"><div class="k">Debt</div><div class="v">${money(e.debt)}</div></div>
+          <div class="num"><div class="k">Projected sale</div><div class="v">${money(base.sale)}</div></div>
+          <div class="num"><div class="k">Selling costs, 6%</div><div class="v">${money(base.selling)}</div></div>
+        </div>
+        <div class="econ-row">
+          <div class="num"><div class="k">Projected profit</div><div class="v big">${money(base.profit)}</div></div>
+          <div class="num"><div class="k">Return on equity</div><div class="v big">${pct(base.roe)}</div></div>
+          <div class="num"><div class="k">Annualized, ${e.months} months</div><div class="v big">${pct(base.annual)}</div></div>
+        </div>
+        <div class="sens"><span>If the sale lands 5% lower: <b>${pct(down.roe)}</b></span><span>5% higher: <b>${pct(up.roe)}</b></span><span>Spent so far: <b>${money(p.spent)}</b> of ${money(p.budget)}</span></div>
+      </div>
+    </details>`;
+  }
+  function runSteps(p) {
+    if (p.step >= 4) return;
+    p.step += 1; renderUpdate();
+    if (p.step < 4) setTimeout(() => runSteps(p), reduceMotion ? 0 : 650);
+  }
+  renderProjectList(); renderUpdate();
+
+  /* ---------- Central Brain ---------- */
+  const C = { x: 400, y: 300 };
+  const innerR = 135, outerR = 255;
+  const inner = [
+    { id: 'sops', label: ['SOPs'], count: '14', activity: [['8:12 am', 'Investor update SOP read by the update bot'], ['Yesterday', 'Underwriting SOP: ground-up rule added'], ['Nov 3', 'CRM entry SOP read 11 times']], holds: 'Written rules for each job: investor updates, underwriting, CRM entry, deal intake. 14 SOPs.', agents: ['Investor update bot', 'Underwriting bot', 'Inbox digest', 'WhatsApp photo bot'], updated: 'Today, 8:12 am' },
+    { id: 'records', label: ['Project', 'records'], count: '11', activity: [['6:40 pm', 'Union County: HVAC spend updated to $6,000'], ['Nov 3', 'Whippany: draw 4 logged'], ['Oct 28', 'Union County: rough-in milestone marked done']], holds: 'One record per project: budget lines, spend to date, milestones, change orders, investor list. 3 active, 8 completed.', agents: ['Investor update bot', 'Track record pages', 'Inbox digest'], updated: 'Yesterday, 6:40 pm' },
+    { id: 'brand', label: ['Brand', 'assets'], count: '32', activity: [['Oct 2', 'Update template v3 saved'], ['Sep 18', 'Voice guide: "We Build Better" added'], ['Sep 4', 'Logo files refreshed']], holds: 'Logo files, colors, the voice guide, update template, deck template.', agents: ['Investor update bot', 'Website pages'], updated: 'October 2' },
+    { id: 'investors', label: ['Investors'], count: '16', activity: [['7:55 am', 'Investor C marked as acknowledged'], ['Nov 6', 'Investor F phone number flagged for check'], ['Nov 3', '6 update sends logged on Union County']], holds: 'Who invested in what, last contact, preferences, documents sent. 14 investors, 2 partners.', agents: ['Investor update bot', 'CRM filler'], updated: 'Today, 7:55 am' },
+    { id: 'deals', label: ['Deals'], count: '24', activity: [['9:02 am', 'Whippany lot: passed, sent to acquisitions'], ['8:40 am', 'Passaic 6-unit: low confidence, sent to a person'], ['Yesterday', 'Linden: passed on, wholesaler told']], holds: 'Every wholesaler deal with asking price, bot ARV, rehab estimate, comps and the decision. 24 this month.', agents: ['Underwriting bot', 'Inbox digest'], updated: 'Today, 9:02 am' },
+    { id: 'playbooks', label: ['Wholesale', 'playbooks'], count: '500p', activity: [['Yesterday', '3 questions answered from Book 1, chapter 4'], ['Nov 4', 'Chapter index rebuilt'], ['Sep 18', 'Book 2 uploaded, 230 pages']], holds: 'Wholesaling Book 1 and Book 2, about 500 pages, indexed by chapter and topic.', agents: ['Playbook Assistant', 'Underwriting bot'], updated: 'September 18' }
+  ];
+  const outer = [
+    { id: 'whatsapp', label: 'WhatsApp photo bot', activity: [['7:30 am', 'Filed 2 photos to Maplewood / 2026-11'], ['Nov 1', 'Asked the Maplewood group for October photos'], ['Oct 27', 'Filed IMG_1027 to Union County / 2026-10']], holds: 'Files site photos from each project group into the right Drive folder.', reads: ['SOPs', 'Project records'], updated: 'Today, 7:30 am' },
+    { id: 'drive', label: 'Google Drive', activity: [['7:30 am', 'Maplewood / 2026-11 folder created'], ['Nov 3', 'Union County update PDF saved'], ['Nov 3', 'Whippany draw schedule v4 saved']], holds: 'Where the files live. The brain reads and writes here.', reads: ['Project records', 'Brand assets'], updated: 'Today, 7:30 am' },
+    { id: 'website', label: 'Website', activity: [['6:41 pm', 'Portfolio page re-rendered from the record'], ['6:41 pm', 'Homepage stats re-rendered'], ['Oct 30', 'Investor portal: 2 logins']], holds: 'Homepage, portfolio page and the investor portal, all rendered from the master record. Today the portal is a contact form.', reads: ['Project records', 'Brand assets'], updated: 'Yesterday, 6:41 pm' },
+    { id: 'gmail', label: 'Gmail', activity: [['9:45 am', 'Daily digest sent to the assistant'], ['9:10 am', 'Township inspection email filed to Union County'], ['Nov 3', '6 investor update drafts approved and sent']], holds: 'Drafts for approval, the daily digest, deal intake.', reads: ['SOPs', 'Investors', 'Deals'], updated: 'Today, 9:45 am' },
+    { id: 'claude', label: 'Claude', activity: [['8:12 am', 'Drafted the Union County November update'], ['Yesterday', 'Answered 3 playbook questions'], ['Nov 3', 'Wrote the Whippany October update']], holds: 'Writes the investor updates and answers playbook questions.', reads: ['SOPs', 'Project records', 'Investors', 'Brand assets', 'Wholesale playbooks'], updated: 'Running now' },
+    { id: 'grok', label: 'Grok bots', activity: [['9:02 am', 'Underwrote the Whippany lot'], ['8:40 am', 'Flagged Passaic 6-unit for a person'], ['7:40 am', 'Inbox agent sorted 14 emails']], holds: 'Runs the inbox agent and the underwriting checks on a schedule.', reads: ['SOPs', 'Deals', 'Wholesale playbooks'], updated: 'Running now' }
+  ];
+  const edges = [
+    ['sops', 'whatsapp'], ['sops', 'grok'], ['sops', 'claude'], ['sops', 'gmail'],
+    ['records', 'whatsapp'], ['records', 'drive'], ['records', 'claude'],
+    ['brand', 'drive'], ['brand', 'website'],
+    ['investors', 'website'], ['investors', 'gmail'],
+    ['deals', 'gmail'], ['deals', 'claude'],
+    ['playbooks', 'claude'], ['playbooks', 'grok']
+  ];
+  const sopAgents = ['whatsapp', 'grok', 'claude', 'gmail'];
+  const pos = {};
+  inner.forEach((n, i) => { const a = (-90 + i * 60) * Math.PI / 180; pos[n.id] = { x: C.x + innerR * Math.cos(a), y: C.y + innerR * Math.sin(a) }; });
+  outer.forEach((n, i) => { const a = (-60 + i * 60) * Math.PI / 180; pos[n.id] = { x: C.x + outerR * Math.cos(a), y: C.y + outerR * Math.sin(a) }; });
+  const svgNS = 'http://www.w3.org/2000/svg';
+  function mk(tag, attrs, parent) { const e = document.createElementNS(svgNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+  const gEdges = $('#edges'), gDots = $('#dots'), gNodes = $('#nodes');
+  const allEdges = inner.map(n => ['center', n.id]).concat(edges);
+  const edgeEls = {};
+  pos.center = C;
+  allEdges.forEach(([a, b]) => {
+    edgeEls[a + '-' + b] = mk('line', { class: 'edge', x1: pos[a].x, y1: pos[a].y, x2: pos[b].x, y2: pos[b].y, 'data-edge': a + '-' + b }, gEdges);
+  });
+  const dots = allEdges.map(([a, b], i) => ({ a, b, key: a + '-' + b, t: (i * 0.37) % 1, speed: 0.0025 + (i % 3) * 0.0009, el: mk('circle', { class: 'dot', r: 3.2 }, gDots) }));
+  const adj = {};
+  allEdges.forEach(([a, b]) => { (adj[a] = adj[a] || []).push(a + '-' + b); (adj[b] = adj[b] || []).push(a + '-' + b); });
+  const svgEl = $('#brainSvg');
+  let selectedId = null;
+  function focusNode(id) {
+    unfocus(false);
+    if (!id) return;
+    svgEl.classList.add('focus');
+    const lit = new Set([id]);
+    (adj[id] || []).forEach(k => { edgeEls[k].classList.add('lit'); k.split('-').forEach(n => lit.add(n)); });
+    dots.forEach(d => { if (edgeEls[d.key].classList.contains('lit')) d.el.classList.add('lit'); });
+    $$('.node', gNodes).forEach(g => { if (lit.has(g.dataset.id)) g.classList.add('lit'); });
+  }
+  function unfocus(restore) {
+    svgEl.classList.remove('focus');
+    $$('.lit', svgEl).forEach(e => e.classList.remove('lit'));
+    if (restore && selectedId) focusNode(selectedId);
+  }
+  function flashEdge(a, b) {
+    const e = edgeEls[a + '-' + b] || edgeEls[b + '-' + a]; if (!e) return;
+    e.classList.remove('flash'); void e.getBoundingClientRect(); e.classList.add('flash');
+    setTimeout(() => e.classList.remove('flash'), 1200);
+  }
+  function placeDots() {
+    dots.forEach(d => {
+      const p = pos[d.a], q = pos[d.b];
+      d.el.setAttribute('cx', p.x + (q.x - p.x) * d.t);
+      d.el.setAttribute('cy', p.y + (q.y - p.y) * d.t);
+    });
+  }
+  function tick() {
+    dots.forEach(d => { d.t += d.speed; if (d.t > 1) d.t = 0; });
+    placeDots();
+    if (!document.hidden && $('#view-brain').classList.contains('active')) requestAnimationFrame(tick);
+    else setTimeout(tick, 400);
+  }
+  placeDots();
+  if (!reduceMotion) requestAnimationFrame(tick);
+  (function centerDiagram() { const w = $('.brain-scroll'); const s = $('#brainSvg'); if (w && s) w.scrollLeft = Math.max(0, (s.getBoundingClientRect().width - w.clientWidth) / 2); })();
+
+  function nodeLabel(g, lines, x, y, size) {
+    const t = mk('text', { x, y: y - (lines.length - 1) * (size * 0.65), style: 'font-size:' + size + 'px' }, g);
+    lines.forEach((l, i) => { const ts = mk('tspan', { x, dy: i === 0 ? 0 : size * 1.3 }, t); ts.textContent = l; });
+  }
+  outer.forEach(n => {
+    const g = mk('g', { class: 'node outer', tabindex: 0, role: 'button', 'data-id': n.id, 'aria-label': n.label }, gNodes);
+    const w = Math.max(96, n.label.length * 8 + 26), h = 36;
+    mk('rect', { class: 'shape', x: pos[n.id].x - w / 2, y: pos[n.id].y - h / 2, width: w, height: h, rx: 10 }, g);
+    nodeLabel(g, [n.label], pos[n.id].x, pos[n.id].y, 12.5);
+  });
+  inner.forEach(n => {
+    const g = mk('g', { class: 'node inner', tabindex: 0, role: 'button', 'data-id': n.id, 'aria-label': n.label.join(' ') }, gNodes);
+    mk('circle', { class: 'shape', cx: pos[n.id].x, cy: pos[n.id].y, r: 38 }, g);
+    nodeLabel(g, n.label, pos[n.id].x, pos[n.id].y, 12);
+    const bx = pos[n.id].x + 27, by = pos[n.id].y - 27;
+    mk('rect', { class: 'badge', x: bx - 14, y: by - 9, width: 28, height: 18, rx: 9 }, g);
+    const bt = mk('text', { class: 'badge-t', x: bx, y: by + 0.5 }, g); bt.textContent = n.count;
+  });
+  const gc = mk('g', { class: 'node center', tabindex: 0, role: 'button', 'data-id': 'center', 'aria-label': 'GajRaj Brain' }, gNodes);
+  mk('circle', { class: 'shape', cx: C.x, cy: C.y, r: 52 }, gc);
+  nodeLabel(gc, ['GajRaj', 'Brain'], C.x, C.y, 15);
+
+  const sopRule = { pct: 5 };
+  function activityList(items) {
+    return '<div><dt>Recent activity</dt><dd><ul class="activity">' + items.map(a => '<li><b>' + esc(a[0]) + '</b><span>' + esc(a[1]) + '</span></li>').join('') + '</ul></dd></div>';
+  }
+  function selectNode(id) {
+    selectedId = id;
+    focusNode(id);
+    $$('.node', gNodes).forEach(g => g.classList.toggle('selected', g.dataset.id === id));
+    const d = $('#detail');
+    if (id === 'center') {
+      d.innerHTML = `<h3>GajRaj Brain</h3><dl>
+        <div><dt>What it is</dt><dd>One organized place for the rules, records and files every bot reads. Not a model. Any model you use can read it.</dd></div>
+        <div><dt>Holds</dt><dd><ul>${inner.map(n => '<li>' + esc(n.label.join(' ')) + '</li>').join('')}</ul></dd></div>
+        <div><dt>Read by</dt><dd>${outer.map(n => esc(n.label)).join(', ')}</dd></div>
+        <div><dt>Last updated</dt><dd>Today, 9:02 am</dd></div></dl>`;
+      return;
+    }
+    const n = inner.find(x => x.id === id);
+    if (n) {
+      const extra = id === 'sops' ? `
+        <div class="sop-form" id="sopForm">
+          <label for="sopPct">Rule 1 of 4 in the investor update SOP</label>
+          <div class="rule"><span>Flag any budget line over</span><input id="sopPct" type="number" min="1" max="25" step="0.5" value="${sopRule.pct}" aria-label="Percent over budget"><span>% over.</span></div>
+          <div class="note">Also flags: contingency used, a slipped milestone, any change order.</div>
+          <div><button type="button" class="btn btn-primary btn-sm" id="saveSop">Save rule</button></div>
+        </div>` : '';
+      d.innerHTML = `<h3>${esc(n.label.join(' '))}</h3><dl>
+        <div><dt>What it holds</dt><dd>${esc(n.holds)}</dd></div>
+        <div><dt>Agents reading it</dt><dd><ul>${n.agents.map(a => '<li>' + esc(a) + '</li>').join('')}</ul></dd></div>
+        ${id === 'sops' ? `<div><dt>Investor update SOP, 4 flag rules</dt><dd><ol class="rules"><li class="${sopRule.pct !== 5 ? 'changed' : ''}">Any budget line over ${sopRule.pct}%</li><li>Contingency used this month</li><li>A milestone that slipped</li><li>Any change order</li></ol></dd></div>` : ''}
+        ${activityList(n.activity)}
+        <div><dt>Last updated</dt><dd>${esc(n.updated)}</dd></div></dl>
+        ${id === 'sops' ? '<div style="margin-top:12px"><button type="button" class="btn btn-sm" id="editSop">Edit SOP</button></div>' : ''}
+        <div id="sopSlot"></div>`;
+      if (id === 'sops') {
+        $('#editSop').addEventListener('click', () => {
+          $('#sopSlot').innerHTML = extra;
+          $('#sopPct').focus();
+          $('#saveSop').addEventListener('click', () => {
+            const v = parseFloat($('#sopPct').value);
+            if (!isFinite(v) || v <= 0) return;
+            const old = sopRule.pct; sopRule.pct = v;
+            selectNode('sops');
+            $('#sopSlot').innerHTML = `<p class="note" style="margin-top:12px">Rule saved. Budget lines over ${v}% are flagged (was ${old}%).</p>`;
+            toast('Updated once. 4 agents now use the new rule.');
+            sopAgents.forEach(a => {
+              const e = edgeEls['sops-' + a];
+              e.classList.remove('pulse'); void e.getBoundingClientRect(); e.classList.add('pulse');
+              setTimeout(() => e.classList.remove('pulse'), 3400);
+            });
+          });
+        });
+      }
+      return;
+    }
+    const o = outer.find(x => x.id === id);
+    if (o) {
+      d.innerHTML = `<h3>${esc(o.label)}</h3><dl>
+        <div><dt>What it does</dt><dd>${esc(o.holds)}</dd></div>
+        <div><dt>Reads from the brain</dt><dd><ul>${o.reads.map(a => '<li>' + esc(a) + '</li>').join('')}</ul></dd></div>
+        ${activityList(o.activity)}
+        <div><dt>Last activity</dt><dd>${esc(o.updated)}</dd></div></dl>`;
+    }
+  }
+  gNodes.addEventListener('click', e => { const g = e.target.closest('.node'); if (g) selectNode(g.dataset.id); });
+  gNodes.addEventListener('mouseover', e => { const g = e.target.closest('.node'); if (g) focusNode(g.dataset.id); });
+  gNodes.addEventListener('mouseout', e => {
+    const g = e.target.closest('.node'); if (!g) return;
+    const to = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('.node') : null;
+    if (to !== g) unfocus(true);
+  });
+  gNodes.addEventListener('focusin', e => { const g = e.target.closest('.node'); if (g) focusNode(g.dataset.id); });
+  gNodes.addEventListener('focusout', () => unfocus(true));
+
+  /* Live activity feed */
+  const EVENTS = [
+    ['WhatsApp photo bot', 'Filed 2 new photos to Maplewood / 2026-11', 'records', 'whatsapp'],
+    ['Underwriting bot', 'Read the ground-up rule before pricing the Whippany lot', 'sops', 'grok'],
+    ['Investor update bot', 'Pulled Union County numbers for the November draft', 'records', 'claude'],
+    ['Inbox agent', 'Filed a township email to the Union County record', 'deals', 'gmail'],
+    ['Website', 'Re-rendered the portfolio page from the master record', 'records', 'website'],
+    ['Playbook Assistant', 'Answered a question from Book 1, chapter 4', 'playbooks', 'claude'],
+    ['CRM filler', 'Logged a reply from Investor C', 'investors', 'gmail'],
+    ['Underwriting bot', 'Flagged the Passaic 6-unit: only 2 comps', 'deals', 'grok'],
+    ['Google Drive', 'Saved the Whippany draw schedule v4', 'records', 'drive'],
+    ['Investor update bot', 'Checked the 4 flag rules on the Union County draft', 'sops', 'claude']
+  ];
+  let evIndex = 0;
+  function clockLabel() { const d = new Date(); const h = d.getHours(), m = d.getMinutes(); return (((h + 11) % 12) + 1) + ':' + String(m).padStart(2, '0') + (h < 12 ? ' am' : ' pm'); }
+  function pushEvent(animate) {
+    const ev = EVENTS[evIndex % EVENTS.length]; evIndex += 1;
+    const li = document.createElement('li');
+    li.innerHTML = `<b>${clockLabel()}</b><span>${esc(ev[1])}<span class="who">${esc(ev[0])}</span></span>`;
+    if (!animate) li.style.animation = 'none';
+    const feed = $('#feed');
+    feed.prepend(li);
+    while (feed.children.length > 6) feed.lastElementChild.remove();
+    if (animate) { flashEdge(ev[2], ev[3]); flashEdge('center', ev[2]); }
+  }
+  for (let i = 0; i < 4; i++) pushEvent(false);
+  if (!reduceMotion) {
+    setInterval(() => { if (!document.hidden && $('#view-brain').classList.contains('active')) pushEvent(true); }, 4200);
+  }
+
+  /* Ask the brain: answers computed from the project record */
+  const budgetRows = rec.filter(r => r.section === 'budget' && r.item !== 'TOTAL');
+  const milestones = rec.filter(r => r.section === 'milestone');
+  const ASK = [
+    { q: 'Where are we against budget, and which lines are still open?', edges: [['center', 'records']], a: () => {
+        const open = budgetRows.filter(r => r.status !== 'complete');
+        const left = open.reduce((s, r) => s + (Number(r.budget_usd) - Number(r.spent_to_date_usd)), 0);
+        const pct = Math.round(Number(total.spent_to_date_usd) / Number(total.budget_usd) * 100);
+        return `Union County: spent ${money(total.spent_to_date_usd)} of ${money(total.budget_usd)}, ${pct}% of budget. No line is over budget.\n\n${open.length} lines still open, ${money(left)} left to spend:\n` +
+          open.map(r => `${r.item}: ${money(Number(r.budget_usd) - Number(r.spent_to_date_usd))} left of ${money(r.budget_usd)} (${r.status})`).join('\n');
+      }, src: 'From the project record, budget rows 5 to 18.' },
+    { q: 'Has anything slipped on Union County?', edges: [['center', 'records']], a: () => {
+        const done = milestones.filter(m => m.status === 'done');
+        const next = milestones.find(m => m.status === 'next');
+        return `Nothing has slipped. All ${done.length} completed milestones hit their dates, the last one ${done[done.length - 1].item.toLowerCase()} on ${niceDate(done[done.length - 1].date)}.\n\nNext is ${next.item.toLowerCase()} on ${niceDate(next.date)}. One change order, ${co.item.split(':')[0]}, cost ${money(co.spent_to_date_usd)} from contingency with no schedule impact.`;
+      }, src: 'From the project record, milestone and change order rows.' },
+    { q: 'Which agents use the investor update SOP, and what do they flag?', edges: [['center', 'sops'], ['sops', 'claude'], ['sops', 'grok'], ['sops', 'gmail'], ['sops', 'whatsapp']], a: () =>
+        `4 agents read it: Investor update bot, Underwriting bot, Inbox digest and the WhatsApp photo bot.\n\nThey flag any budget line over ${sopRule.pct}%, contingency used this month, a milestone that slipped, and any change order. Change the rule once here and all 4 follow it.`,
+      src: 'From the SOPs node. The percent is live: edit the SOP and ask again.' },
+    { q: 'What did the photo bot file this month?', edges: [['center', 'records'], ['records', 'whatsapp'], ['records', 'drive']], a: () =>
+        `Union County, October: 3 photos filed to Drive under Union County / 2026-10. IMG_1014 framing inspection, IMG_1022 kitchen rough-in, IMG_1027 siding.\n\nMaplewood, November: 2 photos so far. The bot asked the group for more on November 1.`,
+      src: 'From the WhatsApp photo bot log and the Drive folder index (sample).' }
+  ];
+  $('#askChips').innerHTML = ASK.map((x, i) => `<button type="button" class="chip" data-i="${i}">${esc(x.q)}</button>`).join('');
+  let askTyping = false;
+  $('#askChips').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if (!b || askTyping) return;
+    const x = ASK[Number(b.dataset.i)];
+    const text = x.a();
+    const box = $('#askAnswer');
+    x.edges.forEach(([a, c]) => flashEdge(a, c));
+    const finish = () => { box.textContent = text; const s = document.createElement('span'); s.className = 'src'; s.textContent = x.src; box.appendChild(s); askTyping = false; };
+    if (reduceMotion) { finish(); return; }
+    askTyping = true; box.textContent = ''; let i = 0;
+    const step = () => { i += 4; box.textContent = text.slice(0, i); if (i < text.length) setTimeout(step, 12); else finish(); };
+    setTimeout(step, 250);
+  });
+  gNodes.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { const g = e.target.closest('.node'); if (g) { e.preventDefault(); selectNode(g.dataset.id); } } });
+
+  /* ---------- Track record ---------- */
+  const record = [
+    { town: 'Maplewood, NJ', type: 'Single-family renovation', invested: 415000, ret: 31.2, months: 9 },
+    { town: 'Bayonne, NJ', type: 'Two-family renovation', invested: 520000, ret: 24.8, months: 11 },
+    { town: 'Jersey City, NJ', type: 'Condo renovation', invested: 478000, ret: 18.4, months: 8 },
+    { town: 'Asbury Park, NJ', type: 'Single-family flip', invested: 362000, ret: 21.5, months: 7 },
+    { town: 'Princeton, NJ', type: 'High-end renovation', invested: 694000, ret: 22.1, months: 12 },
+    { town: 'Whippany, NJ', type: 'Ground-up single-family', invested: 883000, ret: 26.3, months: 16 },
+    { town: 'Plainfield, NJ', type: 'Multifamily, held and refinanced', invested: 435000, ret: 19.7, months: 18 },
+    { town: 'New Castle, PA', type: 'Two-family renovation', invested: 208000, ret: 23.4, months: 8 }
+  ];
+  const fields = { invested: { fmt: v => money(v), parse: s => Number(String(s).replace(/[^0-9.]/g, '')) }, ret: { fmt: v => v.toFixed(1) + '%', parse: s => Number(String(s).replace(/[^0-9.]/g, '')) }, months: { fmt: v => String(v), parse: s => Number(String(s).replace(/[^0-9.]/g, '')) } };
+  function renderRecordTable() {
+    $('#recordTable tbody').innerHTML = record.map((r, i) => `<tr>
+      <td>${esc(r.town)}</td><td>${esc(r.type)}</td>
+      ${['invested', 'ret', 'months'].map(f => `<td class="num"><button type="button" class="cell-edit" data-row="${i}" data-field="${f}" aria-label="Edit ${f === 'ret' ? 'return' : f === 'invested' ? 'total invested' : 'months held'} for ${esc(r.town)}">${fields[f].fmt(r[f])}</button></td>`).join('')}
+    </tr>`).join('');
+  }
+  function renderPreviews(flash) {
+    const totalInv = record.reduce((s, r) => s + r.invested, 0);
+    const avgRet = record.reduce((s, r) => s + r.ret, 0) / record.length;
+    const avgMonths = record.reduce((s, r) => s + r.months, 0) / record.length;
+    $('#homeStats').innerHTML = `
+      <div class="stat"><div class="v">${record.length}</div><div class="k">Projects completed</div></div>
+      <div class="stat"><div class="v">${shortMoney(totalInv)}</div><div class="k">Total invested</div></div>
+      <div class="stat"><div class="v">${avgRet.toFixed(1)}%</div><div class="k">Average return</div></div>`;
+    $('#portList').innerHTML = record.map(r => `<div class="r"><span>${esc(r.town)}<br><span class="note">${esc(r.type)}, ${r.months} months</span></span><span>${money(r.invested)}<br>${r.ret.toFixed(1)}% return</span></div>`).join('')
+      + `<div class="r" style="border:0;padding-top:8px"><span><strong>Average hold</strong></span><span>${avgMonths.toFixed(1)} months</span></div>`;
+    if (flash) {
+      [$('#miniHome'), $('#miniPort')].forEach(m => { m.classList.remove('highlight'); void m.offsetWidth; m.classList.add('highlight'); });
+    }
+  }
+  $('#recordTable').addEventListener('click', e => {
+    const b = e.target.closest('button.cell-edit');
+    if (!b) return;
+    const i = Number(b.dataset.row), f = b.dataset.field;
+    const input = document.createElement('input');
+    input.type = 'text'; input.value = fields[f].fmt(record[i][f]).replace(/[$,%]/g, '');
+    input.setAttribute('aria-label', b.getAttribute('aria-label'));
+    const wrap = document.createElement('span'); wrap.className = 'cell-edit'; wrap.appendChild(input);
+    b.replaceWith(wrap); input.focus(); input.select();
+    let done = false;
+    const commit = () => {
+      if (done) return; done = true;
+      const v = fields[f].parse(input.value);
+      if (isFinite(v) && v > 0 && v !== record[i][f]) { record[i][f] = v; renderRecordTable(); renderPreviews(true); toast('Record updated. Homepage and portfolio page now match.'); }
+      else renderRecordTable();
+      const again = $(`button.cell-edit[data-row="${i}"][data-field="${f}"]`); if (again) again.focus();
+    };
+    input.addEventListener('blur', commit);
+    input.addEventListener('keydown', ev => { if (ev.key === 'Enter') commit(); if (ev.key === 'Escape') { done = true; renderRecordTable(); } });
+  });
+  renderRecordTable(); renderPreviews(false);
+
+  /* ---------- Deals ---------- */
+  const funnelData = [['Deals in this month', 24], ['Passed the numbers', 11], ['Reviewed by acquisitions', 7], ['Offers made', 4]];
+  $('#kpis').innerHTML = funnelData.map(([k, v]) => `<div class="kpi"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('')
+    + `<div class="kpi"><div class="k">ARV accuracy vs final sale</div><div class="v">96%</div><div class="s">Last 6 sold projects</div></div>`;
+  (function drawFunnel() {
+    const svg = $('#funnel'); const W = 520, labelW = 190, barMax = W - labelW - 50, rowH = 42, top = 10;
+    funnelData.forEach(([k, v], i) => {
+      const y = top + i * rowH; const w = Math.max(6, barMax * v / funnelData[0][1]);
+      const t = mk('text', { x: 0, y: y + 22 }, svg); t.textContent = k;
+      mk('rect', { class: 'bg', x: labelW, y: y + 6, width: barMax, height: 26, rx: 6 }, svg);
+      mk('rect', { class: 'bar-rect', x: labelW, y: y + 6, width: w, height: 26, rx: 6 }, svg);
+      const n = mk('text', { x: labelW + w + 8, y: y + 23, style: 'font-weight:600;fill:#21277B' }, svg); n.textContent = v;
+      if (i > 0) { const pc = mk('text', { x: W, y: y + 23, style: 'fill:#5b6270;font-size:11px', 'text-anchor': 'end' }, svg); pc.textContent = Math.round(v / funnelData[i - 1][1] * 100) + '%'; }
+    });
+  })();
+  const deals = [
+    { id: 1, addr: '3-family, Irvington NJ', from: 'Wholesaler A', status: 'Passed', ask: 365000, arv: 610000, rehab: 95000, comps: 6, log: ['Checked 6 sales within half a mile, last 6 months.', 'ARV set at $610,000, within 3% of the median comp.', 'Rehab estimate from the photo set: $95,000, medium scope.', 'Spread after costs clears the 20% rule in the underwriting SOP.', 'Sent to acquisitions for a walk-through.'] },
+    { id: 2, addr: 'Single-family, Plainfield NJ', from: 'Seller lead, website form', status: 'Check ARV', ask: 215000, arv: 340000, rehab: 70000, comps: 2, log: ['Seller form says "Needs major work", wants to close in 1 to 2 weeks.', 'Only 2 sales within half a mile in the last 6 months.', 'Widened to 1 mile: 5 sales, but a different school zone.', 'Confidence in the ARV is low. Not deciding this one by bot.'] },
+    { id: 3, addr: 'Vacant lot, Whippany NJ', from: 'Wholesaler C', status: 'Passed', ask: 240000, arv: 890000, rehab: 480000, comps: 7, log: ['Ground-up check: 7 new-build sales within 1 mile.', 'Finished value set at $890,000.', 'Build estimate from the ArkGen cost sheet: $480,000 for 3,200 sq ft.', 'Spread clears the ground-up rule in the SOP.', 'Sent to acquisitions.'] },
+    { id: 4, addr: '2-family, Paterson NJ', from: 'Wholesaler A', status: 'Passed on', ask: 410000, arv: 485000, rehab: 90000, comps: 8, log: ['Checked 8 sales within half a mile.', 'ARV set at $485,000.', 'Spread after rehab and costs is under 5%. Fails the SOP rule.', 'Passed on. Wholesaler told by email, with the number we would pay.'] },
+    { id: 5, addr: '6-unit multifamily, Passaic NJ', from: 'Seller lead, website form', status: 'Check ARV', ask: 1150000, arv: 1600000, rehab: 260000, comps: 2, log: ['Buy-and-hold check: rents and expenses pulled from the seller form.', 'Only 2 multifamily sales within 1 mile in the last 12 months.', 'Photos show a roof near end of life. Rehab may be higher.', 'Sent to a person before any offer.'] },
+    { id: 6, addr: 'Single-family, Linden NJ', from: 'Wholesaler B', status: 'Passed on', ask: 330000, arv: 420000, rehab: 75000, comps: 9, log: ['Checked 9 sales within half a mile.', 'ARV set at $420,000.', 'Asking price leaves no spread. Fails the SOP rule.', 'Passed on. Logged on the wholesaler record.'] }
+  ];
+  const dealPill = s => s === 'Passed' ? 'pill-green' : s === 'Check ARV' ? 'pill-amber' : 'pill-grey';
+  let selectedDeal = null;
+  function renderDeals() {
+    $('#dealList').innerHTML = deals.map(d => `<li><button type="button" data-id="${d.id}" aria-pressed="${selectedDeal === d.id}">
+      <span class="grow"><span class="t">${esc(d.addr)}</span><br><span class="s">${esc(d.from)}. Asking ${money(d.ask)}</span></span><span class="pill ${dealPill(d.status)}">${d.status}</span></button></li>`).join('');
+  }
+  function renderDeal(d) {
+    const spread = d.arv - d.ask - d.rehab;
+    const el = $('#dealDetail');
+    el.innerHTML = `
+      <div style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:12px"><h3 style="margin:0">${esc(d.addr)}</h3><span class="pill ${dealPill(d.status)}">${d.status}</span><span class="note">${esc(d.from)}</span></div>
+      <dl>
+        <div><dt>Asking price</dt><dd>${money(d.ask)}</dd></div>
+        <div><dt>Bot ARV</dt><dd>${money(d.arv)}</dd></div>
+        <div><dt>Rehab or build estimate</dt><dd>${money(d.rehab)}</dd></div>
+        <div><dt>Spread before costs</dt><dd>${money(spread)} (${Math.round(spread / d.arv * 100)}%)</dd></div>
+        <div><dt>Comps found</dt><dd>${d.comps}</dd></div>
+      </dl>
+      <div class="label" style="margin-top:14px">Decision log</div>
+      <ul class="log">${d.log.map(l => '<li>' + esc(l) + '</li>').join('')}</ul>
+      ${d.status === 'Check ARV' ? `<div class="warn"><strong>Low confidence: only ${d.comps} comps. Sent to a person.</strong><div class="note" style="margin-top:4px">The bot does not decide when the ARV is unsure.</div>
+        <div id="sendSlot" style="margin-top:10px">${d.sentTo ? '<span class="pill pill-green">Sent to acquisitions. Logged.</span>' : '<button type="button" class="btn btn-primary btn-sm" id="sendAcq">Send to acquisitions</button>'}</div></div>` : ''}`;
+    const s = $('#sendAcq', el);
+    if (s) s.addEventListener('click', () => {
+      $('#sendSlot').innerHTML = `<div class="approve-box"><strong>Send this deal to acquisitions for a walk-through?</strong><span style="display:flex;gap:8px;margin-left:auto"><button type="button" class="btn btn-sm" id="noAcq">Not yet</button><button type="button" class="btn btn-sm btn-green" id="yesAcq">Approve and send</button></span></div>`;
+      $('#yesAcq').focus();
+      $('#noAcq').addEventListener('click', () => renderDeal(d));
+      $('#yesAcq').addEventListener('click', () => { d.sentTo = true; renderDeal(d); toast('Sent to acquisitions. Logged on the deal record.', 'green'); });
+    });
+  }
+  $('#dealList').addEventListener('click', e => {
+    const b = e.target.closest('button[data-id]'); if (!b) return;
+    selectedDeal = Number(b.dataset.id); renderDeals(); renderDeal(deals.find(d => d.id === selectedDeal));
+  });
+  renderDeals();
+
+  /* ---------- CRM ---------- */
+  const crm = [
+    ['Investor A', 'Investor', 'Union County, Whippany', 'Nov 3, update sent', 'None until December update'],
+    ['Investor B', 'Investor', 'Union County', 'Nov 3, update sent', 'Send K-1 timing note by Nov 20'],
+    ['Investor C', 'Investor', 'Whippany, Maplewood', 'Nov 4, replied by email', 'None. Confirmed receipt'],
+    ['Investor D', 'Investor', 'Union County', 'Oct 6, phone call', 'Call about the next project in January'],
+    ['Investor E', 'Investor', 'Maplewood', 'Nov 3, update sent', 'Ask about re-investing at exit'],
+    ['Investor F', 'Investor', 'Whippany', 'Oct 12, met in person', 'Send portfolio page link'],
+    ['Partner A', 'Lender', 'Whippany', 'Nov 5, email', 'Send updated draw schedule by Friday'],
+    ['Partner B', 'Wholesaler', 'Deal intake', 'Nov 6, 2 deals sent', 'Reply with our pass number on Paterson']
+  ];
+  $('#crmTable tbody').innerHTML = crm.map(r => '<tr>' + r.map((c, i) => `<td>${i === 0 ? '<strong>' + esc(c) + '</strong>' : esc(c)}</td>`).join('') + '</tr>').join('');
+  const queue = [
+    { t: 'Investor C replied "Got it, thanks." Mark the October update as acknowledged?', s: 'Filled from Gmail, Nov 4' },
+    { t: 'Partner A asked for the draw schedule. Set next action to "Send by Friday"?', s: 'Filled from Gmail, Nov 5' },
+    { t: 'New phone number for Investor F from the WhatsApp group. Replace the old one?', s: 'Filled from WhatsApp, Nov 6' }
+  ];
+  let minutes = 12;
+  function renderQueue() {
+    $('#queue').innerHTML = queue.map((q, i) => `<li class="row" data-i="${i}"><span class="grow"><span class="t">${esc(q.t)}</span><br><span class="s">${esc(q.s)}</span></span>
+      <span class="actions"><button type="button" class="btn btn-sm" data-act="edit">Change</button><button type="button" class="btn btn-sm btn-primary" data-act="ok">Looks right</button></span></li>`).join('');
+    $('#queueEmpty').hidden = queue.length > 0;
+  }
+  $('#queue').addEventListener('click', e => {
+    const b = e.target.closest('button[data-act]'); if (!b) return;
+    const li = b.closest('li'); const i = Number(li.dataset.i);
+    if (b.dataset.act === 'edit') { toast('In the real version this opens the record to edit. Demo only.'); return; }
+    li.classList.add('fade-out');
+    minutes += 1;
+    $('#assistantTime').textContent = 'Assistant time today: ' + minutes + ' minutes.';
+    setTimeout(() => { queue.splice(i, 1); renderQueue(); }, reduceMotion ? 0 : 380);
+  });
+  renderQueue();
+
+  /* ---------- Playbooks ---------- */
+  const qa = [
+    { q: "What's our maximum allowable offer on a $300K ARV?", a: 'Use the 70% rule as the ceiling, then subtract repairs.\n\n$300,000 x 70% = $210,000. Take off the rehab estimate, say $45,000, and the most we offer is $165,000. If a wholesaler is above that, we send our number and walk if they will not move.\n\nA person approves the offer before it goes out.', src: 'From Book 1, chapter 4 (sample)' },
+    { q: "How do I respond when a wholesaler won't share photos?", a: 'Ask once more, in writing, for 10 photos: every room, the roof line, the electrical panel and the basement. Say we cannot price a property we have not seen.\n\nIf they still refuse, we do not make an offer. No photos usually means they have not been inside either.', src: 'From Book 2, chapter 2 (sample)' },
+    { q: 'What do we check before assigning a contract?', a: 'Five things, in this order:\n1. Clear title search back.\n2. Our inspection period has not run out.\n3. The assignment fee is written into the contract.\n4. The end buyer has shown proof of funds.\n5. The seller knows the buyer may change.\n\nIf any one is missing, we hold.', src: 'From Book 2, chapter 7 (sample)' },
+    { q: 'Which deals should go straight to a human?', a: 'Any deal with fewer than 3 comps within half a mile. Any deal with a structural, foundation or fire issue in the photos. Any seller in probate or divorce. Any offer above $400,000.\n\nThe bot flags these and stops. It never decides them alone.', src: 'From Book 1, chapter 9 and the GajRaj underwriting SOP (sample)' }
+  ];
+  $('#chips').innerHTML = qa.map((x, i) => `<button type="button" class="chip" data-i="${i}">${esc(x.q)}</button>`).join('');
+  let typing = false;
+  function addMsg(cls, text) { const m = document.createElement('div'); m.className = 'msg ' + cls; m.textContent = text; $('#chatLog').appendChild(m); m.scrollIntoView({ block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' }); return m; }
+  function typeAnswer(x) {
+    if (typing) return; typing = true;
+    addMsg('user', x.q);
+    const m = addMsg('bot', '');
+    const finish = () => { m.textContent = x.a; const s = document.createElement('span'); s.className = 'src'; s.textContent = x.src; m.appendChild(s); typing = false; m.scrollIntoView({ block: 'nearest' }); };
+    if (reduceMotion) { finish(); return; }
+    let i = 0;
+    const step = () => { i += 3; m.textContent = x.a.slice(0, i); if (i < x.a.length) setTimeout(step, 14); else finish(); };
+    setTimeout(step, 350);
+  }
+  $('#chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) typeAnswer(qa[Number(b.dataset.i)]); });
+  $('#chatForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = $('#chatText').value.trim(); if (!v) return;
+    addMsg('user', v); addMsg('bot', 'In the demo, try one of the suggested questions.');
+    $('#chatText').value = '';
+  });
+
+  /* ---------- Date line ---------- */
+  (function () { const d = new Date(); const el = $('#todayLine'); if (el) el.textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }) + '. 3 things need you today.'; })();
+
+  /* ---------- Start ---------- */
+  show(location.hash.slice(1) || 'brain');
+})();
+</script>
+</body>
+</html>
